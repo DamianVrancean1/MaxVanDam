@@ -33,45 +33,43 @@ const AddProduct = () => {
       }));
     }
   };
+  
+    const validators = {
+      name: () => {
+        if (!formData.name.trim()) return 'Numele produsului este obligatoriu';
+        if (formData.name.length < 3) return 'Numele trebuie să aibă minim 3 caractere';
+      },
+      category: () => {
+        if (!formData.category.trim()) return 'Categoria este obligatorie';
+      },
+      price: () => {
+        if (!formData.price) return 'Prețul este obligatoriu';
+        if (parseFloat(formData.price) <= 0) return 'Prețul trebuie să fie mai mare ca 0';
+      },
+      stock: () => {
+        if (!formData.stock) return 'Stocul este obligatoriu';
+        if (parseInt(formData.stock) < 0) return 'Stocul nu poate fi negativ';
+      },
+      description: () => {
+        if (!formData.description.trim()) return 'Descrierea este obligatorie';
+        if (formData.description.length < 10) return 'Descrierea trebuie să aibă minim 10 caractere';
+      },
+      imageUrl: () => {
+        if (!formData.imageUrl.trim()) return 'URL-ul imaginii este obligatoriu';
+      }
+    };
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
+    const validateForm = () => {
+      const newErrors: FormErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Numele produsului este obligatoriu';
-    } else if (formData.name.length < 3) {
-      newErrors.name = 'Numele trebuie să aibă minim 3 caractere';
-    }
+      Object.entries(validators).forEach(([field, validate]) => {
+        const error = validate();
+        if (error) newErrors[field as keyof FormErrors] = error;
+      });
 
-    if (!formData.category.trim()) {
-      newErrors.category = 'Categoria este obligatorie';
-    }
-
-    if (!formData.price) {
-      newErrors.price = 'Prețul este obligatoriu';
-    } else if (parseFloat(formData.price) <= 0) {
-      newErrors.price = 'Prețul trebuie să fie mai mare ca 0';
-    }
-
-    if (!formData.stock) {
-      newErrors.stock = 'Stocul este obligatoriu';
-    } else if (parseInt(formData.stock) < 0) {
-      newErrors.stock = 'Stocul nu poate fi negativ';
-    }
-
-    if (!formData.description.trim()) {
-      newErrors.description = 'Descrierea este obligatorie';
-    } else if (formData.description.length < 10) {
-      newErrors.description = 'Descrierea trebuie să aibă minim 10 caractere';
-    }
-
-    if (!formData.imageUrl.trim()) {
-      newErrors.imageUrl = 'URL-ul imaginii este obligatoriu';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
