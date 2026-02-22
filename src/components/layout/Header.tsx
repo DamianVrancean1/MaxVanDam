@@ -34,14 +34,14 @@ const Header = () => {
               <span className="user-info">
                 {user.username} ({user.role})
               </span>
-              <button onClick={handleLogout} className="logout-btn">
-                Deconectare
+              <button onClick={handleLogout} className="liquid-morph-element logout-btn">
+                <span>Deconectare</span>
               </button>
             </>
           ) : (
-            <Link to="/login" className="login-link">
-              Autentificare
-            </Link>
+              <Link to="/login" className="liquid-morph-element login-link">
+                <span>Autentificare</span>
+              </Link>
           )}
         </div>
       </div>
