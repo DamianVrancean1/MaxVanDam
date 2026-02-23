@@ -44,7 +44,7 @@ const ProductDetail = () => {
           <h1>{product.name}</h1>
           
           <div className="detail-price-stock">
-            <span className="detail-price">{product.price} RON</span>
+            <span className="detail-price">{product.price} MDL</span>
             <span className={`detail-stock ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
               {product.stock > 0 ? `În stoc: ${product.stock} buc` : 'Stoc epuizat'}
             </span>
@@ -60,7 +60,7 @@ const ProductDetail = () => {
             <ul>
               <li><strong>ID Produs:</strong> {product.id}</li>
               <li><strong>Categorie:</strong> {product.category}</li>
-              <li><strong>Preț:</strong> {product.price} RON</li>
+              <li><strong>Preț:</strong> {product.price} MDL</li>
               <li><strong>Disponibilitate:</strong> {product.stock > 0 ? 'În stoc' : 'Indisponibil'}</li>
             </ul>
           </div>

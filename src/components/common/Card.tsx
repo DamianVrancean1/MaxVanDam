@@ -15,7 +15,7 @@ const Card = ({ product }: CardProps) => {
         <p className="card-category">{product.category}</p>
         <p className="card-description">{product.description}</p>
         <div className="card-footer">
-          <span className="card-price">{product.price} RON</span>
+          <span className="card-price">{product.price} MDL</span>
           <span className="card-stock">Stoc: {product.stock}</span>
         </div>
         <Link to={`/product/${product.id}`} className="card-link">
