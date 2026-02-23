@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/Header.css';
+import logo from "../../img/logo1.png";
 
 const Header = () => {
   const { user, logout } = useAuth();
@@ -13,17 +14,17 @@ const Header = () => {
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <h1>🚗 Piese Auto</h1>
+          <img src={logo} alt="logo" className="logo" />
         </Link>
         
         <nav className="nav">
-          <Link to="/" className="nav-link">Acasă</Link>
-          <Link to="/products" className="nav-link">Produse</Link>
+          <Link to="/" className="nav-link liquid-morph-element">Acasă</Link>
+          <Link to="/products" className="nav-link liquid-morph-element">Produse</Link>
           
           {user?.role === 'admin' && (
             <>
-              <Link to="/admin" className="nav-link">Admin</Link>
-              <Link to="/add-product" className="nav-link">Adaugă Produs</Link>
+              <Link to="/admin" className="nav-link liquid-morph-element">Admin</Link>
+              <Link to="/add-product" className="nav-link liquid-morph-element">Adaugă Produs</Link>
             </>
           )}
         </nav>
