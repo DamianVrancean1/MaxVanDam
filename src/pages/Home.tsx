@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
 import '../styles/Home.css';
+import hero1 from "../img/hero1.jpg";
+
 
 const Home = () => {
   return (
     <div className="home">
       <section className="hero">
         <div className="hero-content">
-          <h1>Bine ai venit la Piese Auto</h1>
-          <p>Găsește piese de calitate pentru mașina ta</p>
+          <h1>Date curate. Stoc precis.</h1>
+          <p>Piese de calitate pentru mașina ta!</p>
           <Link to="/products" className="hero-btn">
             Vezi Produsele
           </Link>
