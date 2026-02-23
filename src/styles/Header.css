@@ -1,8 +1,8 @@
 .header {
-  background-color: #2c3e50;
+  background-color: #060812;
   color: white;
   padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.6);
 }
 
 .header-container {
@@ -19,6 +19,7 @@
 .logo {
   text-decoration: none;
   color: white;
+  max-width: 200px;
 }
 
 .logo h1 {
@@ -30,10 +31,11 @@
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  color: black  ;
 }
 
 .nav-link {
-  color: white;
+  color: white  ;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -54,33 +56,65 @@
   font-size: 0.9rem;
 }
 
-.logout-btn {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
 
-.logout-btn:hover {
-  background-color: #c0392b;
-}
-
-.login-link {
-  color: white;
+.liquid-morph-element {
+  width: auto;
+  height: 40px;
+  padding: 0 14px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 999px;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border: 1px solid white;
-  border-radius: 4px;
-  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
 }
 
-.login-link:hover {
-  background-color: white;
-  color: #2c3e50;
+.liquid-morph-element span {
+  color: white;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 2;
+  white-space: nowrap;
 }
+
+.liquid-morph-element::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(#0ff 0deg, #0a2342 120deg, #0ff 240deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.liquid-morph-element:hover {
+  border-radius: 10px;
+  transform: rotate(5deg);
+}
+
+.liquid-morph-element:hover::before {
+  opacity: 0.5;
+  transform: scale(2);
+}
+
+
+.logout-btn.liquid-morph-element {
+  background: #e74c3c;
+}
+
+.logout-btn.liquid-morph-element::before {
+  background: conic-gradient(#fff 0deg, #e74c3c 120deg, #fff 240deg);
+}
+
+.login-link.liquid-morph-element {
+  background: transparent;
+}
+
+
 
 @media (max-width: 768px) {
   .header-container {
