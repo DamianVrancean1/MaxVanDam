@@ -17,25 +17,33 @@ const Home = () => {
       </section>
 
       <section className="features">
-        <div className="features-container">
-          <div className="feature">
-            <div className="feature-icon">✓</div>
-            <h3>Calitate Garantată</h3>
-            <p>Toate piesele sunt testate și certificate</p>
+        <div className="container">
+          <div className="box">
+            <span></span>
+            <div className="content">
+              <h2>Vizibilitate inventar</h2>
+              <p>Vizualizezi disponibilitatea pieselor în timp real.</p>
+              <a href="#">Read More</a>
+            </div>
           </div>
-          
-          <div className="feature">
-            <div className="feature-icon">🚚</div>
-            <h3>Livrare Rapidă</h3>
-            <p>Livrăm în 24-48 de ore</p>
+          <div className="box">
+            <span></span>
+            <div className="content">
+              <h2>Informații Detaliate</h2>
+              <p>Specificații complete pentru fiecare piesă.</p>
+              <a href="#">Read More</a>
+            </div>
           </div>
-          
-          <div className="feature">
-            <div className="feature-icon">💰</div>
-            <h3>Prețuri Competitive</h3>
-            <p>Cele mai bune oferte de pe piață</p>
+          <div className="box">
+            <span></span>
+            <div className="content">
+              <h2>Organizare Inteligentă</h2>
+              <p>Găsești rapid orice piesă din depozit.</p>
+              <a href="#">Read More</a>
+            </div>
           </div>
         </div>
+
       </section>
 
       <section className="categories">
