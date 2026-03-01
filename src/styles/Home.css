@@ -1,44 +1,429 @@
+/* =========================
+   HOME PAGE - GLOWING GLASS
+   Copy/Paste full file
+========================= */
+
 .home {
-  min-height: calc(100vh - 200px);
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  
 }
 
+/* Background glass gradient layer */
+.home {
+  background: #1d061a;
+}
+.home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background: linear-gradient(
+          50deg,
+          rgba(255, 255, 255, 0.4) 12%,
+          rgba(255, 255, 255, 0.1) 77%
+  );
+
+  mix-blend-mode: overlay;
+}
+
+/* Dark overlay for contrast */
+.home::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.home > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   GLASS UTILITY (element)
+========================= */
+.element {
+  background: linear-gradient(
+          50deg,
+          rgba(255, 255, 255, 0.4) 12%,
+          rgba(255, 255, 255, 0.1) 77%
+  );
+  background-blend-mode: overlay;
+
+  box-shadow: 0px 4px 24px 1px rgba(0, 0, 0, 0.28);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+}
+
+/* =========================
+   HERO
+========================= */
 .hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 4rem 1rem;
   text-align: center;
 }
 
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+
+  /* glass look */
+  background: linear-gradient(
+          50deg,
+          rgba(255, 255, 255, 0.22) 12%,
+          rgba(255, 255, 255, 0.06) 77%
+  );
+  background-blend-mode: overlay;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+
+  padding: 2.5rem 1.5rem;
+}
+
 .hero-content h1 {
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   margin: 0 0 1rem 0;
+  letter-spacing: 0.2px;
 }
 
 .hero-content p {
   font-size: 1.25rem;
-  margin-bottom: 2rem;
+  margin: 0 0 2rem 0;
+  opacity: 0.95;
 }
 
 .hero-btn {
+  font-size: 1.6rem;
+  color: #ffffff;
+  position: relative;
   display: inline-block;
-  background-color: white;
-  color: #667eea;
-  padding: 1rem 2rem;
   text-decoration: none;
-  border-radius: 4px;
-  font-weight: bold;
-  transition: transform 0.3s;
+  padding: 0.25rem 0.2rem;
 }
 
-.hero-btn:hover {
-  transform: scale(1.05);
+.hero-btn::after,
+.hero-btn::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #ff0000, #00ffff);
+  left: 0;
+  transform: scaleX(0);
+  transition: transform 0.4s ease-out;
 }
 
+.hero-btn::after {
+  bottom: -6px;
+  transform-origin: right;
+}
+
+.hero-btn::before {
+  top: -6px;
+  transform-origin: left;
+}
+
+.hero-btn:hover::after,
+.hero-btn:hover::before {
+  transform: scaleX(1);
+}
+
+/* =========================
+   FEATURES SECTION
+========================= */
 .features {
   padding: 3rem 1rem;
-  background-color: #f8f9fa;
+  background: transparent;
 }
 
+/* Your features use .container / .box */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================
+   FEATURE BOXES (GLOW + GLASS)
+========================= */
+.container .box {
+  position: relative;
+  width: 320px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 30px;
+  transition: 0.5s;
+}
+
+/* Glow slabs behind */
+.container .box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50px;
+  width: 50%;
+  height: 100%;
+  border-radius: 12px;
+  transform: skewX(15deg);
+  transition: 0.5s;
+}
+
+.container .box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50px; /* FIX: must be px */
+  width: 50%;
+  height: 100%;
+  border-radius: 12px;
+  transform: skewX(15deg);
+  transition: 0.5s;
+  filter: blur(30px);
+  opacity: 0.9;
+}
+
+/* Hover expand */
+.container .box:hover::before,
+.container .box:hover::after {
+  transform: skewX(0deg);
+  left: 20px;
+  width: calc(100% - 90px);
+}
+
+/* Same gradient for all 3 (you can change per card if you want) */
+.container .box:nth-child(1)::before,
+.container .box:nth-child(1)::after,
+.container .box:nth-child(2)::before,
+.container .box:nth-child(2)::after,
+.container .box:nth-child(3)::before,
+.container .box:nth-child(3)::after {
+  background: linear-gradient(315deg, #ffbc00, #ff0058);
+}
+
+/* Sparkle glass squares */
+.container .box span {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.container .box span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  opacity: 0;
+  transition: 0.15s;
+  animation: animate 2s ease-in-out infinite;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.container .box:hover span::before {
+  top: -50px;
+  left: 50px;
+  width: 110px;
+  height: 110px;
+  opacity: 1;
+}
+
+.container .box span::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  opacity: 0;
+  transition: 0.5s;
+  animation: animate 2s ease-in-out infinite;
+  animation-delay: -1s;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.container .box:hover span::after {
+  bottom: -50px;
+  right: 50px;
+  width: 110px;
+  height: 110px;
+  opacity: 1;
+}
+
+@keyframes animate {
+  0%,
+  100% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translate(-10px);
+  }
+}
+
+/* Card content (glass) */
+.container .box .content {
+  position: relative;
+  left: 0;
+  padding: 24px 40px;
+
+  background: linear-gradient(
+          50deg,
+          rgba(255, 255, 255, 0.18) 12%,
+          rgba(255, 255, 255, 0.06) 77%
+  );
+  background-blend-mode: overlay;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.28);
+
+  z-index: 10;
+  transition: 0.5s;
+
+  color: #fff;
+}
+
+.container .box:hover .content {
+  left: -25px;
+  padding: 60px 40px;
+}
+
+.container .box .content h2 {
+  font-size: 2em;
+  color: #fff;
+  margin-bottom: 10px;
+  letter-spacing: 0.2px;
+}
+
+.container .box .content p {
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  line-height: 1.45em;
+  opacity: 0.95;
+}
+
+.container .box .content a {
+  display: inline-block;
+  font-size: 1.05em;
+  color: #111;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 6px;
+  transition: 0.2s;
+}
+
+.container .box .content a:hover {
+  background: #ffcf4d;
+  border: 1px solid rgba(255, 0, 88, 0.4);
+  box-shadow: 0 1px 18px rgba(1, 1, 1, 0.25);
+}
+
+/* =========================
+   CATEGORIES (GLASS CARDS)
+========================= */
+.categories {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.categories h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-card {
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* glass */
+  background: linear-gradient(
+          50deg,
+          rgba(255, 255, 255, 0.16) 12%,
+          rgba(255, 255, 255, 0.05) 77%
+  );
+  background-blend-mode: overlay;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+
+  box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.28);
+  color: white;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 16px 55px rgba(0, 0, 0, 0.35);
+}
+
+.category-card h3 {
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 0.2px;
+}
+
+.category-card p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* =========================
+   OLD FEATURES GRID (kept for compatibility)
+   If you don't use .features-container/.feature you can remove this
+========================= */
 .features-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -52,7 +437,7 @@
   padding: 2rem;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .feature-icon {
@@ -70,47 +455,9 @@
   color: #7f8c8d;
 }
 
-.categories {
-  padding: 3rem 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.categories h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #2c3e50;
-}
-
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.category-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
-  transition: transform 0.3s;
-  cursor: pointer;
-}
-
-.category-card:hover {
-  transform: translateY(-5px);
-}
-
-.category-card h3 {
-  margin: 0 0 0.5rem 0;
-}
-
-.category-card p {
-  margin: 0;
-  opacity: 0.9;
-}
-
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 768px) {
   .hero-content h1 {
     font-size: 2rem;
@@ -119,5 +466,10 @@
   .features-container,
   .categories-grid {
     grid-template-columns: 1fr;
+  }
+
+  .container .box {
+    width: 92%;
+    margin: 24px 0;
   }
 }

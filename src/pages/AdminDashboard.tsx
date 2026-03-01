@@ -47,7 +47,7 @@ const AdminDashboard = () => {
         
         <div className="stat-card">
           <h3>Valoare Stoc</h3>
-          <p className="stat-value">{stats.totalValue.toFixed(2)} RON</p>
+          <p className="stat-value">{stats.totalValue.toFixed(2)} MDL</p>
         </div>
         
         <div className="stat-card">
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
               <th>ID</th>
               <th>Nume</th>
               <th>Categorie</th>
-              <th>Preț (RON)</th>
+              <th>Preț (MDL)</th>
               <th>Stoc</th>
               <th>Acțiuni</th>
             </tr>

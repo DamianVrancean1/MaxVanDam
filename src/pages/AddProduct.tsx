@@ -137,7 +137,7 @@ const AddProduct = () => {
 
           <div className="form-row">
             <Input
-              label="Preț (RON)"
+              label="Preț (MDL)"
               type="number"
               name="price"
               value={formData.price}
