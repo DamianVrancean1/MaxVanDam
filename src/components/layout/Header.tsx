@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "../../styles/Header.css";
-import logo from "../../img/logo1.png";
-
+import logo from "../../img/logo2.png";
+  
 const Header = () => {
   const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
   };
-
+  
   return (
       <header className="header">
         <div className="header-container">
