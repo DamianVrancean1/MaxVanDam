@@ -29,7 +29,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="product-detail">
+    <div className="product-detail ">
       <Button onClick={() => navigate('/products')} variant="secondary">
         ← Înapoi la Produse
       </Button>
@@ -65,9 +65,7 @@ const ProductDetail = () => {
             </ul>
           </div>
 
-          {product.stock > 0 && (
-            <Button variant="primary">Adaugă în Coș</Button>
-          )}
+        
         </div>
       </div>
     </div>
