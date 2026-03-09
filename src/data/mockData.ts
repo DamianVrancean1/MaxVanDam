@@ -27,7 +27,7 @@ export const mockProducts: Product[] = [
     price: 150,
     stock: 25,
     description: 'Placute frana fata pentru diverse modele de autoturisme',
-    imageUrl: 'https://via.placeholder.com/300x200?text=Placute+Frana'
+    imageUrl: 'https://www.google.com/url?sa=t&source=web&rct=j&url=https%3A%2F%2Fwww.autodoc24.ro%2Fpiese-de-schimb%2Fset_placute_frana-10130%2Fbmw%2Fseria-3%2F3-g20%2F136302-320-i-xdrive&ved=0CBYQjRxqFwoTCMiv9YDAkJMDFQAAAAAdAAAAABAj&opi=89978449'
   },
   {
     id: 2,
