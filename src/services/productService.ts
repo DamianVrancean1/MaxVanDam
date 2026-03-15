@@ -3,19 +3,23 @@ import {products as seedProducts} from '../data/mockData';
 
 const PRODUCTS_STORAGE_KEY = 'mockProducts';
 const PRODUCTS_VERSION_KEY = 'mockProductsVersion';
-const PRODUCTS_DATA_VERSION = 'v4-services-products';
+const PRODUCTS_DATA_VERSION = 'v5-services-products-images';
 const MIN_PRODUCTS_COUNT = 100;
 
-const normalizeProduct = (product: Product): Product => ({
-    ...product,
-    brand: product.brand || 'BMW',
-    model: product.model || 'Seria 3',
-    shortDescription: product.shortDescription || product.description,
-    image: product.image ?? product.imageUrl,
-    compatibility: product.compatibility || ['BMW Seria 3 320d'],
-    description: product.description || product.shortDescription || '',
-    imageUrl: product.imageUrl ?? product.image ?? ''
-});
+const normalizeProduct = (product: Product): Product => {
+    const normalizedImage = (product.image || product.imageUrl || '').trim();
+
+    return {
+        ...product,
+        brand: product.brand || 'BMW',
+        model: product.model || 'Seria 3',
+        shortDescription: product.shortDescription || product.description,
+        image: normalizedImage,
+        compatibility: product.compatibility || ['BMW Seria 3 320d'],
+        description: product.description || product.shortDescription || '',
+        imageUrl: normalizedImage
+    };
+};
 
 const readProductsFromStorage = (): Product[] => {
     const savedVersion = localStorage.getItem(PRODUCTS_VERSION_KEY);
@@ -100,4 +104,3 @@ export const deleteProduct = (id: number): boolean => {
     persistProducts();
     return true;
 };
-
