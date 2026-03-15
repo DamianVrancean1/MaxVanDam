@@ -23,10 +23,10 @@ git commit -m "Initial commit - Aplicație Piese Auto React + TypeScript"
 1. Mergi pe [GitHub.com](https://github.com)
 2. Click pe butonul "+" din dreapta sus și selectează "New repository"
 3. Completează:
-   - **Repository name**: `piese-auto-app` (sau alt nume)
-   - **Description**: "Aplicație web pentru magazin piese auto - React + TypeScript"
-   - **Public** sau **Private** (recomandat Public pentru laborator)
-   - **NU** bifa "Initialize with README" (avem deja)
+    - **Repository name**: `piese-auto-app` (sau alt nume)
+    - **Description**: "Aplicație web pentru magazin piese auto - React + TypeScript"
+    - **Public** sau **Private** (recomandat Public pentru laborator)
+    - **NU** bifa "Initialize with README" (avem deja)
 4. Click "Create repository"
 
 ### 3. Conectează local la remote și push
@@ -50,6 +50,7 @@ Deschide link-ul repository-ului pe GitHub și verifică că toate fișierele su
 ## Comenzi Git Utile
 
 ### Adaugă modificări noi
+
 ```bash
 git add .
 git commit -m "Descriere modificare"
@@ -57,16 +58,19 @@ git push
 ```
 
 ### Verifică status
+
 ```bash
 git status
 ```
 
 ### Vezi istoricul commit-urilor
+
 ```bash
 git log --oneline
 ```
 
 ### Creează branch nou (opțional)
+
 ```bash
 git checkout -b feature/nume-feature
 ```
@@ -74,6 +78,7 @@ git checkout -b feature/nume-feature
 ## Structura Repository-ului
 
 Repository-ul va conține:
+
 ```
 piese-auto-app/
 ├── src/                    # Codul sursă
@@ -96,6 +101,7 @@ piese-auto-app/
 ## Notă Importantă
 
 Asigură-te că:
+
 - ✅ Toate fișierele sunt commitate
 - ✅ `.gitignore` ignoră `node_modules/` și `dist/`
 - ✅ README.md conține instrucțiuni clare

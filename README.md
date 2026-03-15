@@ -10,6 +10,7 @@ Aplicație web pentru magazin de piese auto realizată folosind React și TypeSc
 ✅ **TypeScript** - Cod scris folosind interface și type  
 ✅ **Layout complet** - Header, Footer  
 ✅ **6 Pagini**:
+
 - Home - pagina principală
 - Products - listă produse cu filtrare
 - ProductDetail - detalii produs
@@ -44,11 +45,13 @@ Aplicația va rula pe `http://localhost:5173/`
 ## 🔑 Conturi de Test
 
 ### Admin
+
 - Username: `admin`
 - Password: `admin123`
 - Acces: Toate paginile + Admin Dashboard + Adăugare produse
 
 ### User
+
 - Username: `user`
 - Password: `user123`
 - Acces: Home, Products, ProductDetail
@@ -94,12 +97,14 @@ src/
 ## 📝 Funcționalități Principale
 
 ### Pentru toți utilizatorii:
+
 - Vizualizare listă produse
 - Filtrare produse după categorie
 - Căutare produse
 - Vizualizare detalii produs
 
 ### Pentru Admin:
+
 - Dashboard cu statistici
 - Adăugare produse noi
 - Formulare cu validări complete
@@ -108,6 +113,7 @@ src/
 ## 🎨 Design
 
 Design simplu și modern cu:
+
 - Gradient backgrounds
 - Cards cu hover effects
 - Layout responsive
@@ -117,6 +123,7 @@ Design simplu și modern cu:
 ## 📱 Responsive Design
 
 Aplicația este complet responsive și se adaptează pentru:
+
 - Desktop (> 768px)
 - Tablet
 - Mobile (< 768px)
@@ -124,6 +131,7 @@ Aplicația este complet responsive și se adaptează pentru:
 ## 🔐 Sistem de Autentificare
 
 Aplicația folosește Context API pentru gestionarea autentificării:
+
 - AuthContext - Provides user state
 - ProtectedRoute - Component pentru protecția rutelor
 - Login/Logout functionality
@@ -140,6 +148,7 @@ Aplicația folosește Context API pentru gestionarea autentificării:
 ## 📊 Mock Data
 
 Aplicația folosește date simulate pentru:
+
 - **Users**: 2 utilizatori (admin și user)
 - **Products**: 6 produse piese auto
 - Funcții simulate pentru CRUD operations
@@ -147,10 +156,12 @@ Aplicația folosește date simulate pentru:
 ## 🚧 Validări Formulare
 
 ### Login Form:
+
 - Validare câmpuri goale
 - Verificare credențiale
 
 ### Add Product Form:
+
 - Validare nume produs (minim 3 caractere)
 - Validare categorie
 - Validare preț (> 0)
