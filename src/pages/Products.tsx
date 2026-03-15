@@ -1,40 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import type { Product } from '../types';
 import { getProducts } from '../data/mockData';
 import Card from '../components/common/Card';
 import '../styles/Products.css';
 
 const Products = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [products] = useState<Product[]>(() => getProducts());
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Toate');
 
-  useEffect(() => {
-    const allProducts = getProducts();
-    setProducts(allProducts);
-    setFilteredProducts(allProducts);
-  }, []);
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => {
+      const matchesCategory =
+        selectedCategory === 'Toate' || product.category === selectedCategory;
+      const matchesSearch =
+        !searchTerm || product.name.toLowerCase().includes(searchTerm.toLowerCase());
 
-  useEffect(() => {
-    let filtered = products;
+      return matchesCategory && matchesSearch;
+    });
+  }, [products, searchTerm, selectedCategory]);
 
-    // Filter by category
-    if (selectedCategory !== 'Toate') {
-      filtered = filtered.filter(p => p.category === selectedCategory);
-    }
-
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    setFilteredProducts(filtered);
-  }, [searchTerm, selectedCategory, products]);
-
-  const categories = ['Toate', ...Array.from(new Set(products.map(p => p.category)))];
+  const categories = useMemo(
+    () => ['Toate', ...Array.from(new Set(products.map(p => p.category)))],
+    [products]
+  );
 
   return (
     <div className="products-page">
