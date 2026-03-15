@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from '../types';
-import { getProducts, deleteProduct } from '../data/mockData';
+import { getProducts, deleteProduct } from '../services/productService';
 import '../styles/AdminDashboard.css';
 
 const AdminDashboard = () => {

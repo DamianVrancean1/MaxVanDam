@@ -11,11 +11,11 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
   const { user, isAdmin } = useAuth();
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/401" replace />;
   }
 
   if (requireAdmin && !isAdmin()) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/403" replace />;
   }
 
   return <>{children}</>;

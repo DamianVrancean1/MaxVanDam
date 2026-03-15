@@ -270,6 +270,12 @@
   cursor: not-allowed;
 }
 
+/* BACK BUTTON */
+.product-back-btn {
+  width: 220px;
+  margin-bottom: 1rem;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .detail-container {
