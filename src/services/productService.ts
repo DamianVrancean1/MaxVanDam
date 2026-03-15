@@ -3,7 +3,7 @@ import {products as seedProducts} from '../data/mockData';
 
 const PRODUCTS_STORAGE_KEY = 'mockProducts';
 const PRODUCTS_VERSION_KEY = 'mockProductsVersion';
-const PRODUCTS_DATA_VERSION = 'v5-services-products-images';
+
 const MIN_PRODUCTS_COUNT = 100;
 
 const normalizeProduct = (product: Product): Product => {
