@@ -98,13 +98,13 @@ const createSeedProducts = (): Product[] => {
       price,
       stock,
       shortDescription,
-      image: '',
+      image: `/products/${i + 1}.jpg`,
       compatibility: [
         `${brandGroup.brand} ${model} ${engineA}`,
         `${brandGroup.brand} ${model} ${engineB}`
       ],
       description: shortDescription,
-      imageUrl: ''
+      imageUrl: `/products/${i + 1}.jpg`
     });
   }
 
