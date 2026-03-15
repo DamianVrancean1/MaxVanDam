@@ -110,6 +110,35 @@
   text-decoration: underline;
 }
 
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.edit-link {
+  color: #f39c12;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.edit-link:hover {
+  text-decoration: underline;
+}
+
+.delete-link {
+  border: none;
+  background: transparent;
+  color: #e74c3c;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.delete-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .stats-grid {
     grid-template-columns: 1fr;

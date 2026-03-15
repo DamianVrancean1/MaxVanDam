@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
 import "../../styles/Header.css";
 import logo from "../../img/logo2.png";
   
 const Header = () => {
   const { user, logout } = useAuth();
+  const { totalItems } = useCart();
 
   const handleLogout = () => {
     logout();
@@ -50,9 +52,12 @@ const Header = () => {
           <div className="auth-section">
             {user ? (
                 <>
-              <span className="user-info">
-                {user.username} ({user.role})
-              </span>
+                  <div className="btn btn-pink">
+                    <Link to="/cart" className="nav-btn user-info">
+                      {user.username} ({user.role})
+                      <span className="cart-badge">{totalItems}</span>
+                    </Link>
+                  </div>
 
                   <div className="btn btn-pink">
                     <button onClick={handleLogout} className="nav-btn nav-btn-button" type="button">
@@ -74,3 +79,4 @@ const Header = () => {
 };
 
 export default Header;
+

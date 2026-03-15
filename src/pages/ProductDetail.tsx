@@ -1,21 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import type { Product } from '../types';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getProductById } from '../data/mockData';
+import { useCart } from '../context/CartContext';
 import Button from '../components/common/Button';
 import '../styles/ProductDetail.css';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [product, setProduct] = useState<Product | null>(null);
+  const { addToCart } = useCart();
+  const [feedback, setFeedback] = useState('');
 
-  useEffect(() => {
-    if (id) {
-      const foundProduct = getProductById(parseInt(id));
-      setProduct(foundProduct || null);
+  const parsedId = Number(id);
+  const product = !id || Number.isNaN(parsedId) ? null : getProductById(parsedId) || null;
+
+  const handleAddToCart = () => {
+    if (!product || product.stock <= 0) {
+      return;
     }
-  }, [id]);
+
+    addToCart(product);
+    setFeedback('Produsul a fost adăugat în coș.');
+  };
 
   if (!product) {
     return (
@@ -42,12 +48,24 @@ const ProductDetail = () => {
         <div className="detail-info">
           <span className="detail-category">{product.category}</span>
           <h1>{product.name}</h1>
-          
+
           <div className="detail-price-stock">
             <span className="detail-price">{product.price} MDL</span>
             <span className={`detail-stock ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
               {product.stock > 0 ? `În stoc: ${product.stock} buc` : 'Stoc epuizat'}
             </span>
+          </div>
+
+          <div className="detail-actions">
+            <button
+              type="button"
+              className="simple-add-to-cart"
+              onClick={handleAddToCart}
+              disabled={product.stock <= 0}
+            >
+              Adaugă în coș
+            </button>
+            {feedback && <span className="cart-feedback">{feedback}</span>}
           </div>
 
           <div className="detail-description">
@@ -64,8 +82,6 @@ const ProductDetail = () => {
               <li><strong>Disponibilitate:</strong> {product.stock > 0 ? 'În stoc' : 'Indisponibil'}</li>
             </ul>
           </div>
-
-        
         </div>
       </div>
     </div>

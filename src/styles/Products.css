@@ -22,6 +22,10 @@
   background: #1d061a;
 }
 
+.products-page > h1 {
+  color: #ffffff;
+}
+
 .products-page::before {
   content: "";
   position: absolute;

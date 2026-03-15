@@ -103,6 +103,23 @@
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.86);
   text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  padding: 0 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #111;
+  background: #ffcf4d;
 }
 
 /* =========================
@@ -125,7 +142,8 @@
   justify-content: center;
   align-items: center;
 }
- .btn a {
+
+.btn .nav-btn {
   position: absolute;
   top: 0;
   left: 0;
@@ -144,15 +162,23 @@
   text-decoration: none;
   overflow: hidden;
   color: #fff;
-  font-weight: 400px;
+  font-weight: 400;
   z-index: 1;
   transition: 0.5s;
   backdrop-filter: blur(15px);
 }
- .btn:hover a {
+
+.btn .nav-btn-button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.btn:hover .nav-btn {
   letter-spacing: 3px;
 }
- .btn a::before {
+
+.btn .nav-btn::before {
   content: "";
   position: absolute;
   top: 0;
@@ -164,10 +190,12 @@
   transition: 0.5s;
   filter: blur(0px);
 }
-.btn:hover a::before {
+
+.btn:hover .nav-btn::before {
   transform: skewX(45deg) translate(200px);
 }
- .btn::before {
+
+.btn::before {
   content: "";
   position: absolute;
   left: 50%;
@@ -178,16 +206,17 @@
   background: #f00;
   border-radius: 10px;
   transition: 0.5s;
-  transition-delay: 0.5;
+  transition-delay: 0.5s;
 }
- .btn:hover::before /*lightup button*/ {
+
+.btn:hover::before {
   bottom: 0;
   height: 50%;
   width: 80%;
   border-radius: 30px;
 }
 
- .btn::after {
+.btn::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -198,16 +227,18 @@
   background: #f00;
   border-radius: 10px;
   transition: 0.5s;
-  transition-delay: 0.5;
+  transition-delay: 0.5s;
 }
- .btn:hover::after /*lightup button*/ {
+
+.btn:hover::after {
   top: 0;
   height: 50%;
   width: 80%;
   border-radius: 30px;
 }
- .btn:before, /*chnage 1*/
- .btn:after {
+
+.btn:before,
+.btn:after {
   background: #ff1f71;
   box-shadow: 0 0 5px #ff1f71, 0 0 15px #ff1f71, 0 0 30px #ff1f71,
   0 0 60px #ff1f71;
