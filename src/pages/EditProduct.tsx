@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import type { ProductFormData, FormErrors } from '../types';
-import { getProductById, updateProduct } from '../data/mockData';
+import { getProductById, updateProduct } from '../services/productService';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import '../styles/AddProduct.css';

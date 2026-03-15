@@ -1,48 +1,30 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { User, AuthContextType } from '../types';
-import { mockUsers } from '../data/mockData';
+import { getStoredUser, loginUser, logoutUser, userIsAdmin } from '../services/authService';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const AUTH_STORAGE_KEY = 'authUser';
-
-const getStoredUser = (): User | null => {
-  const rawUser = localStorage.getItem(AUTH_STORAGE_KEY);
-  if (!rawUser) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(rawUser) as User;
-  } catch {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    return null;
-  }
-};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(() => getStoredUser());
 
   const login = (username: string, password: string): boolean => {
-    const foundUser = mockUsers.find(
-      u => u.username === username && u.password === password
-    );
-
-    if (foundUser) {
-      setUser(foundUser);
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(foundUser));
-      return true;
+    const foundUser = loginUser(username, password);
+    if (!foundUser) {
+      return false;
     }
-    return false;
+
+    setUser(foundUser);
+    return true;
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    logoutUser();
   };
 
   const isAdmin = (): boolean => {
-    return user?.role === 'admin';
+    return userIsAdmin(user);
   };
 
   return (

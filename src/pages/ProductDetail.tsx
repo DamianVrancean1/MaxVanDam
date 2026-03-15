@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getProductById } from '../data/mockData';
+import { getProductById } from '../services/productService';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import '../styles/ProductDetail.css';
 
@@ -9,6 +10,7 @@ const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const [feedback, setFeedback] = useState('');
 
   const parsedId = Number(id);
@@ -16,6 +18,16 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!product || product.stock <= 0) {
+      return;
+    }
+
+    if (!user) {
+      const shouldLogin = window.confirm(
+        'Pentru a adăuga produsul în coș trebuie să fii autentificat. Vrei să mergi la login?'
+      );
+      if (shouldLogin) {
+        navigate('/login');
+      }
       return;
     }
 
@@ -36,9 +48,15 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail ">
-      <Button onClick={() => navigate('/products')} variant="secondary">
-        ← Înapoi la Produse
-      </Button>
+      <div className="btn btn-pink product-back-btn">
+        <button
+          type="button"
+          className="nav-btn nav-btn-button"
+          onClick={() => navigate('/products')}
+        >
+          ← Înapoi la Produse
+        </button>
+      </div>
 
       <div className="detail-container">
         <div className="detail-image">
@@ -77,9 +95,11 @@ const ProductDetail = () => {
             <h3>Specificații</h3>
             <ul>
               <li><strong>ID Produs:</strong> {product.id}</li>
+              <li><strong>Marcă:</strong> {product.brand || 'Necunoscut'}</li>
+              <li><strong>Model:</strong> {product.model || 'Necunoscut'}</li>
               <li><strong>Categorie:</strong> {product.category}</li>
               <li><strong>Preț:</strong> {product.price} MDL</li>
-              <li><strong>Disponibilitate:</strong> {product.stock > 0 ? 'În stoc' : 'Indisponibil'}</li>
+              <li><strong>Disponibilitate:</strong> {product.stock > 0 ? 'În stoc' : 'Stoc epuizat'}</li>
             </ul>
           </div>
         </div>

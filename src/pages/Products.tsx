@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Product } from '../types';
-import { getProducts } from '../data/mockData';
+import { getProducts } from '../services/productService';
 import Card from '../components/common/Card';
 import '../styles/Products.css';
 

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Header from './components/layout/Header';
@@ -12,6 +12,9 @@ import AdminDashboard from './pages/AdminDashboard';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
 import Cart from './pages/Cart';
+import Unauthorized401 from './pages/Unauthorized401';
+import Forbidden403 from './pages/Forbidden403';
+import NotFound404 from './pages/NotFound404';
 import './styles/App.css';
 
 function App() {
@@ -27,6 +30,9 @@ function App() {
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/401" element={<Unauthorized401 />} />
+                <Route path="/403" element={<Forbidden403 />} />
+                <Route path="/404" element={<NotFound404 />} />
                 <Route
                   path="/cart"
                   element={
@@ -59,6 +65,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route path="*" element={<Navigate to="/404" replace />} />
               </Routes>
             </main>
             <Footer />
