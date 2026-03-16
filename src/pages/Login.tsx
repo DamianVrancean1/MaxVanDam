@@ -24,7 +24,9 @@ const Login = () => {
     const success = login(username, password);
 
     if (success) {
-      if (username === 'admin') {
+      const storedUser = JSON.parse(localStorage.getItem('authUser') || 'null');
+
+      if (storedUser?.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
         navigate('/');
