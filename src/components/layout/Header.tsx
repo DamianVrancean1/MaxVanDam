@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import "../../styles/Header.css";
 import logo from "../../img/logo2.png";
-  
+
 const Header = () => {
   const { user, logout } = useAuth();
   const { totalItems } = useCart();
@@ -11,7 +11,7 @@ const Header = () => {
   const handleLogout = () => {
     logout();
   };
-  
+
   return (
       <header className="header">
         <div className="header-container">
@@ -23,6 +23,12 @@ const Header = () => {
             <div className="btn btn-pink">
               <Link to="/" className="nav-btn">
                 Acasă
+              </Link>
+            </div>
+
+            <div className="btn btn-pink">
+              <Link to="/about" className="nav-btn">
+                Despre noi
               </Link>
             </div>
 
@@ -79,4 +85,3 @@ const Header = () => {
 };
 
 export default Header;
-
