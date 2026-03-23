@@ -48,22 +48,24 @@ const DashboardPage = () => {
               <div className="admin-notifications">
                 {notifications.map(notification => (
                     <article key={notification.id} className={`admin-notification ${notification.read ? 'read' : ''}`}>
-                      <div>
-                        <strong>{notification.productName}</strong>
-                        <p>{notification.message}</p>
-                      </div>
-                      {!notification.read && (
-                          <button
-                              type="button"
-                              className="admin-action-link"
-                              onClick={() => {
-                                markNotificationAsRead(notification.id);
-                                window.location.reload();
-                              }}
-                          >
-                            Marchează citit
-                          </button>
-                      )}
+                      <>
+                        <div>
+                          <strong>{notification.productName}</strong>
+                          <p>{notification.message}</p>
+                        </div>
+                        {!notification.read && (
+                            <button
+                                type="button"
+                                className="admin-action-link"
+                                onClick={() => {
+                                  markNotificationAsRead(notification.id);
+                                  window.location.reload();
+                                }}
+                            >
+                              Marchează citit
+                            </button>
+                        )}
+                      </>
                     </article>
                 ))}
               </div>

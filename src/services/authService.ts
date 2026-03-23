@@ -64,7 +64,13 @@ export const loginUser = (username: string, password: string): User | null => {
 
   if (!foundUser) return null;
 
-  const { password: _password, ...safeUser } = foundUser;
+  const safeUser: User = {
+    id: foundUser.id,
+    username: foundUser.username,
+    role: foundUser.role,
+    email: foundUser.email,
+    createdAt: foundUser.createdAt,
+  };
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(safeUser));
   return safeUser;
 };
