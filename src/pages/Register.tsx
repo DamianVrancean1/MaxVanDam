@@ -51,7 +51,8 @@ const Register = () => {
             username,
             email,
             password,
-            role: 'user',
+            role: 'user' as const,
+            createdAt: new Date().toISOString(),
         };
 
         localStorage.setItem('registeredUsers', JSON.stringify([...existingUsers, newUser]));

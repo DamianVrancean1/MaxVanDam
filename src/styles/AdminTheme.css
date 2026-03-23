@@ -172,6 +172,37 @@
   margin-bottom: 10px;
 }
 
+.admin-card-full {
+  grid-column: 1 / -1;
+}
+
+.admin-feedback {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+.admin-feedback.success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.18);
+}
+
+.admin-feedback.error {
+  background: rgba(220, 38, 38, 0.12);
+  color: #b91c1c;
+  border: 1px solid rgba(220, 38, 38, 0.18);
+}
+
+.admin-role-select {
+  width: 100%;
+  min-width: 140px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
 .admin-stat-card strong {
   font-size: 1.9rem;
   color: var(--admin-text);

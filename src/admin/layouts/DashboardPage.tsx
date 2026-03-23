@@ -89,6 +89,12 @@ const DashboardPage = () => {
               </thead>
               <tbody>
               {products.slice(-6).reverse().map(product => (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>{product.category}</td>
+                  <td>{product.price} Lei</td>
+                  <td>{product.stock}</td>
+                </tr>
                   <tr key={product.id}>
                     <td>{product.name}</td>
                     <td>{product.category}</td>

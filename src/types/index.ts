@@ -1,6 +1,6 @@
 // Types and Interfaces for the application
 
-export type UserRole = 'admin' | 'user';
+export type UserRole = 'admin' | 'user' | 'moderator';
 
 export interface User {
   id: number;
@@ -8,6 +8,7 @@ export interface User {
   password: string;
   role: UserRole;
   email: string;
+  createdAt?: string;
 }
 
 export interface Product {
