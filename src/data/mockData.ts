@@ -1,7 +1,7 @@
-import type { User, Product } from '../types';
+import type { StoredUser, Product } from '../types';
 
 // Mock Users - admin and regular user
-export const mockUsers: User[] = [
+export const mockUsers: StoredUser[] = [
   {
     id: 1,
     username: 'admin',

@@ -5,10 +5,13 @@ export type UserRole = 'admin' | 'user' | 'moderator';
 export interface User {
   id: number;
   username: string;
-  password: string;
   role: UserRole;
   email: string;
   createdAt?: string;
+}
+
+export interface StoredUser extends User {
+  password: string;
 }
 
 export interface Product {
