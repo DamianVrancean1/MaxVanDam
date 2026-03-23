@@ -1,19 +1,14 @@
-import type { User, UserRole } from '../types';
+import type { User, UserRole, StoredUser } from '../types';
 import { mockUsers } from '../data/mockData';
 
 const AUTH_STORAGE_KEY = 'authUser';
 const REGISTERED_USERS_KEY = 'registeredUsers';
-
-type StoredUser = User & {
-  password: string;
-};
 
 const normalizeMockUsers = (): StoredUser[] =>
     mockUsers.map((user, index) => ({
       ...user,
       email: user.email ?? `${user.username}@example.com`,
       createdAt: user.createdAt ?? new Date(2026, 2, index + 1).toISOString(),
-      password: user.password,
     }));
 
 export const getStoredUser = (): User | null => {
@@ -65,8 +60,6 @@ export const loginUser = (username: string, password: string): User | null => {
 
   const foundUser = allUsers.find(
       (user) => user.username === username && user.password === password
-  const foundUser = mockUsers.find(
-      user => user.username === username && user.password === password
   );
 
   if (!foundUser) return null;
