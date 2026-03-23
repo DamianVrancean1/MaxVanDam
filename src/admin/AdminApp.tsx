@@ -16,41 +16,43 @@ const AdminShell = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="admin-shell">
-      <aside className="admin-sidebar">
-        <div className="admin-brand">
-          <span className="admin-brand-badge">MV</span>
-          <div>
-            <p>MaxVanDam</p>
-            <span>Admin Panel</span>
+      <div className="admin-shell">
+        <aside className="admin-sidebar">
+          <div className="admin-brand">
+            <span className="admin-brand-badge">MV</span>
+            <div>
+              <p>MaxVanDam</p>
+              <span>Admin Panel</span>
+            </div>
           </div>
+          <nav className="admin-nav">
+            {navItems.map(item => (
+                <NavLink
+                    key={item.to}
+                    to={item.to}
+                    className={({ isActive }) =>
+                        `admin-nav-link ${isActive || pathname.startsWith(item.to + '/') ? 'active' : ''}`
+                    }
+                    end={item.to === '/admin/products'}
+                >
+                  {item.label}
+                </NavLink>
+            ))}
+          </nav>
+        </aside>
+
+        <div className="admin-content-wrap">
+          <header className="admin-topbar">
+            <div>
+              <h1>Administrare site</h1>
+              <p>Interfață nouă pentru gestionarea produselor și a contului de admin.</p>
+            </div>
+            <NavLink to="/login" className="admin-back-link">Înapoi la site</NavLink>
+          </header>
+
+          <main className="admin-main">{children}</main>
         </div>
-        <nav className="admin-nav">
-          {navItems.map(item => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) =>
-                `admin-nav-link ${isActive || pathname.startsWith(item.to + '/') ? 'active' : ''}`
-              }
-              end={item.to === '/admin/products'}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
-      </aside>
-      <div className="admin-content-wrap">
-        <header className="admin-topbar">
-          <div>
-            <h1>Administrare site</h1>
-            <p>Interfață nouă pentru gestionarea produselor și a contului de admin.</p>
-          </div>
-          <NavLink to="/login" className="admin-back-link">Înapoi la site</NavLink>
-        </header>
-        <main className="admin-main">{children}</main>
       </div>
-    </div>
   );
 };
 
@@ -62,17 +64,17 @@ const AdminApp = () => {
   }
 
   return (
-    <AdminShell>
-      <Routes>
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="products" element={<ProductsPage />} />
-        <Route path="products/new" element={<ProductFormPage mode="create" />} />
-        <Route path="products/:id/edit" element={<ProductFormPage mode="edit" />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="*" element={<Navigate to="dashboard" replace />} />
-      </Routes>
-    </AdminShell>
+      <AdminShell>
+        <Routes>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="products/new" element={<ProductFormPage mode="create" />} />
+          <Route path="products/:id/edit" element={<ProductFormPage mode="edit" />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="*" element={<Navigate to="dashboard" replace />} />
+        </Routes>
+      </AdminShell>
   );
 };
 

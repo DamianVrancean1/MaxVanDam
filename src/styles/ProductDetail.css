@@ -295,3 +295,38 @@
     max-height: 420px;
   }
 }
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 0;
+}
+
+.quantity-row label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+}
+
+.quantity-row input {
+  width: 90px;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+  outline: none;
+}
+
+.simple-view-details-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  background: #4b5563;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}

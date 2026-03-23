@@ -65,6 +65,8 @@ export const loginUser = (username: string, password: string): User | null => {
 
   const foundUser = allUsers.find(
       (user) => user.username === username && user.password === password
+  const foundUser = mockUsers.find(
+      user => user.username === username && user.password === password
   );
 
   if (!foundUser) return null;

@@ -33,19 +33,6 @@ export interface AuthContextType {
   isAdmin: () => boolean;
 }
 
-export interface ProductFormData {
-  name: string;
-  category: string;
-  price: string;
-  stock: string;
-  description: string;
-  imageUrl: string;
-}
-
-export interface FormErrors {
-  [key: string]: string;
-}
-
 export interface CartItem {
   product: Product;
   quantity: number;
@@ -53,10 +40,18 @@ export interface CartItem {
 
 export interface CartContextType {
   items: CartItem[];
-  addToCart: (product: Product) => void;
+  addToCart: (product: Product, quantity?: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   removeFromCart: (productId: number) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+}
+export interface InventoryNotification {
+  id: number;
+  productId: number;
+  productName: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
 }
