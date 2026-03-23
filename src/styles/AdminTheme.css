@@ -203,6 +203,8 @@
   padding: 10px 12px;
   font: inherit;
   background: #fff;
+}
+
 .admin-stat-card strong {
   font-size: 1.9rem;
   color: var(--admin-text);
