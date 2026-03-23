@@ -19,7 +19,7 @@ export const getStoredUser = (): User | null => {
 
 export const loginUser = (username: string, password: string): User | null => {
   const foundUser = mockUsers.find(
-    user => user.username === username && user.password === password
+      user => user.username === username && user.password === password
   );
 
   if (!foundUser) {
@@ -37,4 +37,3 @@ export const logoutUser = () => {
 export const userIsAdmin = (user: User | null): boolean => {
   return user?.role === 'admin';
 };
-

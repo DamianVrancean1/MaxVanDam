@@ -6,6 +6,25 @@ type Props = {
   mode: 'create' | 'edit';
 };
 
+const CATEGORY_OPTIONS = [
+  'Filtre de aer',
+  'Filtre de ulei',
+  'Filtre de combustibil',
+  'Filtre de habitaclu',
+  'Sistem de frânare',
+  'Suspensie',
+  'Transmisie',
+  'Electric',
+  'Motor',
+  'Răcire',
+  'Alimentare',
+  'Senzori',
+  'Rulare',
+  'Direcție'
+];
+
+const IMAGE_OPTIONS = Array.from({ length: 100 }, (_, index) => `/products/${index + 1}.jpg`);
+
 const ProductFormPage = ({ mode }: Props) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -28,10 +47,16 @@ const ProductFormPage = ({ mode }: Props) => {
   });
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleNumericChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const digitsOnly = value.replace(/[^\d]/g, '');
+    setFormData(prev => ({ ...prev, [name]: digitsOnly }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -49,9 +74,9 @@ const ProductFormPage = ({ mode }: Props) => {
       imageUrl: formData.imageUrl,
       image: formData.imageUrl,
       compatibility: formData.compatibility
-        .split(',')
-        .map(item => item.trim())
-        .filter(Boolean)
+          .split(',')
+          .map(item => item.trim())
+          .filter(Boolean)
     };
 
     if (mode === 'edit' && existingProduct) {
@@ -65,61 +90,105 @@ const ProductFormPage = ({ mode }: Props) => {
 
   if (mode === 'edit' && !existingProduct) {
     return (
-      <section className="admin-card">
-        <h2>Produsul nu a fost găsit.</h2>
-        <Link to="/admin/products" className="admin-inline-link">Înapoi la produse</Link>
-      </section>
+        <section className="admin-card">
+          <h2>Produsul nu a fost găsit.</h2>
+          <Link to="/admin/products" className="admin-inline-link">Înapoi la produse</Link>
+        </section>
     );
   }
 
   return (
-    <section className="admin-card">
-      <div className="admin-section-header">
-        <div>
-          <span className="admin-eyebrow">{mode === 'edit' ? 'Editare' : 'Creare'}</span>
-          <h2>{mode === 'edit' ? 'Editează produs' : 'Adaugă produs nou'}</h2>
+      <section className="admin-card">
+        <div className="admin-section-header">
+          <div>
+            <span className="admin-eyebrow">{mode === 'edit' ? 'Editare' : 'Creare'}</span>
+            <h2>{mode === 'edit' ? 'Editează produs' : 'Adaugă produs nou'}</h2>
+          </div>
         </div>
-      </div>
 
-      <form className="admin-form-grid" onSubmit={handleSubmit}>
-        {[
-          ['name', 'Nume produs'],
-          ['brand', 'Brand'],
-          ['model', 'Model'],
-          ['category', 'Categorie'],
-          ['price', 'Preț'],
-          ['stock', 'Stoc'],
-          ['imageUrl', 'Imagine URL']
-        ].map(([name, label]) => (
-          <label className="admin-field" key={name}>
-            <span>{label}</span>
-            <input name={name} value={(formData as Record<string, string>)[name]} onChange={handleChange} required={name !== 'model' && name !== 'brand' && name !== 'imageUrl'} />
+        <form className="admin-form-grid" onSubmit={handleSubmit}>
+          <label className="admin-field">
+            <span>Nume produs</span>
+            <input name="name" value={formData.name} onChange={handleChange} required />
           </label>
-        ))}
 
-        <label className="admin-field admin-field-full">
-          <span>Descriere scurtă</span>
-          <textarea name="shortDescription" value={formData.shortDescription} onChange={handleChange} rows={3} />
-        </label>
+          <label className="admin-field">
+            <span>Brand</span>
+            <input name="brand" value={formData.brand} onChange={handleChange} />
+          </label>
 
-        <label className="admin-field admin-field-full">
-          <span>Compatibilitate (separate prin virgulă)</span>
-          <textarea name="compatibility" value={formData.compatibility} onChange={handleChange} rows={3} />
-        </label>
+          <label className="admin-field">
+            <span>Model</span>
+            <input name="model" value={formData.model} onChange={handleChange} />
+          </label>
 
-        <label className="admin-field admin-field-full">
-          <span>Descriere completă</span>
-          <textarea name="description" value={formData.description} onChange={handleChange} rows={6} required />
-        </label>
+          <label className="admin-field">
+            <span>Categorie</span>
+            <select name="category" value={formData.category} onChange={handleChange} required>
+              <option value="">Selectează categoria</option>
+              {CATEGORY_OPTIONS.map(category => (
+                  <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </label>
 
-        <div className="admin-form-actions">
-          <Link to="/admin/products" className="admin-secondary-link">Anulează</Link>
-          <button type="submit" className="admin-primary-button">
-            {mode === 'edit' ? 'Salvează modificările' : 'Creează produs'}
-          </button>
-        </div>
-      </form>
-    </section>
+          <label className="admin-field">
+            <span>Preț</span>
+            <input
+                name="price"
+                value={formData.price}
+                onChange={handleNumericChange}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                required
+            />
+          </label>
+
+          <label className="admin-field">
+            <span>Stoc</span>
+            <input
+                name="stock"
+                value={formData.stock}
+                onChange={handleNumericChange}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                required
+            />
+          </label>
+
+          <label className="admin-field">
+            <span>Imagine</span>
+            <select name="imageUrl" value={formData.imageUrl} onChange={handleChange} required>
+              <option value="">Alege o imagine din folder</option>
+              {IMAGE_OPTIONS.map(image => (
+                  <option key={image} value={image}>{image}</option>
+              ))}
+            </select>
+          </label>
+
+          <label className="admin-field admin-field-full">
+            <span>Descriere scurtă</span>
+            <textarea name="shortDescription" value={formData.shortDescription} onChange={handleChange} rows={3} />
+          </label>
+
+          <label className="admin-field admin-field-full">
+            <span>Compatibilitate (separate prin virgulă)</span>
+            <textarea name="compatibility" value={formData.compatibility} onChange={handleChange} rows={3} />
+          </label>
+
+          <label className="admin-field admin-field-full">
+            <span>Descriere completă</span>
+            <textarea name="description" value={formData.description} onChange={handleChange} rows={6} required />
+          </label>
+
+          <div className="admin-form-actions">
+            <Link to="/admin/products" className="admin-secondary-link">Anulează</Link>
+            <button type="submit" className="admin-primary-button">
+              {mode === 'edit' ? 'Salvează modificările' : 'Creează produs'}
+            </button>
+          </div>
+        </form>
+      </section>
   );
 };
 
