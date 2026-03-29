@@ -94,7 +94,7 @@ const DashboardPage = () => {
                 <tr key={product.id}>
                   <td>{product.name}</td>
                   <td>{product.category}</td>
-                  <td>{product.price} RON</td>
+                  <td>{product.price} MDL</td>
                   <td>{product.stock}</td>
                 </tr>
               ))}

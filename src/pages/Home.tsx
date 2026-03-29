@@ -32,7 +32,7 @@ const Home = () => {
               <div className="content">
                 <h2>Informații Detaliate</h2>
                 <p>Specificații complete pentru fiecare piesă.</p>
-                <a href="#">Read More</a>
+                <Link to="/informatii-detaliate">Read More</Link>
               </div>
             </div>
 
@@ -41,7 +41,7 @@ const Home = () => {
               <div className="content">
                 <h2>Organizare Inteligentă</h2>
                 <p>Găsești rapid orice piesă din depozit.</p>
-                <a href="#">Read More</a>
+                <Link to="/organizare-inteligenta">Read More</Link>
               </div>
             </div>
           </div>
