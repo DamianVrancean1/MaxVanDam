@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import Unauthorized401 from './pages/Unauthorized401';
 import Forbidden403 from './pages/Forbidden403';
 import NotFound404 from './pages/NotFound404';
+import InventoryVisibility from './pages/InventoryVisibility';
 import AdminApp from './admin/AdminApp';
 import './styles/App.css';
 
@@ -38,6 +39,7 @@ const AppLayout = () => {
                     <Route path="/401" element={<Unauthorized401 />} />
                     <Route path="/403" element={<Forbidden403 />} />
                     <Route path="/404" element={<NotFound404 />} />
+                    <Route path="/inventory-visibility" element={<InventoryVisibility />} />
 
                     <Route
                         path="/cart"

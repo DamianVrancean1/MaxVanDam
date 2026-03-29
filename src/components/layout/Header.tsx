@@ -32,11 +32,13 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="btn btn-pink">
-              <Link to="/products" className="nav-btn">
-                Produse
-              </Link>
-            </div>
+            {user && (
+              <div className="btn btn-pink">
+                <Link to="/products" className="nav-btn">
+                  Produse
+                </Link>
+              </div>
+            )}
 
             {user?.role === "admin" && (
                 <>
