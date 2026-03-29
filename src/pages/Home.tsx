@@ -7,10 +7,10 @@ const Home = () => {
         {/* HERO */}
         <section className="hero">
           <div className="hero-content">
-            <h1>Date curate. Stoc precis.</h1>
+            <h1>Vrei să scapi de haosul din depozit? Autoparts e soluția</h1>
             <p>Piese de calitate pentru mașina ta!</p>
-            <Link to="/products" className="hero-btn">
-              Vezi Produsele
+            <Link to="/subscriptions-info" className="hero-btn">
+              Abonamente
             </Link>
           </div>
         </section>
@@ -42,6 +42,15 @@ const Home = () => {
                 <h2>Organizare Inteligentă</h2>
                 <p>Găsești rapid orice piesă din depozit.</p>
                 <Link to="/organizare-inteligenta">Read More</Link>
+              </div>
+            </div>
+
+            <div className="box">
+              <span></span>
+              <div className="content">
+                <h2>Abonamente</h2>
+                <p>Structurează depozitul tău de piese auto eficient.</p>
+                <Link to="/subscriptions-info">Read More</Link>
               </div>
             </div>
           </div>

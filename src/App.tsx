@@ -17,6 +17,7 @@ import NotFound404 from './pages/NotFound404';
 import InventoryVisibility from './pages/InventoryVisibility';
 import DetailedInfoShowcase from './pages/DetailedInfoShowcase';
 import SmartOrganizationShowcase from './pages/SmartOrganizationShowcase';
+import SubscriptionsInfo from './pages/SubscriptionsInfo';
 import AdminApp from './admin/AdminApp';
 import './styles/App.css';
 
@@ -27,7 +28,8 @@ const AppLayout = () => {
     const isShowcaseRoute =
         location.pathname.startsWith('/inventory-visibility') ||
         location.pathname.startsWith('/informatii-detaliate') ||
-        location.pathname.startsWith('/organizare-inteligenta');
+        location.pathname.startsWith('/organizare-inteligenta') ||
+        location.pathname.startsWith('/subscriptions-info');
     const hideLayout = isAdminRoute || isAuthPage || isShowcaseRoute;
 
     return (
@@ -48,6 +50,7 @@ const AppLayout = () => {
                     <Route path="/inventory-visibility" element={<InventoryVisibility />} />
                     <Route path="/informatii-detaliate" element={<DetailedInfoShowcase />} />
                     <Route path="/organizare-inteligenta" element={<SmartOrganizationShowcase />} />
+                    <Route path="/subscriptions-info" element={<SubscriptionsInfo />} />
 
                     <Route
                         path="/cart"

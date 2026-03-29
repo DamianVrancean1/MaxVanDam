@@ -36,6 +36,8 @@ const Login = () => {
 
   return (
       <div className="login-page">
+        <Link to="/" className="back-btn">← Înapoi la pagina principală</Link>
+
         <div className="login-container">
           <h1>Autentificare</h1>
 
