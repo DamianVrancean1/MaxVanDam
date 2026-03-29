@@ -15,6 +15,8 @@ import Unauthorized401 from './pages/Unauthorized401';
 import Forbidden403 from './pages/Forbidden403';
 import NotFound404 from './pages/NotFound404';
 import InventoryVisibility from './pages/InventoryVisibility';
+import DetailedInfoShowcase from './pages/DetailedInfoShowcase';
+import SmartOrganizationShowcase from './pages/SmartOrganizationShowcase';
 import AdminApp from './admin/AdminApp';
 import './styles/App.css';
 
@@ -22,7 +24,11 @@ const AppLayout = () => {
     const location = useLocation();
     const isAdminRoute = location.pathname.startsWith('/admin');
     const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
-    const hideLayout = isAdminRoute || isAuthPage;
+    const isShowcaseRoute =
+        location.pathname.startsWith('/inventory-visibility') ||
+        location.pathname.startsWith('/informatii-detaliate') ||
+        location.pathname.startsWith('/organizare-inteligenta');
+    const hideLayout = isAdminRoute || isAuthPage || isShowcaseRoute;
 
     return (
         <div className="app">
@@ -40,6 +46,8 @@ const AppLayout = () => {
                     <Route path="/403" element={<Forbidden403 />} />
                     <Route path="/404" element={<NotFound404 />} />
                     <Route path="/inventory-visibility" element={<InventoryVisibility />} />
+                    <Route path="/informatii-detaliate" element={<DetailedInfoShowcase />} />
+                    <Route path="/organizare-inteligenta" element={<SmartOrganizationShowcase />} />
 
                     <Route
                         path="/cart"
