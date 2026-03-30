@@ -6,6 +6,14 @@ const CART_STORAGE_KEY = 'cartItems';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const normalizeQuantity = (value: number, fallback = 1): number => {
+    if (!Number.isFinite(value)) {
+        return fallback;
+    }
+
+    return Math.trunc(value);
+};
+
 const getStoredCart = (): CartItem[] => {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
     if (!raw) {
@@ -27,17 +35,33 @@ const getStoredCart = (): CartItem[] => {
 export const CartProvider = ({ children }: { children: ReactNode }) => {
     const [items, setItems] = useState<CartItem[]>(() => getStoredCart());
 
-    const persist = (nextItems: CartItem[]) => {
-        setItems(nextItems);
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextItems));
+    const persist = (nextItemsOrUpdater: CartItem[] | ((previousItems: CartItem[]) => CartItem[])) => {
+        setItems((previousItems) => {
+            const nextItems = typeof nextItemsOrUpdater === 'function'
+                ? nextItemsOrUpdater(previousItems)
+                : nextItemsOrUpdater;
+
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextItems));
+            return nextItems;
+        });
     };
 
     const addToCart = (product: Product, quantity = 1) => {
-        const safeQuantity = Math.max(1, Math.min(quantity, product.stock));
-        const existingItem = items.find(item => item.product.id === product.id);
+        if (product.stock <= 0) {
+            return;
+        }
 
-        if (existingItem) {
-            const nextItems = items.map(item =>
+        const requested = normalizeQuantity(quantity, 1);
+        const safeQuantity = Math.max(1, Math.min(requested, product.stock));
+
+        persist((previousItems) => {
+            const existingItem = previousItems.find(item => item.product.id === product.id);
+
+            if (!existingItem) {
+                return [...previousItems, { product, quantity: safeQuantity }];
+            }
+
+            return previousItems.map(item =>
                 item.product.id === product.id
                     ? {
                         ...item,
@@ -45,31 +69,32 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
                     }
                     : item
             );
-            persist(nextItems);
-            return;
-        }
-
-        persist([...items, { product, quantity: safeQuantity }]);
+        });
     };
 
     const updateQuantity = (productId: number, quantity: number) => {
-        const nextItems = items
-            .map(item => {
-                if (item.product.id !== productId) {
-                    return item;
-                }
+        const requested = normalizeQuantity(quantity, 0);
 
-                const clamped = Math.max(1, Math.min(quantity, item.product.stock));
-                return { ...item, quantity: clamped };
-            })
-            .filter(item => item.quantity > 0);
+        persist((previousItems) => {
+            if (requested <= 0) {
+                return previousItems.filter(item => item.product.id !== productId);
+            }
 
-        persist(nextItems);
+            return previousItems
+                .map(item => {
+                    if (item.product.id !== productId) {
+                        return item;
+                    }
+
+                    const clamped = Math.max(1, Math.min(requested, item.product.stock));
+                    return { ...item, quantity: clamped };
+                })
+                .filter(item => item.quantity > 0);
+        });
     };
 
     const removeFromCart = (productId: number) => {
-        const nextItems = items.filter(item => item.product.id !== productId);
-        persist(nextItems);
+        persist((previousItems) => previousItems.filter(item => item.product.id !== productId));
     };
 
     const clearCart = () => {

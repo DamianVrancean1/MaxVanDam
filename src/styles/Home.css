@@ -149,34 +149,40 @@
 }
 
 /* Features container */
-.container {
+.features .container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
+  gap: 24px;
 
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  overflow-x: hidden;
+  padding: 0 0 0.75rem;
+  scrollbar-width: none;
 }
 
 /* =========================
    FEATURE BOXES (GLOW + GLASS)
 ========================= */
-.container .box {
+.features .container .box {
   position: relative;
-  width: 320px;
+  width: min(100%, 320px);
+  max-width: 320px;
   height: 400px;
+  flex: 1 1 300px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  margin: 40px 30px;
+  margin: 24px 0;
   transition: 0.5s;
 }
 
 /* Glow slabs behind */
-.container .box::before {
+.features .container .box::before {
   content: "";
   position: absolute;
   top: 0;
@@ -190,7 +196,7 @@
   transition: 0.5s;
 }
 
-.container .box::after {
+.features .container .box::after {
   content: "";
   position: absolute;
   top: 0;
@@ -208,27 +214,27 @@
 }
 
 /* Hover expand */
-.container .box:hover::before,
-.container .box:hover::after {
+.features .container .box:hover::before,
+.features .container .box:hover::after {
   transform: skewX(0deg);
   left: 20px;
   width: calc(100% - 90px);
 }
 
 /* Same gradient for all 3 */
-.container .box:nth-child(1)::before,
-.container .box:nth-child(1)::after,
-.container .box:nth-child(2)::before,
-.container .box:nth-child(2)::after,
-.container .box:nth-child(3)::before,
-.container .box:nth-child(3)::after,
-.container .box:nth-child(4)::before,
-.container .box:nth-child(4)::after {
+.features .container .box:nth-child(1)::before,
+.features .container .box:nth-child(1)::after,
+.features .container .box:nth-child(2)::before,
+.features .container .box:nth-child(2)::after,
+.features .container .box:nth-child(3)::before,
+.features .container .box:nth-child(3)::after,
+.features .container .box:nth-child(4)::before,
+.features .container .box:nth-child(4)::after {
   background: linear-gradient(315deg, #ffbc00, #ff0058);
 }
 
 /* Sparkle glass squares */
-.container .box span {
+.features .container .box span {
   display: block;
   position: absolute;
   inset: 0;
@@ -236,7 +242,7 @@
   pointer-events: none;
 }
 
-.container .box span::before {
+.features .container .box span::before {
   content: "";
   position: absolute;
   top: 0;
@@ -258,7 +264,7 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
 }
 
-.container .box:hover span::before {
+.features .container .box:hover span::before {
   top: -50px;
   left: 50px;
   width: 110px;
@@ -266,7 +272,7 @@
   opacity: 1;
 }
 
-.container .box span::after {
+.features .container .box span::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -289,7 +295,7 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
 }
 
-.container .box:hover span::after {
+.features .container .box:hover span::after {
   bottom: -50px;
   right: 50px;
   width: 110px;
@@ -308,7 +314,7 @@
 }
 
 /* Card content (glass) */
-.container .box .content {
+.features .container .box .content {
   position: relative;
   left: 0;
   padding: 24px 40px;
@@ -334,26 +340,26 @@
   color: #fff;
 }
 
-.container .box:hover .content {
+.features .container .box:hover .content {
   left: -25px;
   padding: 60px 40px;
 }
 
-.container .box .content h2 {
+.features .container .box .content h2 {
   font-size: 2em;
   color: #fff;
   margin-bottom: 10px;
   letter-spacing: 0.2px;
 }
 
-.container .box .content p {
+.features .container .box .content p {
   font-size: 1.1em;
   margin-bottom: 12px;
   line-height: 1.45em;
   opacity: 0.95;
 }
 
-.container .box .content a {
+.features .container .box .content a {
   display: inline-block;
   font-size: 1.05em;
   color: #111;
@@ -368,7 +374,7 @@
   transition: 0.2s;
 }
 
-.container .box .content a:hover {
+.features .container .box .content a:hover {
   background: #ffcf4d;
   border: 1px solid rgba(255, 0, 88, 0.4);
   box-shadow: 0 1px 18px rgba(1, 1, 1, 0.25);
@@ -512,9 +518,18 @@
     font-size: 2rem;
   }
 
-  .container .box {
-    width: 92%;
-    margin: 24px 0;
+  .features .container {
+    justify-content: center;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    gap: 16px;
+  }
+
+  .features .container .box {
+    width: min(96vw, 360px);
+    max-width: 360px;
+    flex-basis: min(96vw, 360px);
+    margin: 16px 0;
   }
 }
 

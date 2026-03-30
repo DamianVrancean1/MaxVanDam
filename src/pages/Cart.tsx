@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { consumeCartItemsFromStock } from '../services/productService';
+import QuantitySelector from '../components/common/QuantitySelector';
 import '../styles/Cart.css';
 
 const Cart = () => {
@@ -79,23 +80,11 @@ const Cart = () => {
                         <p className="cart-item-price">{item.product.price} MDL / buc</p>
                       </div>
 
-                      <div className="cart-quantity-controls">
-                        <button
-                            type="button"
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                            disabled={item.quantity <= 1}
-                        >
-                          -
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button
-                            type="button"
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                            disabled={item.quantity >= item.product.stock}
-                        >
-                          +
-                        </button>
-                      </div>
+                      <QuantitySelector
+                          value={item.quantity}
+                          onChange={(newQty) => updateQuantity(item.product.id, newQty)}
+                          maxQuantity={item.product.stock}
+                      />
 
                       <div className="cart-line-total">{(item.product.price * item.quantity).toFixed(2)} MDL</div>
 

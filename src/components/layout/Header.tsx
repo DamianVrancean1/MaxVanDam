@@ -62,7 +62,7 @@ const Header = () => {
                 <>
                   <div className="btn btn-pink">
                     <Link to="/cart" className="nav-btn user-info">
-                      Conectat ca: {user.username}
+                      Status:{user.username}
                       <span className="cart-badge">{totalItems}</span>
                     </Link>
                   </div>

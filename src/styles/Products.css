@@ -201,6 +201,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.6rem;
+  align-items: stretch;
+}
+
+.products-grid > * {
+  height: 100%;
 }
 
 .no-products {

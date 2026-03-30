@@ -1,7 +1,15 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import QuantitySelector from '../components/common/QuantitySelector';
 import '../styles/SubscriptionsInfo.css';
 
 function SubscriptionsInfo() {
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddSubscription = (qty: number) => {
+    alert(`Ati adaugat ${qty} abonament(e) in cos.`);
+    console.log(`Subscription added: ${qty}`);
+  };
   return (
     <div className="subscriptions-info-page">
       <Link to="/" className="back-btn">← Înapoi la pagina principală</Link>
@@ -17,6 +25,18 @@ function SubscriptionsInfo() {
 
       <section className="subscriptions-plans">
         <h2>Abonamente disponibile</h2>
+
+        <div className="subscriptions-quantity-selector">
+          <label>Selectează cantitate:</label>
+          <QuantitySelector
+              value={quantity}
+              onChange={setQuantity}
+              onAddClick={handleAddSubscription}
+              addButtonLabel="Adaugă în coș"
+              showAddButton={true}
+          />
+        </div>
+
         <div className="plans-container">
           <article className="plan-card">
             <h3>Abonament Lunar</h3>
@@ -27,7 +47,7 @@ function SubscriptionsInfo() {
               <li>Organizare inteligentă a pieselor</li>
               <li>Rapoarte lunare de performanță</li>
             </ul>
-            <button className="plan-btn">Alege Abonament Lunar</button>
+            <button className="plan-btn">Alege {quantity} Abonament Lunar</button>
           </article>
 
           <article className="plan-card featured">
@@ -41,7 +61,7 @@ function SubscriptionsInfo() {
               <li>Training gratuit pentru echipă</li>
               <li>Integrare cu sisteme ERP</li>
             </ul>
-            <button className="plan-btn">Alege Abonament Anual</button>
+            <button className="plan-btn">Alege {quantity} Abonament Anual</button>
           </article>
         </div>
       </section>

@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getProductById } from '../services/productService';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
+import QuantitySelector from '../components/common/QuantitySelector';
 import '../styles/ProductDetail.css';
 
 const ProductDetail = () => {
@@ -20,7 +21,15 @@ const ProductDetail = () => {
 
   const canAdd = useMemo(() => Boolean(product && product.stock > 0), [product]);
 
-  const handleAddToCart = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [id]);
+
+  useEffect(() => {
+    setQuantity((previous) => Math.max(1, Math.min(previous, maxQuantity)));
+  }, [maxQuantity]);
+
+  const handleAddToCart = (qty: number) => {
     if (!product || product.stock <= 0) {
       return;
     }
@@ -35,8 +44,8 @@ const ProductDetail = () => {
       return;
     }
 
-    addToCart(product, quantity);
-    setFeedback(`Produsul a fost adăugat în coș (${quantity} buc).`);
+    addToCart(product, qty);
+    setFeedback(`Produsul a fost adăugat în coș (${qty} buc).`);
   };
 
   if (!product) {
@@ -79,34 +88,14 @@ const ProductDetail = () => {
             </div>
 
             <div className="detail-actions">
-              <div className="quantity-row">
-                <label htmlFor="quantity">Cantitate</label>
-                <input
-                    id="quantity"
-                    type="number"
-                    min={1}
-                    max={maxQuantity}
-                    value={quantity}
-                    onChange={(e) => {
-                      const next = Number(e.target.value);
-                      if (Number.isNaN(next)) return;
-                      setQuantity(Math.max(1, Math.min(next, maxQuantity)));
-                    }}
-                    disabled={!canAdd}
-                />
-                <Link to={`/product/${product.id}`} className="simple-view-details-btn">
-                  Vezi detalii
-                </Link>
-              </div>
-
-              <button
-                  type="button"
-                  className="simple-add-to-cart"
-                  onClick={handleAddToCart}
-                  disabled={!canAdd}
-              >
-                Adaugă în coș
-              </button>
+              <QuantitySelector
+                  value={quantity}
+                  onChange={setQuantity}
+                  maxQuantity={maxQuantity}
+                  onAddClick={handleAddToCart}
+                  addButtonLabel="Adaugă în coș"
+                  showAddButton={canAdd}
+              />
 
               {feedback && <span className="cart-feedback">{feedback}</span>}
             </div>
@@ -134,3 +123,4 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
