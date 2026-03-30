@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/SmartOrganizationShowcase.css';
 
 type PickItem = {
@@ -61,6 +62,13 @@ const activityLog = [
 const SmartOrganizationShowcase = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleExitSite = () => {
+    logout();
+    navigate('/');
+  };
 
   const filteredPickList = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -107,7 +115,7 @@ const SmartOrganizationShowcase = () => {
           </div>
 
           <div className="smart-topbar-actions">
-            <Link to="/" className="smart-secondary-btn">Inapoi la site</Link>
+            <button type="button" className="smart-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
             <button
               type="button"
               className={`smart-switch ${isDarkTheme ? 'is-on' : ''}`}

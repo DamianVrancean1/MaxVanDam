@@ -31,7 +31,7 @@ export default function About() {
                     <p>
                         Auto Parts este o soluție web pentru administrarea unui depozit auto,
                         creată pentru a simplifica activitatea angajaților și a administratorilor.
-                        Prin această aplicație, utilizatorii pot urmări rapid piesele disponibile,
+                        Prin această aplicație, poți urmări rapid piesele disponibile,
                         stocurile reduse și istoricul mișcărilor din depozit.
                     </p>
                 </div>

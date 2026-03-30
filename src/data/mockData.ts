@@ -69,6 +69,12 @@ const enginesByBrand: Record<string, string[]> = {
   Volkswagen: ['1.5 TSI', '2.0 TDI', '2.0 TSI', '3.0 V6 TDI', '1.6 TDI']
 };
 
+const createWarehouseLocation = (index: number): string => {
+  const row = String.fromCharCode(65 + (index % 8));
+  const slot = (Math.floor(index / 8) % 24) + 1;
+  return `${row}-${slot}`;
+};
+
 const createSeedProducts = (): Product[] => {
   const generated: Product[] = [];
 
@@ -97,6 +103,7 @@ const createSeedProducts = (): Product[] => {
       category: category.name,
       price,
       stock,
+      warehouseLocation: createWarehouseLocation(i),
       shortDescription,
       image: `/products/${i + 1}.jpg`,
       compatibility: [

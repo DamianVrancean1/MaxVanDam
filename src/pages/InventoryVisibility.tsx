@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/InventoryVisibility.css';
 
 type StockStatus = 'in_stock' | 'limited' | 'out';
@@ -75,6 +76,13 @@ const demoActivity: DemoActivity[] = [
 
 const InventoryVisibility = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleExitSite = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <div className={`inventory-dashboard ${isDarkTheme ? 'inventory-theme-dark' : 'inventory-theme-light'}`}>
@@ -130,7 +138,7 @@ const InventoryVisibility = () => {
             <p className="inventory-muted">Pagina demonstrativa: exemplu de UI care poate fi oferit clientilor.</p>
           </div>
           <div className="inventory-topbar-actions">
-            <Link to="/" className="inventory-secondary-btn">Inapoi la site</Link>
+            <button type="button" className="inventory-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
             <button type="button" className="inventory-primary-btn" aria-label="Demo call to action">
               Vezi produsele
             </button>

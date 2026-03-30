@@ -7,10 +7,17 @@ const PRODUCTS_DATA_VERSION = 'v6-stock-notifications';
 const NOTIFICATIONS_STORAGE_KEY = 'inventoryNotifications';
 const MIN_PRODUCTS_COUNT = 100;
 
+const getDefaultWarehouseLocation = (productId: number): string => {
+  const row = String.fromCharCode(65 + (Math.max(productId, 1) - 1) % 8);
+  const slot = ((Math.max(productId, 1) - 1) % 24) + 1;
+  return `${row}-${slot}`;
+};
+
 const normalizeProduct = (product: Product): Product => ({
   ...product,
   brand: product.brand || 'BMW',
   model: product.model || 'Seria 3',
+  warehouseLocation: product.warehouseLocation || getDefaultWarehouseLocation(product.id),
   shortDescription: product.shortDescription || product.description,
   image: product.image ?? product.imageUrl,
   compatibility: product.compatibility || ['BMW Seria 3 320d'],

@@ -40,6 +40,7 @@ const ProductFormPage = ({ mode }: Props) => {
     category: existingProduct?.category ?? '',
     price: existingProduct?.price?.toString() ?? '',
     stock: existingProduct?.stock?.toString() ?? '',
+    warehouseLocation: existingProduct?.warehouseLocation ?? '',
     shortDescription: existingProduct?.shortDescription ?? '',
     description: existingProduct?.description ?? '',
     imageUrl: existingProduct?.imageUrl ?? existingProduct?.image ?? '',
@@ -59,6 +60,11 @@ const ProductFormPage = ({ mode }: Props) => {
     setFormData(prev => ({ ...prev, [name]: digitsOnly }));
   };
 
+  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedValue = event.target.value.toUpperCase().replace(/[^A-Z0-9\-/ ]/g, '');
+    setFormData(prev => ({ ...prev, warehouseLocation: formattedValue }));
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -69,6 +75,7 @@ const ProductFormPage = ({ mode }: Props) => {
       category: formData.category,
       price: Number(formData.price),
       stock: Number(formData.stock),
+      warehouseLocation: formData.warehouseLocation.trim(),
       shortDescription: formData.shortDescription,
       description: formData.description,
       imageUrl: formData.imageUrl,
@@ -157,6 +164,18 @@ const ProductFormPage = ({ mode }: Props) => {
           </label>
 
           <label className="admin-field">
+            <span>Locație depozit (ex: A-1)</span>
+            <input
+                name="warehouseLocation"
+                value={formData.warehouseLocation}
+                onChange={handleLocationChange}
+                placeholder="A-1"
+                pattern="[A-Z0-9\-/ ]+"
+                required
+            />
+          </label>
+
+          <label className="admin-field">
             <span>Imagine</span>
             <select name="imageUrl" value={formData.imageUrl} onChange={handleChange} required>
               <option value="">Alege o imagine din folder</option>
@@ -193,3 +212,4 @@ const ProductFormPage = ({ mode }: Props) => {
 };
 
 export default ProductFormPage;
+

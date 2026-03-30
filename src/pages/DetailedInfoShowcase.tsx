@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/DetailedInfoShowcase.css';
 
 type QualityTier = 'Premium' | 'Standard' | 'Economic';
@@ -60,7 +61,14 @@ const revisions: RevisionRow[] = [
 
 const DetailedInfoShowcase = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const qualityTier: QualityTier = 'Premium';
+
+  const handleExitSite = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <div className={`detailed-dashboard ${isDarkTheme ? 'detailed-theme-dark' : 'detailed-theme-light'}`}>
@@ -94,7 +102,7 @@ const DetailedInfoShowcase = () => {
           </div>
 
           <div className="detailed-actions">
-            <Link to="/" className="detailed-secondary-btn">Inapoi la site</Link>
+            <button type="button" className="detailed-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
             <button
               type="button"
               className={`detailed-switch ${isDarkTheme ? 'is-on' : ''}`}
