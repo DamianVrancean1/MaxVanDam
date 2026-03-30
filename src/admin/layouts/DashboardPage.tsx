@@ -85,6 +85,7 @@ const DashboardPage = () => {
               <tr>
                 <th>Produs</th>
                 <th>Categorie</th>
+                <th>Locație</th>
                 <th>Preț</th>
                 <th>Stoc</th>
               </tr>
@@ -94,6 +95,7 @@ const DashboardPage = () => {
                 <tr key={product.id}>
                   <td>{product.name}</td>
                   <td>{product.category}</td>
+                  <td>{product.warehouseLocation}</td>
                   <td>{product.price} MDL</td>
                   <td>{product.stock}</td>
                 </tr>
@@ -107,3 +109,4 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+

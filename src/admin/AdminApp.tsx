@@ -6,7 +6,13 @@ import ProductFormPage from './layouts/ProductFormPage';
 import ProfilePage from './layouts/ProfilePage';
 import '../styles/AdminTheme.css';
 
-const AdminShell = ({ children }: { children: React.ReactNode }) => {
+const AdminShell = ({
+  children,
+  onExitSite,
+}: {
+  children: React.ReactNode;
+  onExitSite: () => void;
+}) => {
   const { pathname } = useLocation();
   const navItems = [
     { to: '/admin/dashboard', label: 'Dashboard' },
@@ -47,7 +53,7 @@ const AdminShell = ({ children }: { children: React.ReactNode }) => {
               <h1>Administrare site</h1>
               <p>Interfață nouă pentru gestionarea produselor și a contului de admin.</p>
             </div>
-            <NavLink to="/login" className="admin-back-link">Înapoi la site</NavLink>
+            <NavLink to="/" className="admin-back-link" onClick={onExitSite}>Înapoi la site</NavLink>
           </header>
 
           <main className="admin-main">{children}</main>
@@ -57,14 +63,18 @@ const AdminShell = ({ children }: { children: React.ReactNode }) => {
 };
 
 const AdminApp = () => {
-  const { isAdmin } = useAuth();
+  const { isAdmin, logout } = useAuth();
+
+  const handleExitSite = () => {
+    logout();
+  };
 
   if (!isAdmin()) {
     return <Navigate to="/403" replace />;
   }
 
   return (
-      <AdminShell>
+      <AdminShell onExitSite={handleExitSite}>
         <Routes>
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />

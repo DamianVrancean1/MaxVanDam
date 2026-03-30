@@ -22,6 +22,7 @@ export interface Product {
   category: string;
   price: number;
   stock: number;
+  warehouseLocation: string;
   shortDescription?: string;
   image?: string;
   compatibility?: string[];

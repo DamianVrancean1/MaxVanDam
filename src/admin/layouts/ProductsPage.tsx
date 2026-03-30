@@ -30,6 +30,7 @@ const ProductsPage = () => {
               <th>Nume</th>
               <th>Brand</th>
               <th>Categorie</th>
+              <th>Locație depozit</th>
               <th>Preț</th>
               <th>Stoc</th>
               <th>Acțiuni</th>
@@ -42,6 +43,7 @@ const ProductsPage = () => {
                 <td>{product.name}</td>
                 <td>{product.brand || '-'}</td>
                 <td>{product.category}</td>
+                <td>{product.warehouseLocation}</td>
                 <td>{product.price} MDL</td>
                 <td>{product.stock}</td>
                 <td>
