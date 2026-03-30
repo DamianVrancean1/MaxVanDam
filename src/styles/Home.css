@@ -513,9 +513,10 @@
   }
 }
 
-@media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 2rem;
+@media (max-width: 1400px) {
+  .container {
+    flex-wrap: wrap;
+    gap: 20px;
   }
 
   .features .container {
@@ -533,12 +534,13 @@
   }
 }
 
-@media (max-width: 640px) {
-  .categories-cards {
-    grid-template-columns: 1fr;
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2rem;
   }
 
-  .category-card-3d {
-    height: 160px;
+  .container .box {
+    width: 100%;
+    margin: 24px 0;
   }
 }

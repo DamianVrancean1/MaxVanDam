@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
+import { toast } from 'react-toastify';
 import type { CartContextType, CartItem, Product } from '../types';
 
 const CART_STORAGE_KEY = 'cartItems';
