@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/SmartOrganizationShowcase.css';
 
@@ -115,7 +115,10 @@ const SmartOrganizationShowcase = () => {
           </div>
 
           <div className="smart-topbar-actions">
-            <button type="button" className="smart-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
+            <Link to="/" className="back-button">
+              <span className="back-button-icon">←</span>
+              Înapoi la site
+            </Link>
             <button
               type="button"
               className={`smart-switch ${isDarkTheme ? 'is-on' : ''}`}

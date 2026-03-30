@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { addProduct, getProductById, updateProduct } from '../../services/productService';
 
 type Props = {
@@ -88,8 +89,10 @@ const ProductFormPage = ({ mode }: Props) => {
 
     if (mode === 'edit' && existingProduct) {
       updateProduct(existingProduct.id, payload);
+      toast.success('Produsul a fost actualizat cu succes.');
     } else {
       addProduct(payload);
+      toast.success('Produsul a fost adăugat cu succes.');
     }
 
     navigate('/admin/products');

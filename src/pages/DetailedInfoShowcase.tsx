@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/DetailedInfoShowcase.css';
 
@@ -102,7 +102,10 @@ const DetailedInfoShowcase = () => {
           </div>
 
           <div className="detailed-actions">
-            <button type="button" className="detailed-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
+            <Link to="/" className="back-button">
+              <span className="back-button-icon">←</span>
+              Înapoi la site
+            </Link>
             <button
               type="button"
               className={`detailed-switch ${isDarkTheme ? 'is-on' : ''}`}

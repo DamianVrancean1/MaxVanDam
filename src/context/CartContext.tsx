@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
+import { toast } from 'react-toastify';
 import type { CartContextType, CartItem, Product } from '../types';
 
 const CART_STORAGE_KEY = 'cartItems';
@@ -46,10 +47,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
                     : item
             );
             persist(nextItems);
+            toast.success(`${product.name} adăugat în coș! Cantitate: ${existingItem.quantity + safeQuantity}`);
             return;
         }
 
         persist([...items, { product, quantity: safeQuantity }]);
+        toast.success(`${product.name} adăugat în coș! Cantitate: ${safeQuantity}`);
     };
 
     const updateQuantity = (productId: number, quantity: number) => {

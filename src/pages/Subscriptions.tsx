@@ -14,7 +14,10 @@ function SubscriptionsPage() {
 
       <section className="subscriptions-hero">
         <div className="subscriptions-hero-content">
-          <Link to="/home" className="back-btn">← Înapoi la Acasă</Link>
+          <Link to="/home" className="back-button showcase-back-button">
+            <span className="back-button-icon">←</span>
+            Înapoi la Acasă
+          </Link>
           <h1>Vrei să scapi de haosul din depozit? Autoparts e soluția</h1>
           <p>
             Cu abonamentele noastre, poți să îți structurezi depozitul de piese auto în mod eficient,

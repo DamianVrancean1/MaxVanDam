@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/InventoryVisibility.css';
 
@@ -138,7 +138,10 @@ const InventoryVisibility = () => {
             <p className="inventory-muted">Pagina demonstrativa: exemplu de UI care poate fi oferit clientilor.</p>
           </div>
           <div className="inventory-topbar-actions">
-            <button type="button" className="inventory-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
+            <Link to="/" className="back-button">
+              <span className="back-button-icon">←</span>
+              Înapoi la site
+            </Link>
             <button type="button" className="inventory-primary-btn" aria-label="Demo call to action">
               Vezi produsele
             </button>
