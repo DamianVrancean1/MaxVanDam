@@ -1,0 +1,258 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  background: linear-gradient(
+          50deg,
+          rgba(255, 255, 255, 0.16) 12%,
+          rgba(255, 255, 255, 0.05) 77%
+  );
+  background-blend-mode: overlay;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  box-shadow:
+          0 15px 40px rgba(0, 0, 0, 0.45),
+          0 0 25px rgba(255, 0, 88, 0.12);
+
+  transition: transform 0.3s ease,
+  box-shadow 0.3s ease,
+  border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+
+  border-color: rgba(255, 255, 255, 0.25);
+
+  box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.6),
+          0 0 35px rgba(255, 188, 0, 0.25);
+}
+
+/* IMAGE */
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+
+  filter: saturate(1.05) contrast(1.05);
+}
+
+/* CONTENT */
+
+.card-content {
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.92);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-title {
+  margin: 0 0 0.6rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+  min-height: calc(1.3em * 2);
+}
+
+/* CATEGORY BADGE */
+
+.card-category {
+  display: inline-block;
+
+  background: linear-gradient(
+          315deg,
+          rgba(255, 188, 0, 0.95),
+          rgba(255, 0, 88, 0.85)
+  );
+
+  color: #111;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+/* DESCRIPTION */
+
+.card-description {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+  margin: 0.6rem 0 0.9rem;
+  line-height: 1.4;
+  min-height: calc(1.4em * 2);
+}
+
+/* FOOTER */
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 1rem 0;
+  padding-top: 1rem;
+  min-height: 48px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.card-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffcf4d;
+}
+
+.card-stock {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* BUTTON */
+
+.card-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  padding: 0.75rem;
+  min-height: 48px;
+  border-radius: 12px;
+
+  text-decoration: none;
+  font-weight: 800;
+
+  color: #111;
+  background: rgba(255, 255, 255, 0.92);
+
+  transition: transform 0.2s ease,
+  box-shadow 0.2s ease,
+  background 0.2s ease;
+}
+
+.card-link:hover {
+  transform: translateY(-2px);
+
+  background: #ffcf4d;
+
+  box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.35),
+          0 0 20px rgba(255, 188, 0, 0.35);
+}
+
+/* ACTIONS */
+
+.card-actions {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: auto;
+}
+
+.card-cart-controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.card-stepper {
+  display: grid;
+  grid-template-columns: 34px 44px 34px;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.card-step-btn {
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 1;
+  height: 34px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.card-step-btn-plus {
+  background: linear-gradient(315deg, #1a9f4a, #20c05e);
+  box-shadow: 0 6px 14px rgba(25, 133, 58, 0.35);
+}
+
+.card-step-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.card-step-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.card-step-value {
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.22);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 800;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-add-btn {
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 0.52rem 0.8rem;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  background: linear-gradient(315deg, #1fbf5b, #34e27a);
+  box-shadow: 0 8px 18px rgba(26, 159, 74, 0.38);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  min-height: 34px;
+}
+
+.card-add-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(20, 132, 61, 0.44);
+  filter: saturate(1.08);
+}
+
+.card-add-icon {
+  font-size: 0.92rem;
+  line-height: 1;
+}
+
+@media (max-width: 560px) {
+  .card-cart-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .card-add-btn {
+    width: 100%;
+  }
+}
