@@ -1,163 +1,202 @@
-# Piese Auto - Aplicație React + TypeScript
+# MaxVanDam — Aplicație Piese Auto
 
-Aplicație web pentru magazin de piese auto realizată folosind React și TypeScript pentru Laborator 1.
+Aplicație web full-stack pentru un magazin de piese auto, construită cu .NET 8 (backend) și React + TypeScript + Vite (frontend).
 
-## 🚀 Caracteristici
+## Arhitectură Backend
 
-### Cerințe Implementate
+Backend-ul urmează o arhitectură în **4 straturi**:
 
-✅ **Proiect React cu TypeScript** - Inițializat cu Vite  
-✅ **TypeScript** - Cod scris folosind interface și type  
-✅ **Layout complet** - Header, Footer  
-✅ **6 Pagini**:
-- Home - pagina principală
-- Products - listă produse cu filtrare
-- ProductDetail - detalii produs
-- Login - autentificare
-- AdminDashboard - panou de control admin
-- AddProduct - formular adăugare produs
+```
+MaxVanDam.API              ← Controllers (HTTP, routing, responses)
+MaxVanDam.BusinessLayer    ← Factory + Logic + Actions (business rules)
+MaxVanDam.DataAccessLayer  ← DbContexts + Migrations (EF Core + PostgreSQL)
+MaxVanDam.Domain           ← Entities + DTOs + Interfaces
+```
 
-✅ **Sistem de autentificare** - Mock users (admin și user)  
-✅ **Routing** - React Router cu protecție rute admin  
-✅ **Componente reutilizabile** - Button, Card, Input  
-✅ **Mock Data** - Date simulate pentru users și produse  
-✅ **Formulare cu validări** - Login și AddProduct  
-✅ **Design Responsive** - Adaptat pentru mobile și desktop  
-✅ **React Hooks** - useState, useEffect, useContext  
-✅ **Funcții handling** - Pentru formulare, navigare, autentificare
+### Fluxul unui request
 
-## 📦 Instalare și Rulare
+```
+Controller
+  → new BusinessLogic().GetXxxLogic()   (factory, fără DI)
+  → IXxxLogic.XxxMethod()               (interfață)
+  → XxxLogic : XxxActions, IXxxLogic    (implementare)
+  → XxxActions.XxxAction()              (acces la DB)
+  → new XxxDbContext()                  (OnConfiguring cu CONNECTION_DEFAULT)
+  → PostgreSQL
+```
+
+### Pattern-uri cheie
+
+- **Factory**: `BusinessLogic` expune `GetAuthLogic()`, `GetProductLogic()`, `GetUserLogic()`, `GetNotificationLogic()`
+- **Moștenire**: `XxxLogic : XxxActions, IXxxLogic`
+- **ServiceResponse**: răspuns uniform `{ IsSuccess, Message, Data }`
+- **DbContexts per entitate**: `UserDbContext`, `ProductsDbContext`, `NotificationsDbContext`, `MasterDbContext`
+- **Fără DI în constructori**: contextele folosesc `OnConfiguring`, nu `AddDbContext`
+- **Sincron**: fără `async/await` în BusinessLayer și DataAccessLayer
+- **Securitate**: SHA512 + salt + pepper (custom `PasswordHasher`), JWT via `System.IdentityModel.Tokens.Jwt`
+- **Env vars**: `DotNetEnv` încarcă `.env` la startup
+
+## Structura proiectului
+
+```
+MaxVanDam/
+├── backend/
+│   ├── MaxVanDam.sln
+│   ├── global.json                          # SDK 8.0, rollForward latestMinor
+│   ├── .env                                 # variabile locale (git-ignored)
+│   ├── .env.example                         # template fără valori
+│   ├── MaxVanDam.API/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.cs
+│   │   │   ├── ProductController.cs
+│   │   │   ├── UserController.cs
+│   │   │   └── NotificationController.cs
+│   │   └── Program.cs
+│   ├── MaxVanDam.BusinessLayer/
+│   │   ├── BusinessLogic.cs                 # factory
+│   │   ├── Core/                            # XxxLogic : XxxActions, IXxxLogic
+│   │   ├── Structure/                       # XxxActions (acces DB)
+│   │   └── Security/
+│   │       ├── PasswordHasher.cs
+│   │       └── JwtGenerator.cs
+│   ├── MaxVanDam.DataAccessLayer/
+│   │   ├── DbSession.cs                     # CONNECTION_DEFAULT
+│   │   ├── Context/
+│   │   │   ├── MasterDbContext.cs
+│   │   │   ├── UserDbContext.cs
+│   │   │   ├── ProductsDbContext.cs
+│   │   │   └── NotificationsDbContext.cs
+│   │   └── Migrations/
+│   │       ├── Users/
+│   │       ├── Products/
+│   │       └── Notifications/
+│   └── MaxVanDam.Domain/
+│       ├── Entities/
+│       │   ├── User/UserEntity.cs
+│       │   ├── Product/ProductEntity.cs
+│       │   └── Notification/InventoryNotificationEntity.cs
+│       ├── DTOs/
+│       │   ├── Auth/
+│       │   ├── Product/
+│       │   └── Notification/
+│       ├── Interfaces/
+│       │   ├── IAuthLogic.cs
+│       │   ├── IProductLogic.cs
+│       │   ├── IUserLogic.cs
+│       │   └── INotificationLogic.cs
+│       └── ServiceResponse.cs
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   └── types/
+│   └── package.json
+└── docker-compose.yml
+```
+
+## Pornire locală
+
+### Cerințe
+- .NET 8 SDK
+- Node.js 18+
+- Docker (pentru PostgreSQL)
+- EF Core CLI: `dotnet tool install --global dotnet-ef`
+
+### 1. Baza de date (Docker)
 
 ```bash
-# Instalează dependințele
+# din rădăcina proiectului
+cp backend/.env.example backend/.env
+# editează backend/.env cu valorile tale (parole, secrete JWT etc.)
+
+docker-compose up -d
+```
+
+### 2. Migrări EF Core
+
+```bash
+cd backend
+
+# încarcă env vars în shell
+set -a && source .env && set +a
+
+dotnet ef database update --project MaxVanDam.DataAccessLayer --startup-project MaxVanDam.API --context UserDbContext
+dotnet ef database update --project MaxVanDam.DataAccessLayer --startup-project MaxVanDam.API --context ProductsDbContext
+dotnet ef database update --project MaxVanDam.DataAccessLayer --startup-project MaxVanDam.API --context NotificationsDbContext
+```
+
+### 3. Backend (.NET API)
+
+```bash
+cd backend/MaxVanDam.API
+dotnet run
+# API: http://localhost:5000
+# Swagger: http://localhost:5000/swagger
+```
+
+### 4. Frontend (React + Vite)
+
+```bash
+cd frontend
 npm install
-
-# Pornește serverul de development
 npm run dev
-
-# Build pentru producție
-npm run build
+# UI: http://localhost:5173
 ```
 
-Aplicația va rula pe `http://localhost:5173/`
+## Variabile de mediu (`.env`)
 
-## 🔑 Conturi de Test
+| Variabilă | Descriere |
+|---|---|
+| `CONNECTION_DEFAULT` | Connection string PostgreSQL |
+| `AUTH_PEPPER` | Pepper secret pentru hashing parole |
+| `JWT_SECRET` | Secret minim 32 caractere pentru JWT |
+| `JWT_ISSUER` | Issuer token JWT |
+| `JWT_AUDIENCE` | Audience token JWT |
+| `JWT_EXPIRY_MINUTES` | Durata de viață a token-ului (minute) |
+| `POSTGRES_PASSWORD` | Parola PostgreSQL (folosită de docker-compose) |
 
-### Admin
-- Username: `admin`
-- Password: `admin123`
-- Acces: Toate paginile + Admin Dashboard + Adăugare produse
+## Endpoint-uri API
 
-### User
-- Username: `user`
-- Password: `user123`
-- Acces: Home, Products, ProductDetail
+### Auth — `/api/auth`
+| Metodă | Rută | Descriere |
+|---|---|---|
+| POST | `/api/auth/register` | Înregistrare utilizator |
+| POST | `/api/auth/login` | Autentificare, returnează JWT |
 
-## 🏗️ Structura Proiectului
+### Products — `/api/products`
+| Metodă | Rută | Descriere |
+|---|---|---|
+| GET | `/api/products/list` | Listă toate produsele |
+| GET | `/api/products/{id}` | Detalii produs |
+| POST | `/api/products/create` | Adaugă produs |
+| PUT | `/api/products/{id}/update` | Actualizează produs |
+| DELETE | `/api/products/{id}/delete` | Șterge produs |
 
-```
-src/
-├── components/
-│   ├── common/          # Componente reutilizabile
-│   │   ├── Button.tsx
-│   │   ├── Card.tsx
-│   │   └── Input.tsx
-│   ├── layout/          # Layout components
-│   │   ├── Header.tsx
-│   │   └── Footer.tsx
-│   └── ProtectedRoute.tsx
-├── context/
-│   └── AuthContext.tsx  # Context pentru autentificare
-├── data/
-│   └── mockData.ts      # Date simulate
-├── pages/               # Pagini aplicație
-│   ├── Home.tsx
-│   ├── Products.tsx
-│   ├── ProductDetail.tsx
-│   ├── Login.tsx
-│   ├── AdminDashboard.tsx
-│   └── AddProduct.tsx
-├── types/
-│   └── index.ts         # TypeScript interfaces și types
-├── App.tsx
-└── main.tsx
-```
+### Users — `/api/users`
+| Metodă | Rută | Descriere |
+|---|---|---|
+| GET | `/api/users/list` | Listă utilizatori |
+| GET | `/api/users/{id}` | Detalii utilizator |
+| PUT | `/api/users/{id}/update` | Actualizează utilizator |
+| DELETE | `/api/users/{id}/delete` | Șterge utilizator |
 
-## 🛠️ Tehnologii Folosite
+### Notifications — `/api/notifications`
+| Metodă | Rută | Descriere |
+|---|---|---|
+| GET | `/api/notifications/list` | Listă notificări inventar |
+| POST | `/api/notifications/create` | Crează notificare |
+| DELETE | `/api/notifications/{id}/delete` | Șterge notificare |
 
-- **React 19** - Library UI
-- **TypeScript** - Type safety
-- **React Router DOM** - Navigare între pagini
-- **Vite** - Build tool și dev server
-- **CSS3** - Styling responsive
+## Tehnologii
 
-## 📝 Funcționalități Principale
+### Backend
+- **.NET 8** / C# 12
+- **Entity Framework Core** + Npgsql (PostgreSQL)
+- **System.IdentityModel.Tokens.Jwt** 8.16.0
+- **DotNetEnv** 3.1.1
 
-### Pentru toți utilizatorii:
-- Vizualizare listă produse
-- Filtrare produse după categorie
-- Căutare produse
-- Vizualizare detalii produs
-
-### Pentru Admin:
-- Dashboard cu statistici
-- Adăugare produse noi
-- Formulare cu validări complete
-- Gestionare inventar
-
-## 🎨 Design
-
-Design simplu și modern cu:
-- Gradient backgrounds
-- Cards cu hover effects
-- Layout responsive
-- Navigare intuitivă
-- Footer informativ
-
-## 📱 Responsive Design
-
-Aplicația este complet responsive și se adaptează pentru:
-- Desktop (> 768px)
-- Tablet
-- Mobile (< 768px)
-
-## 🔐 Sistem de Autentificare
-
-Aplicația folosește Context API pentru gestionarea autentificării:
-- AuthContext - Provides user state
-- ProtectedRoute - Component pentru protecția rutelor
-- Login/Logout functionality
-- Role-based access control (admin/user)
-
-## ✨ Hooks Utilizate
-
-- `useState` - State management
-- `useEffect` - Side effects și data fetching
-- `useContext` - Acces la AuthContext
-- `useNavigate` - Navigare programatică
-- `useParams` - Extragere parametri din URL
-
-## 📊 Mock Data
-
-Aplicația folosește date simulate pentru:
-- **Users**: 2 utilizatori (admin și user)
-- **Products**: 6 produse piese auto
-- Funcții simulate pentru CRUD operations
-
-## 🚧 Validări Formulare
-
-### Login Form:
-- Validare câmpuri goale
-- Verificare credențiale
-
-### Add Product Form:
-- Validare nume produs (minim 3 caractere)
-- Validare categorie
-- Validare preț (> 0)
-- Validare stoc (>= 0)
-- Validare descriere (minim 10 caractere)
-- Validare URL imagine
-
-## 📄 Licență
-
-Proiect educațional pentru Laborator 1 - Frontend Development
+### Frontend
+- **React 19** + **TypeScript**
+- **Vite** (dev server + build)
+- **React Router DOM**
