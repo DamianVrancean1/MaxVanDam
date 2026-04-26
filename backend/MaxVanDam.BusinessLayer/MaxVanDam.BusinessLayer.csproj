@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MaxVanDam.Domain\MaxVanDam.Domain.csproj" />
-    <ProjectReference Include="..\MaxVanDam.DataAccess\MaxVanDam.DataAccess.csproj" />
+    <ProjectReference Include="..\MaxVanDam.DataAccessLayer\MaxVanDam.DataAccessLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

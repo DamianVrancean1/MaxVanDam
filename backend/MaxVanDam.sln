@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxVanDam.Domain", "MaxVanDam.Domain\MaxVanDam.Domain.csproj", "{8B396FB9-B19C-4D00-8083-C71013D0E8BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxVanDam.DataAccess", "MaxVanDam.DataAccess\MaxVanDam.DataAccess.csproj", "{40BEFABA-BDD4-43DA-8665-466D42EECE56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxVanDam.DataAccessLayer", "MaxVanDam.DataAccessLayer\MaxVanDam.DataAccessLayer.csproj", "{40BEFABA-BDD4-43DA-8665-466D42EECE56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxVanDam.BusinessLayer", "MaxVanDam.BusinessLayer\MaxVanDam.BusinessLayer.csproj", "{831ABFC1-3786-48FD-AC88-6E6D00D2E808}"
 EndProject

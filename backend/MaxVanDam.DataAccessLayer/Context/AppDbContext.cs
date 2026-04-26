@@ -1,7 +1,7 @@
 using MaxVanDam.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MaxVanDam.DataAccess.Context;
+namespace MaxVanDam.DataAccessLayer.Context;
 
 public class AppDbContext : DbContext
 {

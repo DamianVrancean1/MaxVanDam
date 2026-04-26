@@ -1,6 +1,6 @@
 using MaxVanDam.BusinessLayer.DTOs.Product;
 using MaxVanDam.BusinessLayer.Interfaces;
-using MaxVanDam.DataAccess.Context;
+using MaxVanDam.DataAccessLayer.Context;
 using MaxVanDam.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

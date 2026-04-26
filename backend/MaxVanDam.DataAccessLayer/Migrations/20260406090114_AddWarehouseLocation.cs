@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MaxVanDam.DataAccess.Migrations
+namespace MaxVanDam.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
     public partial class AddWarehouseLocation : Migration

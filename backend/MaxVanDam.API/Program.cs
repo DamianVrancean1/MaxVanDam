@@ -1,5 +1,5 @@
 using MaxVanDam.BusinessLayer.Extensions;
-using MaxVanDam.DataAccess.Context;
+using MaxVanDam.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

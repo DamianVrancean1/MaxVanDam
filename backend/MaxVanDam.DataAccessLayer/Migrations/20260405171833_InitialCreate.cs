@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace MaxVanDam.DataAccess.Migrations
+namespace MaxVanDam.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
