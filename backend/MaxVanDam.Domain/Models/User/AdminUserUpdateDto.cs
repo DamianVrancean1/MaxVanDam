@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MaxVanDam.BusinessLayer.DTOs.User;
+namespace MaxVanDam.Domain.Models.User;
 
-public class UpdateRoleDto
+public class AdminUserUpdateDto
 {
     [Required]
     public string Role { get; set; } = string.Empty;

@@ -1,21 +1,21 @@
-using MaxVanDam.BusinessLayer.DTOs.Notification;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.DataAccessLayer.Context;
 using MaxVanDam.Domain.Entities.InventoryNotification;
+using MaxVanDam.Domain.Models.Notification;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.BusinessLayer.Services;
 
 public class InventoryNotificationService : IInventoryNotificationService
 {
-    private readonly AppDbContext _context;
+    private readonly MasterDbContext _context;
 
-    public InventoryNotificationService(AppDbContext context)
+    public InventoryNotificationService(MasterDbContext context)
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<NotificationResponseDto>> GetAllAsync()
+    public async Task<IEnumerable<NotificationInfoDto>> GetAllAsync()
     {
         return await _context.InventoryNotifications
             .OrderByDescending(n => n.CreatedAt)
@@ -23,7 +23,7 @@ public class InventoryNotificationService : IInventoryNotificationService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<NotificationResponseDto>> GetUnreadAsync()
+    public async Task<IEnumerable<NotificationInfoDto>> GetUnreadAsync()
     {
         return await _context.InventoryNotifications
             .Where(n => !n.IsRead)
@@ -32,7 +32,7 @@ public class InventoryNotificationService : IInventoryNotificationService
             .ToListAsync();
     }
 
-    public async Task<NotificationResponseDto?> MarkAsReadAsync(int id)
+    public async Task<NotificationInfoDto?> MarkAsReadAsync(int id)
     {
         var notification = await _context.InventoryNotifications.FindAsync(id);
         if (notification is null) return null;
@@ -42,7 +42,7 @@ public class InventoryNotificationService : IInventoryNotificationService
         return MapToDto(notification);
     }
 
-    public async Task<NotificationResponseDto> CreateAsync(int productId)
+    public async Task<NotificationInfoDto> CreateAsync(int productId)
     {
         var product = await _context.Products.FindAsync(productId)
             ?? throw new ArgumentException($"Produsul cu id {productId} nu există.");
@@ -73,7 +73,7 @@ public class InventoryNotificationService : IInventoryNotificationService
         return MapToDto(notification);
     }
 
-    private static NotificationResponseDto MapToDto(InventoryNotificationEntity n) => new()
+    private static NotificationInfoDto MapToDto(InventoryNotificationEntity n) => new()
     {
         Id = n.Id,
         ProductId = n.ProductId,

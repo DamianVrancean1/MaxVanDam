@@ -1,6 +1,6 @@
-namespace MaxVanDam.BusinessLayer.DTOs.User;
+namespace MaxVanDam.Domain.Models.Auth;
 
-public class UserResponseDto
+public class AuthResponseDto
 {
     public int Id { get; set; }
     public string Username { get; set; } = string.Empty;

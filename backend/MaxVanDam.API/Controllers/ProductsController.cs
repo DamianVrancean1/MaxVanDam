@@ -1,5 +1,5 @@
-using MaxVanDam.BusinessLayer.DTOs.Product;
 using MaxVanDam.BusinessLayer.Interfaces;
+using MaxVanDam.Domain.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaxVanDam.API.Controllers;
@@ -16,17 +16,14 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ProductInfoDto>>> GetAll()
     {
         var products = await _productService.GetAllAsync();
         return Ok(products);
     }
 
     [HttpGet("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ProductResponseDto>> GetById(int id)
+    public async Task<ActionResult<ProductInfoDto>> GetById(int id)
     {
         var product = await _productService.GetByIdAsync(id);
         if (product is null)
@@ -36,26 +33,15 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductResponseDto>> Create([FromBody] SaveProductDto dto)
+    public async Task<ActionResult<ProductInfoDto>> Create([FromBody] ProductCreateDto dto)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         var product = await _productService.CreateAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
     }
 
     [HttpPut("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ProductResponseDto>> Update(int id, [FromBody] SaveProductDto dto)
+    public async Task<ActionResult<ProductInfoDto>> Update(int id, [FromBody] ProductUpdateDto dto)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         var product = await _productService.UpdateAsync(id, dto);
         if (product is null)
             return NotFound(new { message = $"Produsul cu id {id} nu a fost găsit." });
@@ -64,8 +50,6 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
         var deleted = await _productService.DeleteAsync(id);

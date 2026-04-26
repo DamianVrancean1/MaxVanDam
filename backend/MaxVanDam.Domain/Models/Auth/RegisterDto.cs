@@ -1,15 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MaxVanDam.BusinessLayer.DTOs.User;
+namespace MaxVanDam.Domain.Models.Auth;
 
-public class RegisterRequestDto
+public class RegisterDto
 {
-    [Required, MaxLength(100)]
+    [Required]
+    [StringLength(100)]
     public string Username { get; set; } = string.Empty;
 
-    [Required, MinLength(6)]
+    [Required]
+    [MinLength(6)]
     public string Password { get; set; } = string.Empty;
 
-    [Required, EmailAddress, MaxLength(200)]
+    [Required]
+    [EmailAddress]
+    [StringLength(200)]
     public string Email { get; set; } = string.Empty;
 }

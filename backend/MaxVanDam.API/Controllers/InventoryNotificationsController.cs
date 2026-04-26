@@ -1,5 +1,5 @@
-using MaxVanDam.BusinessLayer.DTOs.Notification;
 using MaxVanDam.BusinessLayer.Interfaces;
+using MaxVanDam.Domain.Models.Notification;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaxVanDam.API.Controllers;
@@ -16,25 +16,21 @@ public class InventoryNotificationsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<NotificationResponseDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<NotificationInfoDto>>> GetAll()
     {
         var notifications = await _notificationService.GetAllAsync();
         return Ok(notifications);
     }
 
     [HttpGet("unread")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<NotificationResponseDto>>> GetUnread()
+    public async Task<ActionResult<IEnumerable<NotificationInfoDto>>> GetUnread()
     {
         var notifications = await _notificationService.GetUnreadAsync();
         return Ok(notifications);
     }
 
     [HttpPatch("{id:int}/read")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<NotificationResponseDto>> MarkAsRead(int id)
+    public async Task<ActionResult<NotificationInfoDto>> MarkAsRead(int id)
     {
         var notification = await _notificationService.MarkAsReadAsync(id);
         if (notification is null)
@@ -44,9 +40,7 @@ public class InventoryNotificationsController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<NotificationResponseDto>> Create([FromBody] int productId)
+    public async Task<ActionResult<NotificationInfoDto>> Create([FromBody] int productId)
     {
         try
         {

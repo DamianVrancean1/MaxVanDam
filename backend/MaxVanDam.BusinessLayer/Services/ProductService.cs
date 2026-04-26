@@ -1,34 +1,35 @@
-using MaxVanDam.BusinessLayer.DTOs.Product;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.DataAccessLayer.Context;
 using MaxVanDam.Domain.Entities.Product;
+
+using MaxVanDam.Domain.Models.Product;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.BusinessLayer.Services;
 
 public class ProductService : IProductService
 {
-    private readonly AppDbContext _context;
+    private readonly MasterDbContext _context;
 
-    public ProductService(AppDbContext context)
+    public ProductService(MasterDbContext context)
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<ProductResponseDto>> GetAllAsync()
+    public async Task<IEnumerable<ProductInfoDto>> GetAllAsync()
     {
         return await _context.Products
             .Select(p => MapToDto(p))
             .ToListAsync();
     }
 
-    public async Task<ProductResponseDto?> GetByIdAsync(int id)
+    public async Task<ProductInfoDto?> GetByIdAsync(int id)
     {
         var product = await _context.Products.FindAsync(id);
         return product is null ? null : MapToDto(product);
     }
 
-    public async Task<ProductResponseDto> CreateAsync(SaveProductDto dto)
+    public async Task<ProductInfoDto> CreateAsync(ProductCreateDto dto)
     {
         var product = new ProductEntity
         {
@@ -50,7 +51,7 @@ public class ProductService : IProductService
         return MapToDto(product);
     }
 
-    public async Task<ProductResponseDto?> UpdateAsync(int id, SaveProductDto dto)
+    public async Task<ProductInfoDto?> UpdateAsync(int id, ProductUpdateDto dto)
     {
         var product = await _context.Products.FindAsync(id);
         if (product is null) return null;
@@ -81,7 +82,7 @@ public class ProductService : IProductService
         return true;
     }
 
-    private static ProductResponseDto MapToDto(ProductEntity p) => new()
+    private static ProductInfoDto MapToDto(ProductEntity p) => new()
     {
         Id = p.Id,
         Name = p.Name,

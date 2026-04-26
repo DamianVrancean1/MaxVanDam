@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MaxVanDam.BusinessLayer.DTOs.User;
+namespace MaxVanDam.Domain.Models.Auth;
 
-public class LoginRequestDto
+public class LoginDto
 {
     [Required]
     public string Username { get; set; } = string.Empty;

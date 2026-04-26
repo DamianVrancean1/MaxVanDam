@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MaxVanDam.DataAccessLayer.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(MasterDbContext))]
     [Migration("20260405171833_InitialCreate")]
     partial class InitialCreate
     {

@@ -1,34 +1,35 @@
-using MaxVanDam.BusinessLayer.DTOs.User;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.DataAccessLayer.Context;
 using MaxVanDam.Domain.Entities.User;
+using MaxVanDam.Domain.Models.Auth;
+using MaxVanDam.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.BusinessLayer.Services;
 
 public class UserService : IUserService
 {
-    private readonly AppDbContext _context;
+    private readonly MasterDbContext _context;
 
-    public UserService(AppDbContext context)
+    public UserService(MasterDbContext context)
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<UserResponseDto>> GetAllAsync()
+    public async Task<IEnumerable<UserInfoDto>> GetAllAsync()
     {
         return await _context.Users
-            .Select(u => MapToDto(u))
+            .Select(u => MapToUserInfo(u))
             .ToListAsync();
     }
 
-    public async Task<UserResponseDto?> GetByIdAsync(int id)
+    public async Task<UserInfoDto?> GetByIdAsync(int id)
     {
         var user = await _context.Users.FindAsync(id);
-        return user is null ? null : MapToDto(user);
+        return user is null ? null : MapToUserInfo(user);
     }
 
-    public async Task<UserResponseDto?> LoginAsync(LoginRequestDto dto)
+    public async Task<AuthResponseDto?> LoginAsync(LoginDto dto)
     {
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Username == dto.Username);
@@ -36,10 +37,10 @@ public class UserService : IUserService
         if (user is null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             return null;
 
-        return MapToDto(user);
+        return MapToAuthResponse(user);
     }
 
-    public async Task<UserResponseDto> RegisterAsync(RegisterRequestDto dto)
+    public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
     {
         var user = new UserEntity
         {
@@ -52,17 +53,17 @@ public class UserService : IUserService
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        return MapToDto(user);
+        return MapToAuthResponse(user);
     }
 
-    public async Task<UserResponseDto?> UpdateRoleAsync(int id, UpdateRoleDto dto)
+    public async Task<UserInfoDto?> UpdateRoleAsync(int id, AdminUserUpdateDto dto)
     {
         var user = await _context.Users.FindAsync(id);
         if (user is null) return null;
 
         user.Role = dto.Role;
         await _context.SaveChangesAsync();
-        return MapToDto(user);
+        return MapToUserInfo(user);
     }
 
     public async Task<bool> DeleteAsync(int id)
@@ -75,7 +76,16 @@ public class UserService : IUserService
         return true;
     }
 
-    private static UserResponseDto MapToDto(UserEntity u) => new()
+    private static AuthResponseDto MapToAuthResponse(UserEntity u) => new()
+    {
+        Id = u.Id,
+        Username = u.Username,
+        Role = u.Role,
+        Email = u.Email,
+        CreatedAt = u.CreatedAt
+    };
+
+    private static UserInfoDto MapToUserInfo(UserEntity u) => new()
     {
         Id = u.Id,
         Username = u.Username,

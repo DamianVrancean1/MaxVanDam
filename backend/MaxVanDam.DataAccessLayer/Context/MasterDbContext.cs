@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.DataAccessLayer.Context;
 
-public class AppDbContext : DbContext
+public sealed class MasterDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
     public DbSet<ProductEntity> Products => Set<ProductEntity>();
     public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<InventoryNotificationEntity> InventoryNotifications => Set<InventoryNotificationEntity>();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseNpgsql(DbSession.ConnectionString);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,8 +29,7 @@ public class AppDbContext : DbContext
             entity.Property(p => p.Description).HasMaxLength(2000);
             entity.Property(p => p.ShortDescription).HasMaxLength(500);
             entity.Property(p => p.ImageUrl).HasMaxLength(500);
-            entity.Property(p => p.Compatibility)
-                  .HasColumnType("text[]");
+            entity.Property(p => p.Compatibility).HasColumnType("text[]");
         });
 
         modelBuilder.Entity<UserEntity>(entity =>

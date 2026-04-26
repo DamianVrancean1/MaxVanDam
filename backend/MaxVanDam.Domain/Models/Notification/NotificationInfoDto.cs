@@ -1,6 +1,6 @@
-namespace MaxVanDam.BusinessLayer.DTOs.Notification;
+namespace MaxVanDam.Domain.Models.Notification;
 
-public class NotificationResponseDto
+public class NotificationInfoDto
 {
     public int Id { get; set; }
     public int ProductId { get; set; }

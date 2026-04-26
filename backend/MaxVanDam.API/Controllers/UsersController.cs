@@ -1,5 +1,6 @@
-using MaxVanDam.BusinessLayer.DTOs.User;
 using MaxVanDam.BusinessLayer.Interfaces;
+using MaxVanDam.Domain.Models.Auth;
+using MaxVanDam.Domain.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaxVanDam.API.Controllers;
@@ -16,17 +17,14 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<UserResponseDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<UserInfoDto>>> GetAll()
     {
         var users = await _userService.GetAllAsync();
         return Ok(users);
     }
 
     [HttpGet("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<UserResponseDto>> GetById(int id)
+    public async Task<ActionResult<UserInfoDto>> GetById(int id)
     {
         var user = await _userService.GetByIdAsync(id);
         if (user is null)
@@ -36,14 +34,8 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("login")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserResponseDto>> Login([FromBody] LoginRequestDto dto)
+    public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto dto)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         var user = await _userService.LoginAsync(dto);
         if (user is null)
             return Unauthorized(new { message = "Username sau parolă incorecte." });
@@ -52,13 +44,8 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("register")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<UserResponseDto>> Register([FromBody] RegisterRequestDto dto)
+    public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto dto)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         try
         {
             var user = await _userService.RegisterAsync(dto);
@@ -71,9 +58,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPatch("{id:int}/role")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<UserResponseDto>> UpdateRole(int id, [FromBody] UpdateRoleDto dto)
+    public async Task<ActionResult<UserInfoDto>> UpdateRole(int id, [FromBody] AdminUserUpdateDto dto)
     {
         var user = await _userService.UpdateRoleAsync(id, dto);
         if (user is null)
@@ -83,8 +68,6 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
         var deleted = await _userService.DeleteAsync(id);

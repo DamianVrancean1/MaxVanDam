@@ -1,6 +1,5 @@
 using MaxVanDam.BusinessLayer.Extensions;
 using MaxVanDam.DataAccessLayer.Context;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +21,7 @@ builder.Services.AddCors(options =>
 });
 
 // Entity Framework Core + PostgreSQL
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<MasterDbContext>();
 
 // Business Layer services (IProductService, IUserService, IInventoryNotificationService)
 builder.Services.AddBusinessLayerServices();

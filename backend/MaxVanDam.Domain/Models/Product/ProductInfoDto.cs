@@ -1,6 +1,6 @@
-namespace MaxVanDam.BusinessLayer.DTOs.Product;
+namespace MaxVanDam.Domain.Models.Product;
 
-public class ProductResponseDto
+public class ProductInfoDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

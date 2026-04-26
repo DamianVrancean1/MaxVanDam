@@ -1,13 +1,14 @@
-using MaxVanDam.BusinessLayer.DTOs.User;
+using MaxVanDam.Domain.Models.Auth;
+using MaxVanDam.Domain.Models.User;
 
 namespace MaxVanDam.BusinessLayer.Interfaces;
 
 public interface IUserService
 {
-    Task<IEnumerable<UserResponseDto>> GetAllAsync();
-    Task<UserResponseDto?> GetByIdAsync(int id);
-    Task<UserResponseDto?> LoginAsync(LoginRequestDto dto);
-    Task<UserResponseDto> RegisterAsync(RegisterRequestDto dto);
-    Task<UserResponseDto?> UpdateRoleAsync(int id, UpdateRoleDto dto);
+    Task<IEnumerable<UserInfoDto>> GetAllAsync();
+    Task<UserInfoDto?> GetByIdAsync(int id);
+    Task<AuthResponseDto?> LoginAsync(LoginDto dto);
+    Task<AuthResponseDto> RegisterAsync(RegisterDto dto);
+    Task<UserInfoDto?> UpdateRoleAsync(int id, AdminUserUpdateDto dto);
     Task<bool> DeleteAsync(int id);
 }
