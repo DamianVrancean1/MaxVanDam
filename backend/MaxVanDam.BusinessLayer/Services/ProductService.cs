@@ -1,7 +1,7 @@
 using MaxVanDam.BusinessLayer.DTOs.Product;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.DataAccessLayer.Context;
-using MaxVanDam.Domain.Entities;
+using MaxVanDam.Domain.Entities.Product;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.BusinessLayer.Services;
@@ -30,7 +30,7 @@ public class ProductService : IProductService
 
     public async Task<ProductResponseDto> CreateAsync(SaveProductDto dto)
     {
-        var product = new Product
+        var product = new ProductEntity
         {
             Name = dto.Name,
             Brand = dto.Brand,
@@ -81,7 +81,7 @@ public class ProductService : IProductService
         return true;
     }
 
-    private static ProductResponseDto MapToDto(Product p) => new()
+    private static ProductResponseDto MapToDto(ProductEntity p) => new()
     {
         Id = p.Id,
         Name = p.Name,

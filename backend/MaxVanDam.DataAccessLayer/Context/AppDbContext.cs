@@ -1,4 +1,6 @@
-using MaxVanDam.Domain.Entities;
+using MaxVanDam.Domain.Entities.InventoryNotification;
+using MaxVanDam.Domain.Entities.Product;
+using MaxVanDam.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.DataAccessLayer.Context;
@@ -7,15 +9,15 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Product> Products => Set<Product>();
-    public DbSet<User> Users => Set<User>();
-    public DbSet<InventoryNotification> InventoryNotifications => Set<InventoryNotification>();
+    public DbSet<ProductEntity> Products => Set<ProductEntity>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
+    public DbSet<InventoryNotificationEntity> InventoryNotifications => Set<InventoryNotificationEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Product>(entity =>
+        modelBuilder.Entity<ProductEntity>(entity =>
         {
             entity.HasKey(p => p.Id);
             entity.Property(p => p.Name).IsRequired().HasMaxLength(200);
@@ -30,7 +32,7 @@ public class AppDbContext : DbContext
                   .HasColumnType("text[]");
         });
 
-        modelBuilder.Entity<User>(entity =>
+        modelBuilder.Entity<UserEntity>(entity =>
         {
             entity.HasKey(u => u.Id);
             entity.HasIndex(u => u.Username).IsUnique();
@@ -41,7 +43,7 @@ public class AppDbContext : DbContext
             entity.Property(u => u.Email).IsRequired().HasMaxLength(200);
         });
 
-        modelBuilder.Entity<InventoryNotification>(entity =>
+        modelBuilder.Entity<InventoryNotificationEntity>(entity =>
         {
             entity.HasKey(n => n.Id);
             entity.Property(n => n.ProductName).IsRequired().HasMaxLength(200);

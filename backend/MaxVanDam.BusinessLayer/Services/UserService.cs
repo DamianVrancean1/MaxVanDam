@@ -1,7 +1,7 @@
 using MaxVanDam.BusinessLayer.DTOs.User;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.DataAccessLayer.Context;
-using MaxVanDam.Domain.Entities;
+using MaxVanDam.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.BusinessLayer.Services;
@@ -41,7 +41,7 @@ public class UserService : IUserService
 
     public async Task<UserResponseDto> RegisterAsync(RegisterRequestDto dto)
     {
-        var user = new User
+        var user = new UserEntity
         {
             Username = dto.Username,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
@@ -75,7 +75,7 @@ public class UserService : IUserService
         return true;
     }
 
-    private static UserResponseDto MapToDto(User u) => new()
+    private static UserResponseDto MapToDto(UserEntity u) => new()
     {
         Id = u.Id,
         Username = u.Username,

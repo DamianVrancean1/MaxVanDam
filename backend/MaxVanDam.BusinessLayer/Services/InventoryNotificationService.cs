@@ -1,7 +1,7 @@
 using MaxVanDam.BusinessLayer.DTOs.Notification;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.DataAccessLayer.Context;
-using MaxVanDam.Domain.Entities;
+using MaxVanDam.Domain.Entities.InventoryNotification;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.BusinessLayer.Services;
@@ -59,7 +59,7 @@ public class InventoryNotificationService : IInventoryNotificationService
             return existingDto;
         }
 
-        var notification = new InventoryNotification
+        var notification = new InventoryNotificationEntity
         {
             ProductId = productId,
             ProductName = product.Name,
@@ -73,7 +73,7 @@ public class InventoryNotificationService : IInventoryNotificationService
         return MapToDto(notification);
     }
 
-    private static NotificationResponseDto MapToDto(InventoryNotification n) => new()
+    private static NotificationResponseDto MapToDto(InventoryNotificationEntity n) => new()
     {
         Id = n.Id,
         ProductId = n.ProductId,
