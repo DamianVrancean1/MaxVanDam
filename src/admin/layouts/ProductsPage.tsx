@@ -42,7 +42,7 @@ const ProductsPage = () => {
                 <td>{product.name}</td>
                 <td>{product.brand || '-'}</td>
                 <td>{product.category}</td>
-                <td>{product.price} RON</td>
+                <td>{product.price} MDL</td>
                 <td>{product.stock}</td>
                 <td>
                   <div className="admin-actions">
