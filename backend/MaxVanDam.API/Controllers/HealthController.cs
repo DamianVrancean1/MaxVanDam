@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace MaxVanDam.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/health")]
 public class HealthController : ControllerBase
 {
     [HttpGet]
-    public IActionResult Get()
-    {
-        return Ok(new { status = "healthy", timestamp = DateTime.UtcNow });
-    }
+    public IActionResult Get() => Ok(new { status = "healthy", timestamp = DateTime.UtcNow });
 }
