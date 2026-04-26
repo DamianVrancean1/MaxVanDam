@@ -4,6 +4,7 @@ import DashboardPage from './layouts/DashboardPage';
 import ProductsPage from './layouts/ProductsPage';
 import ProductFormPage from './layouts/ProductFormPage';
 import ProfilePage from './layouts/ProfilePage';
+import CategoriesPage from './layouts/CategoriesPage';
 import '../styles/AdminTheme.css';
 
 const AdminShell = ({ children }: { children: React.ReactNode }) => {
@@ -12,6 +13,7 @@ const AdminShell = ({ children }: { children: React.ReactNode }) => {
     { to: '/admin/dashboard', label: 'Dashboard' },
     { to: '/admin/products', label: 'Produse' },
     { to: '/admin/products/new', label: 'Adaugă produs' },
+    { to: '/admin/categories', label: 'Categorii' },
     { to: '/admin/profile', label: 'Profil' }
   ];
 
@@ -69,6 +71,7 @@ const AdminApp = () => {
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/new" element={<ProductFormPage mode="create" />} />
         <Route path="products/:id/edit" element={<ProductFormPage mode="edit" />} />
+        <Route path="categories" element={<CategoriesPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>

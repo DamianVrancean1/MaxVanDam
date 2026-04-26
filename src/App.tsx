@@ -18,10 +18,12 @@ import './styles/App.css';
 const AppLayout = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAuthRoute = location.pathname === '/login';
+  const hideChrome = isAdminRoute || isAuthRoute;
 
   return (
     <div className="app">
-      {!isAdminRoute && <Header />}
+      {!hideChrome && <Header />}
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -50,7 +52,7 @@ const AppLayout = () => {
           <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </main>
-      {!isAdminRoute && <Footer />}
+      {!hideChrome && <Footer />}
     </div>
   );
 };

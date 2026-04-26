@@ -170,23 +170,24 @@ npm run dev
 | GET | `/api/products/list` | Listă toate produsele |
 | GET | `/api/products/{id}` | Detalii produs |
 | POST | `/api/products/create` | Adaugă produs |
-| PUT | `/api/products/{id}/update` | Actualizează produs |
-| DELETE | `/api/products/{id}/delete` | Șterge produs |
+| PUT | `/api/products/{id}` | Actualizează produs |
+| DELETE | `/api/products/{id}` | Șterge produs |
 
 ### Users — `/api/users`
 | Metodă | Rută | Descriere |
 |---|---|---|
 | GET | `/api/users/list` | Listă utilizatori |
 | GET | `/api/users/{id}` | Detalii utilizator |
-| PUT | `/api/users/{id}/update` | Actualizează utilizator |
-| DELETE | `/api/users/{id}/delete` | Șterge utilizator |
+| PUT | `/api/users/{id}` | Actualizează utilizator |
+| DELETE | `/api/users/{id}` | Șterge utilizator |
 
 ### Notifications — `/api/notifications`
 | Metodă | Rută | Descriere |
 |---|---|---|
 | GET | `/api/notifications/list` | Listă notificări inventar |
 | POST | `/api/notifications/create` | Crează notificare |
-| DELETE | `/api/notifications/{id}/delete` | Șterge notificare |
+| PATCH | `/api/notifications/{id}/read` | Marchează ca citită |
+| DELETE | `/api/notifications/{id}` | Șterge notificare |
 
 ## Tehnologii
 
