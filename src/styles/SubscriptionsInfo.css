@@ -1,0 +1,195 @@
+/* ─── Page Wrapper ────────────────────────────────────── */
+.subscriptions-info-page {
+  font-family: 'Inter', sans-serif;
+  color: #1b2030;
+  background: #f4f6fa;
+  min-height: 100vh;
+}
+
+/* ─── Back Button ─────────────────────────────────────── */
+.sub-back-btn {
+  display: inline-block;
+  margin: 1.5rem 2rem;
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #1b2030;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.sub-back-btn:hover { background: #f1f5f9; }
+
+/* ─── Hero ────────────────────────────────────────────── */
+.sub-hero {
+  background: linear-gradient(135deg, #1b2030, #232a3f);
+  color: #fff;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.sub-hero-content { max-width: 720px; margin: 0 auto; }
+
+.sub-hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.sub-hero p {
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.75;
+  font-size: 1rem;
+}
+
+/* ─── Plans Section ───────────────────────────────────── */
+.sub-plans {
+  padding: 4rem 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.sub-plans h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.sub-quantity-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ─── Plans Grid ──────────────────────────────────────── */
+.sub-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ─── Plan Card ───────────────────────────────────────── */
+.sub-plan-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+
+.sub-plan-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+
+.sub-plan-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sub-plan-price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #d63384;
+}
+
+.sub-plan-card ul {
+  padding-left: 1.25rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sub-plan-card li {
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+/* ─── Featured Card ───────────────────────────────────── */
+.sub-plan-featured {
+  border-color: #d63384;
+  box-shadow: 0 4px 24px rgba(214, 51, 132, 0.12);
+}
+
+.sub-plan-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #d63384, #f06595);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+/* ─── Plan Button ─────────────────────────────────────── */
+.sub-plan-btn {
+  margin-top: auto;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #d63384, #f06595);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.sub-plan-btn:hover { opacity: 0.88; }
+
+/* ─── Footer ──────────────────────────────────────────── */
+.sub-footer {
+  background: linear-gradient(135deg, #1b2030, #232a3f);
+  color: #fff;
+  padding: 3rem 2rem 1.5rem;
+  margin-top: 4rem;
+}
+
+.sub-footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 960px;
+  margin: 0 auto 2rem;
+}
+
+.sub-footer-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; }
+
+.sub-footer-section p {
+  margin: 0 0 0.3rem;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.sub-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 1.25rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: space-between;
+  max-width: 960px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .sub-hero h1 { font-size: 1.6rem; }
+  .sub-footer-bottom { justify-content: center; }
+}

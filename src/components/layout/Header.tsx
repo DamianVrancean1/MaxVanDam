@@ -32,6 +32,18 @@ const Header = () => {
               </Link>
             </div>
 
+            <div className="btn btn-pink">
+              <Link to="/about" className="nav-btn">
+                Despre noi
+              </Link>
+            </div>
+
+            <div className="btn btn-pink">
+              <Link to="/subscriptions" className="nav-btn">
+                Abonamente
+              </Link>
+            </div>
+
             {user?.role === "admin" && (
                 <>
                   <div className="btn btn-pink">

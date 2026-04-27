@@ -13,13 +13,24 @@ import Unauthorized401 from './pages/Unauthorized401';
 import Forbidden403 from './pages/Forbidden403';
 import NotFound404 from './pages/NotFound404';
 import AdminApp from './admin/AdminApp';
+import About from './pages/About';
+import Register from './pages/Register';
+import InventoryVisibility from './pages/InventoryVisibility';
+import DetailedInfoShowcase from './pages/DetailedInfoShowcase';
+import SmartOrganizationShowcase from './pages/SmartOrganizationShowcase';
+import SubscriptionsInfo from './pages/SubscriptionsInfo';
+import SubscriptionsPage from './pages/Subscriptions';
 import './styles/App.css';
 
 const AppLayout = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const isAuthRoute = location.pathname === '/login';
-  const hideChrome = isAdminRoute || isAuthRoute;
+  const isAuthRoute = location.pathname === '/login' || location.pathname === '/register';
+  const isShowcaseRoute =
+    location.pathname.startsWith('/inventory-visibility') ||
+    location.pathname.startsWith('/informatii-detaliate') ||
+    location.pathname.startsWith('/organizare-inteligenta');
+  const hideChrome = isAdminRoute || isAuthRoute || isShowcaseRoute;
 
   return (
     <div className="app">
@@ -30,6 +41,13 @@ const AppLayout = () => {
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/subscriptions" element={<SubscriptionsPage />} />
+          <Route path="/subscriptions-info" element={<SubscriptionsInfo />} />
+          <Route path="/inventory-visibility" element={<InventoryVisibility />} />
+          <Route path="/informatii-detaliate" element={<DetailedInfoShowcase />} />
+          <Route path="/organizare-inteligenta" element={<SmartOrganizationShowcase />} />
           <Route path="/401" element={<Unauthorized401 />} />
           <Route path="/403" element={<Forbidden403 />} />
           <Route path="/404" element={<NotFound404 />} />
