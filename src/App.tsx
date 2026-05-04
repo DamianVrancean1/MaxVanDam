@@ -20,6 +20,9 @@ import DetailedInfoShowcase from './pages/DetailedInfoShowcase';
 import SmartOrganizationShowcase from './pages/SmartOrganizationShowcase';
 import SubscriptionsInfo from './pages/SubscriptionsInfo';
 import SubscriptionsPage from './pages/Subscriptions';
+import Pricing from './pages/Pricing';
+import PricingPlanDetails from './pages/PricingPlanDetails';
+import PricingContact from './pages/PricingContact';
 import './styles/App.css';
 
 const AppLayout = () => {
@@ -38,13 +41,30 @@ const AppLayout = () => {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={
+              <ProtectedRoute>
+                <ProductDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
           <Route path="/subscriptions-info" element={<SubscriptionsInfo />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/pricing/:planId/details" element={<PricingPlanDetails />} />
+          <Route path="/pricing/:planId/contact" element={<PricingContact />} />
           <Route path="/inventory-visibility" element={<InventoryVisibility />} />
           <Route path="/informatii-detaliate" element={<DetailedInfoShowcase />} />
           <Route path="/organizare-inteligenta" element={<SmartOrganizationShowcase />} />

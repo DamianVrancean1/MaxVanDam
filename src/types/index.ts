@@ -5,9 +5,27 @@ export type UserRole = 'admin' | 'user';
 export interface User {
   id: number;
   username: string;
-  password: string;
+  password?: string;
   role: UserRole;
   email: string;
+}
+
+export interface AuthResponse {
+  id: number;
+  username: string;
+  role: string;
+  email: string;
+  createdAt: string;
+  token?: string;
+}
+
+export interface AuthContextType {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  login: (username: string, password: string) => Promise<User | null>;
+  logout: () => void;
+  isAdmin: () => boolean;
 }
 
 export interface Product {
@@ -23,13 +41,6 @@ export interface Product {
   compatibility?: string[];
   description: string;
   imageUrl: string;
-}
-
-export interface AuthContextType {
-  user: User | null;
-  login: (username: string, password: string) => boolean;
-  logout: () => void;
-  isAdmin: () => boolean;
 }
 
 export interface ProductFormData {

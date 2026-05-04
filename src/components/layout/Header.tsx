@@ -26,11 +26,13 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="btn btn-pink">
-              <Link to="/products" className="nav-btn">
-                Produse
-              </Link>
-            </div>
+            {user && (
+              <div className="btn btn-pink">
+                <Link to="/products" className="nav-btn">
+                  Produse
+                </Link>
+              </div>
+            )}
 
             <div className="btn btn-pink">
               <Link to="/about" className="nav-btn">
@@ -39,7 +41,7 @@ const Header = () => {
             </div>
 
             <div className="btn btn-pink">
-              <Link to="/subscriptions" className="nav-btn">
+              <Link to="/pricing" className="nav-btn">
                 Abonamente
               </Link>
             </div>
@@ -91,4 +93,3 @@ const Header = () => {
 };
 
 export default Header;
-

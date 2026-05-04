@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import '../styles/Login.css';
+
+interface LocationState {
+  from?: string;
+}
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -11,8 +15,9 @@ const Login = () => {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -21,15 +26,25 @@ const Login = () => {
       return;
     }
 
-    const success = login(username, password);
+    const loggedUser = await login(username, password);
 
-    if (success) {
-      if (username === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/');
-      }
+    if (!loggedUser) {
+      setError('Credențiale invalide. Verifică username și parola.');
+      return;
     }
+
+    const state = location.state as LocationState | null;
+    if (state?.from) {
+      navigate(state.from, { replace: true });
+      return;
+    }
+
+    if (loggedUser.role === 'admin') {
+      navigate('/admin/dashboard', { replace: true });
+      return;
+    }
+
+    navigate('/products', { replace: true });
   };
 
   return (
