@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/InventoryVisibility.css';
 
@@ -77,12 +77,12 @@ const demoActivity: DemoActivity[] = [
 const InventoryVisibility = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleExitSite = () => {
     logout();
+    navigate('/');
   };
-
-  void handleExitSite;
 
   return (
     <div className={`inventory-dashboard ${isDarkTheme ? 'inventory-theme-dark' : 'inventory-theme-light'}`}>
@@ -94,6 +94,7 @@ const InventoryVisibility = () => {
             <span>Demo UI - Management depozit</span>
           </div>
         </div>
+
         <nav className="inventory-nav" aria-label="Navigatie demo dashboard">
           {sidebarItems.map((item) => (
             <span key={item} className={`inventory-nav-link ${item === 'Vizibilitate inventar' ? 'active' : ''}`}>
@@ -106,17 +107,22 @@ const InventoryVisibility = () => {
       <section className="inventory-main">
         <header className="inventory-topbar">
           <div>
-            <div className="inventory-demo-badge-row">
-              <span className="inventory-demo-pill inventory-demo-pill-soft">
-                <span className="inventory-demo-icon">UI</span>
+            <div className="inventory-demo-badge-row" aria-label="Demo badge variants preview">
+              <span className="inventory-demo-pill inventory-demo-pill-soft" aria-label="Demo showcase badge soft">
+                <span className="inventory-demo-icon" aria-hidden="true">UI</span>
                 <span className="inventory-demo-label">DEMO / SHOWCASE UI</span>
+              </span>
+              <span className="inventory-demo-pill inventory-demo-pill-dark" aria-label="Demo showcase badge dark">
+                <span className="inventory-demo-icon" aria-hidden="true">UI</span>
+                <span className="inventory-demo-label">DARK VARIANT</span>
               </span>
               <button
                 type="button"
                 className={`inventory-demo-switch ${isDarkTheme ? 'is-on' : ''}`}
                 role="switch"
                 aria-checked={isDarkTheme}
-                onClick={() => setIsDarkTheme((prev) => !prev)}
+                aria-label="Comuta tema demo dark/white"
+                onClick={() => setIsDarkTheme((previous) => !previous)}
               >
                 <span className="inventory-demo-switch-text">{isDarkTheme ? 'Dark theme' : 'White theme'}</span>
                 <span className="inventory-demo-switch-track">
@@ -125,16 +131,21 @@ const InventoryVisibility = () => {
               </button>
             </div>
             <h1>Vizibilitate inventar</h1>
-            <p>Monitorizezi stocul in timp real, vezi rapid piesele critice si iei decizii operationale mai rapide.</p>
+            <p>
+              Monitorizezi stocul in timp real, vezi rapid piesele critice si iei decizii operationale
+              mai rapide pentru depozit.
+            </p>
             <p className="inventory-muted">Pagina demonstrativa: exemplu de UI care poate fi oferit clientilor.</p>
           </div>
           <div className="inventory-topbar-actions">
-            <Link to="/" className="back-button">← Înapoi la site</Link>
-            <button type="button" className="inventory-primary-btn">Vezi produsele</button>
+            <button type="button" className="inventory-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
+            <button type="button" className="inventory-primary-btn" aria-label="Demo call to action">
+              Vezi produsele
+            </button>
           </div>
         </header>
 
-        <section className="inventory-stats-grid">
+        <section className="inventory-stats-grid" aria-label="Statistici demo inventar">
           {demoStats.map((stat) => (
             <article key={stat.label} className="inventory-stat-card">
               <span>{stat.label}</span>
@@ -150,11 +161,16 @@ const InventoryVisibility = () => {
               <h2>Stoc in timp real</h2>
               <span className="inventory-muted">Tabel demonstrativ</span>
             </div>
+
             <div className="inventory-table-wrap">
               <table className="inventory-table">
                 <thead>
                   <tr>
-                    <th>Produs</th><th>Cod</th><th>Locatie</th><th>Stoc</th><th>Status</th>
+                    <th>Produs</th>
+                    <th>Cod</th>
+                    <th>Locatie</th>
+                    <th>Stoc</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -164,7 +180,9 @@ const InventoryVisibility = () => {
                       <td>{row.code}</td>
                       <td>{row.location}</td>
                       <td>{row.stock}</td>
-                      <td><span className={`stock-badge ${row.status}`}>{statusText[row.status]}</span></td>
+                      <td>
+                        <span className={`stock-badge ${row.status}`}>{statusText[row.status]}</span>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -173,11 +191,13 @@ const InventoryVisibility = () => {
           </section>
 
           <section className="inventory-panel">
-            <div className="inventory-panel-head"><h2>Alerte automate</h2></div>
+            <div className="inventory-panel-head">
+              <h2>Alerte automate</h2>
+            </div>
             <div className="inventory-alerts">
               {demoAlerts.map((alert) => (
                 <article key={alert.id} className="inventory-alert-item">
-                  <span className="alert-dot">!</span>
+                  <span className="alert-dot" aria-hidden="true">!</span>
                   <div>
                     <strong>{alert.product}</strong>
                     <p>{alert.message}</p>
@@ -189,16 +209,26 @@ const InventoryVisibility = () => {
         </div>
 
         <section className="inventory-panel">
-          <div className="inventory-panel-head"><h2>Trasabilitate completa</h2></div>
+          <div className="inventory-panel-head">
+            <h2>Trasabilitate completa</h2>
+          </div>
+
           <div className="inventory-table-wrap">
             <table className="inventory-table">
               <thead>
-                <tr><th>Tip actiune</th><th>Produs</th><th>Data</th><th>Utilizator</th></tr>
+                <tr>
+                  <th>Tip actiune</th>
+                  <th>Produs</th>
+                  <th>Data</th>
+                  <th>Utilizator</th>
+                </tr>
               </thead>
               <tbody>
                 {demoActivity.map((item) => (
                   <tr key={item.id}>
-                    <td><span className={`action-badge ${item.action.toLowerCase()}`}>{item.action}</span></td>
+                    <td>
+                      <span className={`action-badge ${item.action.toLowerCase()}`}>{item.action}</span>
+                    </td>
                     <td>{item.product}</td>
                     <td>{item.date}</td>
                     <td>{item.user}</td>

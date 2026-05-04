@@ -1,16 +1,23 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/SmartOrganizationShowcase.css';
 
 type PickItem = {
-  id: number; sku: string; product: string; location: string; zone: string;
+  id: number;
+  sku: string;
+  product: string;
+  location: string;
+  zone: string;
   priority: 'high' | 'medium' | 'low';
 };
 
 type TaskItem = {
-  id: number; operator: string; action: 'Picking' | 'Reorganizare' | 'Verificare';
-  eta: string; status: 'In progres' | 'In asteptare' | 'Finalizat';
+  id: number;
+  operator: string;
+  action: 'Picking' | 'Reorganizare' | 'Verificare';
+  eta: string;
+  status: 'In progres' | 'In asteptare' | 'Finalizat';
 };
 
 const navItems = ['Dashboard', 'Produse', 'Organizare Inteligenta', 'Adauga produs', 'Profil'] as const;
@@ -56,17 +63,24 @@ const SmartOrganizationShowcase = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
-  void logout;
+  const handleExitSite = () => {
+    logout();
+    navigate('/');
+  };
 
   const filteredPickList = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return pickList;
-    return pickList.filter((item) =>
-      item.sku.toLowerCase().includes(query) ||
-      item.product.toLowerCase().includes(query) ||
-      item.location.toLowerCase().includes(query)
-    );
+
+    return pickList.filter((item) => {
+      return (
+        item.sku.toLowerCase().includes(query) ||
+        item.product.toLowerCase().includes(query) ||
+        item.location.toLowerCase().includes(query)
+      );
+    });
   }, [searchQuery]);
 
   return (
@@ -79,7 +93,8 @@ const SmartOrganizationShowcase = () => {
             <span>Demo UI - Organizare Inteligenta</span>
           </div>
         </div>
-        <nav className="smart-nav">
+
+        <nav className="smart-nav" aria-label="Navigatie demo organizare inteligenta">
           {navItems.map((item) => (
             <span key={item} className={`smart-nav-link ${item === 'Organizare Inteligenta' ? 'active' : ''}`}>
               {item}
@@ -93,19 +108,26 @@ const SmartOrganizationShowcase = () => {
           <div>
             <span className="smart-demo-pill">DEMO / SHOWCASE UI</span>
             <h1>Organizare Inteligenta</h1>
-            <p>Gasesti rapid orice piesa din depozit prin localizare clara, task-uri prioritizate si trasee optimizate.</p>
+            <p>
+              Gasesti rapid orice piesa din depozit prin localizare clara, task-uri prioritizate
+              si trasee de picking optimizate.
+            </p>
           </div>
+
           <div className="smart-topbar-actions">
-            <Link to="/" className="back-button">← Înapoi la site</Link>
+            <button type="button" className="smart-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
             <button
               type="button"
               className={`smart-switch ${isDarkTheme ? 'is-on' : ''}`}
               role="switch"
               aria-checked={isDarkTheme}
+              aria-label="Comuta tema demo"
               onClick={() => setIsDarkTheme((prev) => !prev)}
             >
               <span>{isDarkTheme ? 'Dark' : 'Light'}</span>
-              <span className="smart-switch-track"><span className="smart-switch-thumb" /></span>
+              <span className="smart-switch-track">
+                <span className="smart-switch-thumb" />
+              </span>
             </button>
             <button type="button" className="smart-primary-btn">Optimizeaza traseu</button>
           </div>
@@ -113,16 +135,24 @@ const SmartOrganizationShowcase = () => {
 
         <section className="smart-kpi-grid">
           <article className="smart-card smart-kpi-card">
-            <span>Timp mediu gasire piesa</span><strong>38s</strong><small>-21% fata de luna trecuta</small>
+            <span>Timp mediu gasire piesa</span>
+            <strong>38s</strong>
+            <small>-21% fata de luna trecuta</small>
           </article>
           <article className="smart-card smart-kpi-card">
-            <span>Precizie localizare</span><strong>98.4%</strong><small>Validare prin scanare raft</small>
+            <span>Precizie localizare</span>
+            <strong>98.4%</strong>
+            <small>Validare prin scanare raft</small>
           </article>
           <article className="smart-card smart-kpi-card">
-            <span>Task-uri finalizate azi</span><strong>127</strong><small>4 operatori activi</small>
+            <span>Task-uri finalizate azi</span>
+            <strong>127</strong>
+            <small>4 operatori activi</small>
           </article>
           <article className="smart-card smart-kpi-card">
-            <span>Zone cu congestie</span><strong>2</strong><small>Z1 si Z4 necesita echilibrare</small>
+            <span>Zone cu congestie</span>
+            <strong>2</strong>
+            <small>Z1 si Z4 necesita echilibrare</small>
           </article>
         </section>
 
@@ -136,19 +166,30 @@ const SmartOrganizationShowcase = () => {
               className="smart-input"
               type="search"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(event) => setSearchQuery(event.target.value)}
               placeholder="Ex: SKU-3012, filtru aer, Z1 / R-04A"
+              aria-label="Cauta rapid piese in depozit"
             />
+
             <div className="smart-table-wrap">
               <table className="smart-table">
                 <thead>
-                  <tr><th>Produs</th><th>Cod</th><th>Locatie</th><th>Prioritate</th></tr>
+                  <tr>
+                    <th>Produs</th>
+                    <th>Cod</th>
+                    <th>Locatie</th>
+                    <th>Prioritate</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {filteredPickList.map((item) => (
                     <tr key={item.id}>
-                      <td>{item.product}</td><td>{item.sku}</td><td>{item.location}</td>
-                      <td><span className={`priority-badge ${item.priority}`}>{item.priority}</span></td>
+                      <td>{item.product}</td>
+                      <td>{item.sku}</td>
+                      <td>{item.location}</td>
+                      <td>
+                        <span className={`priority-badge ${item.priority}`}>{item.priority}</span>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -161,11 +202,13 @@ const SmartOrganizationShowcase = () => {
               <h2>Harta depozit (2D)</h2>
               <span className="smart-muted">Grad ocupare pe zone</span>
             </div>
+
             <div className="zone-grid">
               {zoneUtilization.map((zone) => (
                 <article key={zone.zone} className="zone-card">
                   <div className="zone-card-head">
-                    <strong>{zone.zone}</strong><span>{zone.load}%</span>
+                    <strong>{zone.zone}</strong>
+                    <span>{zone.load}%</span>
                   </div>
                   <div className="zone-progress">
                     <span style={{ width: `${zone.load}%` }} />
@@ -179,20 +222,27 @@ const SmartOrganizationShowcase = () => {
 
         <div className="smart-grid-two">
           <section className="smart-card">
-            <div className="smart-card-head"><h2>Task Queue operatori</h2></div>
+            <div className="smart-card-head">
+              <h2>Task Queue operatori</h2>
+            </div>
             <div className="smart-table-wrap">
               <table className="smart-table">
                 <thead>
-                  <tr><th>Operator</th><th>Actiune</th><th>ETA</th><th>Status</th></tr>
+                  <tr>
+                    <th>Operator</th>
+                    <th>Actiune</th>
+                    <th>ETA</th>
+                    <th>Status</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {taskQueue.map((task) => (
                     <tr key={task.id}>
-                      <td>{task.operator}</td><td>{task.action}</td><td>{task.eta}</td>
+                      <td>{task.operator}</td>
+                      <td>{task.action}</td>
+                      <td>{task.eta}</td>
                       <td>
-                        <span className={`task-status ${task.status.toLowerCase().replaceAll(' ', '-')}`}>
-                          {task.status}
-                        </span>
+                        <span className={`task-status ${task.status.toLowerCase().replaceAll(' ', '-')}`}>{task.status}</span>
                       </td>
                     </tr>
                   ))}
@@ -202,24 +252,36 @@ const SmartOrganizationShowcase = () => {
           </section>
 
           <section className="smart-card">
-            <div className="smart-card-head"><h2>Alerte organizare</h2></div>
+            <div className="smart-card-head">
+              <h2>Alerte organizare</h2>
+            </div>
             <ul className="smart-alert-list">
-              {alerts.map((alert) => <li key={alert}>{alert}</li>)}
+              {alerts.map((alert) => (
+                <li key={alert}>{alert}</li>
+              ))}
             </ul>
           </section>
         </div>
 
         <section className="smart-card">
-          <div className="smart-card-head"><h2>Jurnal activitate</h2></div>
+          <div className="smart-card-head">
+            <h2>Jurnal activitate</h2>
+          </div>
           <div className="smart-table-wrap">
             <table className="smart-table">
               <thead>
-                <tr><th>Eveniment</th><th>Utilizator</th><th>Ora</th></tr>
+                <tr>
+                  <th>Eveniment</th>
+                  <th>Utilizator</th>
+                  <th>Ora</th>
+                </tr>
               </thead>
               <tbody>
                 {activityLog.map((event) => (
                   <tr key={event.id}>
-                    <td>{event.event}</td><td>{event.user}</td><td>{event.time}</td>
+                    <td>{event.event}</td>
+                    <td>{event.user}</td>
+                    <td>{event.time}</td>
                   </tr>
                 ))}
               </tbody>

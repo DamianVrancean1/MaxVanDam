@@ -10,16 +10,46 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  background-color: #fafafa;
   color: #333;
   line-height: 1.6;
 }
 
-#root {
-  min-height: 100vh;
+/* Force a consistent light background across all page shells */
+html,
+body,
+#root,
+.app,
+.main-content,
+.home,
+.about-page,
+.pricing-page,
+.login-page,
+.admin-shell,
+.admin-content-wrap,
+.admin-main {
+  background-color: #fafafa !important;
+}
+
+/* Disable dark overlays from the Home theme so page background remains #fafafa */
+.home::before,
+.home::after {
+  background: transparent !important;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Keep text black only for content rendered directly on the main background */
+.main-content > div > h1,
+.main-content > div > h2,
+.main-content > div > h3,
+.main-content > div > p,
+.main-content > div > section > h1,
+.main-content > div > section > h2,
+.main-content > div > section > h3,
+.main-content > div > section > p {
+  color: #000 !important;
 }

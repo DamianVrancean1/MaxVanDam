@@ -1,68 +1,120 @@
-type Props = {
+import { useState, useRef } from 'react';
+
+
+interface QuantitySelectorProps {
   value: number;
-  onChange: (value: number) => void;
-  onAddClick?: (value: number) => void;
+  onChange?: (newQuantity: number) => void;
+  maxQuantity?: number;
+  onAddClick?: (quantity: number) => void;
   addButtonLabel?: string;
   showAddButton?: boolean;
-  min?: number;
-  max?: number;
-};
+}
 
 const QuantitySelector = ({
   value,
   onChange,
+  maxQuantity,
   onAddClick,
-  addButtonLabel = 'Adaugă',
+  addButtonLabel = 'Adaugă în coș',
   showAddButton = false,
-  min = 1,
-  max = 99,
-}: Props) => {
-  const decrement = () => { if (value > min) onChange(value - 1); };
-  const increment = () => { if (value < max) onChange(value + 1); };
+}: QuantitySelectorProps) => {
+  const [quantity, setQuantity] = useState(value || 1);
+  const addLockRef = useRef(false);
+
+  const handleDecrease = () => {
+    const newQty = Math.max(1, quantity - 1);
+    setQuantity(newQty);
+    onChange?.(newQty);
+  };
+
+  const handleIncrease = () => {
+    const max = maxQuantity || Infinity;
+    const newQty = Math.min(quantity + 1, max);
+    setQuantity(newQty);
+    onChange?.(newQty);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+
+    // Dacă e gol, revin la 1
+    if (rawValue === '') {
+      setQuantity(1);
+      onChange?.(1);
+      return;
+    }
+
+    // Acceptez DOAR cifre (regex strict)
+    if (!/^\d+$/.test(rawValue)) {
+      return; // Ignor input invalid
+    }
+
+    const parsed = parseInt(rawValue, 10);
+    const max = maxQuantity || Infinity;
+
+    // Validare: între 1 și max
+    if (parsed > 0 && parsed <= max) {
+      setQuantity(parsed);
+      onChange?.(parsed);
+    }
+  };
+
+  const handleAddClick = () => {
+    // Protecție dublă-execuție
+    if (addLockRef.current) {
+      return;
+    }
+
+    addLockRef.current = true;
+    onAddClick?.(quantity);
+
+    // Deblochez după microtask
+    queueMicrotask(() => {
+      addLockRef.current = false;
+    });
+  };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <button
-        type="button"
-        onClick={decrement}
-        disabled={value <= min}
-        style={{
-          width: '36px', height: '36px', borderRadius: '8px',
-          border: '1px solid rgba(15,23,42,0.15)', background: '#fff',
-          cursor: value <= min ? 'not-allowed' : 'pointer',
-          fontWeight: 700, fontSize: '1.1rem',
-        }}
-      >
-        −
-      </button>
-      <span style={{ minWidth: '32px', textAlign: 'center', fontWeight: 700, fontSize: '1rem' }}>
-        {value}
-      </span>
-      <button
-        type="button"
-        onClick={increment}
-        disabled={value >= max}
-        style={{
-          width: '36px', height: '36px', borderRadius: '8px',
-          border: '1px solid rgba(15,23,42,0.15)', background: '#fff',
-          cursor: value >= max ? 'not-allowed' : 'pointer',
-          fontWeight: 700, fontSize: '1.1rem',
-        }}
-      >
-        +
-      </button>
-      {showAddButton && onAddClick && (
+    <div className="quantity-selector">
+      <div className="quantity-controls">
         <button
-          type="button"
-          onClick={() => onAddClick(value)}
-          style={{
-            marginLeft: '8px', padding: '8px 18px', borderRadius: '10px', border: 'none',
-            background: 'linear-gradient(135deg,#d63384,#f06595)', color: '#fff',
-            fontWeight: 700, cursor: 'pointer',
-          }}
+            type="button"
+            className="quantity-step-btn"
+            onClick={handleDecrease}
+            aria-label="Scade cantitatea"
         >
-          {addButtonLabel}
+          -
         </button>
+
+        <input
+            type="text"
+            inputMode="numeric"
+            className="quantity-input"
+            value={quantity}
+            onChange={handleInputChange}
+            placeholder="1"
+            aria-label="Cantitate - introduce doar cifre"
+        />
+
+        <button
+            type="button"
+            className="quantity-step-btn quantity-step-btn-plus"
+            onClick={handleIncrease}
+            aria-label="Creste cantitatea"
+        >
+          +
+        </button>
+      </div>
+
+      {showAddButton && (
+          <button
+              type="button"
+              className="quantity-add-btn"
+              onClick={handleAddClick}
+              aria-label={addButtonLabel}
+          >
+            {addButtonLabel}
+          </button>
       )}
     </div>
   );

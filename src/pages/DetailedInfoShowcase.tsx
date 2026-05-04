@@ -1,13 +1,32 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/DetailedInfoShowcase.css';
 
 type QualityTier = 'Premium' | 'Standard' | 'Economic';
 
-type CompatibilityRow = { brand: string; model: string; years: string; engine: string; body: string };
-type CrossRefRow = { oem: string; aftermarket: string; brand: string; note: string };
-type RevisionRow = { id: number; version: string; change: string; date: string; user: string };
+type CompatibilityRow = {
+  brand: string;
+  model: string;
+  years: string;
+  engine: string;
+  body: string;
+};
+
+type CrossRefRow = {
+  oem: string;
+  aftermarket: string;
+  brand: string;
+  note: string;
+};
+
+type RevisionRow = {
+  id: number;
+  version: string;
+  change: string;
+  date: string;
+  user: string;
+};
 
 const sidebarItems = ['Dashboard', 'Produse', 'Informatii Detaliate', 'Adauga produs', 'Profil'] as const;
 
@@ -43,9 +62,13 @@ const revisions: RevisionRow[] = [
 const DetailedInfoShowcase = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const qualityTier: QualityTier = 'Premium';
 
-  void logout;
+  const handleExitSite = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <div className={`detailed-dashboard ${isDarkTheme ? 'detailed-theme-dark' : 'detailed-theme-light'}`}>
@@ -57,7 +80,8 @@ const DetailedInfoShowcase = () => {
             <span>Demo UI - Product Intelligence</span>
           </div>
         </div>
-        <nav className="detailed-nav">
+
+        <nav className="detailed-nav" aria-label="Navigatie demo informatii detaliate">
           {sidebarItems.map((item) => (
             <span key={item} className={`detailed-nav-link ${item === 'Informatii Detaliate' ? 'active' : ''}`}>
               {item}
@@ -71,10 +95,14 @@ const DetailedInfoShowcase = () => {
           <div>
             <span className="detailed-demo-pill">DEMO / SHOWCASE UI</span>
             <h1>Informatii Detaliate</h1>
-            <p>Specificatii complete pentru fiecare piesa, compatibilitate, coduri OEM si recomandari tehnice.</p>
+            <p>
+              Specificatii complete pentru fiecare piesa, compatibilitate, coduri OEM si recomandari
+              tehnice pentru decizii rapide.
+            </p>
           </div>
+
           <div className="detailed-actions">
-            <Link to="/" className="back-button">← Înapoi la site</Link>
+            <button type="button" className="detailed-secondary-btn" onClick={handleExitSite}>Inapoi la site</button>
             <button
               type="button"
               className={`detailed-switch ${isDarkTheme ? 'is-on' : ''}`}
@@ -83,7 +111,9 @@ const DetailedInfoShowcase = () => {
               onClick={() => setIsDarkTheme((prev) => !prev)}
             >
               <span>{isDarkTheme ? 'Dark' : 'Light'}</span>
-              <span className="detailed-switch-track"><span className="detailed-switch-thumb" /></span>
+              <span className="detailed-switch-track">
+                <span className="detailed-switch-thumb" />
+              </span>
             </button>
             <button type="button" className="detailed-primary-btn">Vezi catalogul</button>
           </div>
@@ -123,7 +153,9 @@ const DetailedInfoShowcase = () => {
           </section>
 
           <section className="detailed-card">
-            <div className="detailed-card-head"><h2>Recomandari inteligente</h2></div>
+            <div className="detailed-card-head">
+              <h2>Recomandari inteligente</h2>
+            </div>
             <ul className="recommendation-list">
               <li>Kit service recomandat: filtru + garnitura + ulei 5W-30.</li>
               <li>Piese asociate: filtru aer, filtru combustibil, filtru habitaclu.</li>
@@ -134,17 +166,28 @@ const DetailedInfoShowcase = () => {
         </div>
 
         <section className="detailed-card">
-          <div className="detailed-card-head"><h2>Compatibilitate auto</h2></div>
+          <div className="detailed-card-head">
+            <h2>Compatibilitate auto</h2>
+          </div>
           <div className="detailed-table-wrap">
             <table className="detailed-table">
               <thead>
-                <tr><th>Marca</th><th>Model</th><th>Ani</th><th>Motorizare</th><th>Caroserie</th></tr>
+                <tr>
+                  <th>Marca</th>
+                  <th>Model</th>
+                  <th>Ani</th>
+                  <th>Motorizare</th>
+                  <th>Caroserie</th>
+                </tr>
               </thead>
               <tbody>
                 {compatibilityRows.map((row) => (
                   <tr key={`${row.brand}-${row.model}`}>
-                    <td>{row.brand}</td><td>{row.model}</td><td>{row.years}</td>
-                    <td>{row.engine}</td><td>{row.body}</td>
+                    <td>{row.brand}</td>
+                    <td>{row.model}</td>
+                    <td>{row.years}</td>
+                    <td>{row.engine}</td>
+                    <td>{row.body}</td>
                   </tr>
                 ))}
               </tbody>
@@ -154,16 +197,26 @@ const DetailedInfoShowcase = () => {
 
         <div className="detailed-grid-two">
           <section className="detailed-card">
-            <div className="detailed-card-head"><h2>Cross-reference OEM</h2></div>
+            <div className="detailed-card-head">
+              <h2>Cross-reference OEM</h2>
+            </div>
             <div className="detailed-table-wrap">
               <table className="detailed-table">
                 <thead>
-                  <tr><th>OEM</th><th>Aftermarket</th><th>Brand</th><th>Observatii</th></tr>
+                  <tr>
+                    <th>OEM</th>
+                    <th>Aftermarket</th>
+                    <th>Brand</th>
+                    <th>Observatii</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {crossRefRows.map((row) => (
                     <tr key={`${row.oem}-${row.aftermarket}`}>
-                      <td>{row.oem}</td><td>{row.aftermarket}</td><td>{row.brand}</td><td>{row.note}</td>
+                      <td>{row.oem}</td>
+                      <td>{row.aftermarket}</td>
+                      <td>{row.brand}</td>
+                      <td>{row.note}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -172,16 +225,26 @@ const DetailedInfoShowcase = () => {
           </section>
 
           <section className="detailed-card">
-            <div className="detailed-card-head"><h2>Istoric versiuni</h2></div>
+            <div className="detailed-card-head">
+              <h2>Istoric versiuni</h2>
+            </div>
             <div className="detailed-table-wrap">
               <table className="detailed-table">
                 <thead>
-                  <tr><th>Versiune</th><th>Schimbare</th><th>Data</th><th>User</th></tr>
+                  <tr>
+                    <th>Versiune</th>
+                    <th>Schimbare</th>
+                    <th>Data</th>
+                    <th>User</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {revisions.map((row) => (
                     <tr key={row.id}>
-                      <td>{row.version}</td><td>{row.change}</td><td>{row.date}</td><td>{row.user}</td>
+                      <td>{row.version}</td>
+                      <td>{row.change}</td>
+                      <td>{row.date}</td>
+                      <td>{row.user}</td>
                     </tr>
                   ))}
                 </tbody>

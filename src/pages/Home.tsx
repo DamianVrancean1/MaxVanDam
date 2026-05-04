@@ -22,7 +22,7 @@ const Home = () => {
               <span></span>
               <div className="content">
                 <h2>Vizibilitate inventar</h2>
-                <p>Vizualizezi disponibilitatea pieselor în timp real.</p>
+                <p>Vizualizezi disponibilitatea pieselor in timp real.</p>
                 <Link to="/inventory-visibility">Read More</Link>
               </div>
             </div>

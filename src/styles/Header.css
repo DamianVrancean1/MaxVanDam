@@ -106,6 +106,7 @@
   cursor: pointer;
   justify-content: space-between;
   gap: 0.45rem;
+  white-space: nowrap;
 }
 
 .cart-badge {
@@ -242,6 +243,20 @@
   background: #ff1f71;
   box-shadow: 0 0 5px #ff1f71, 0 0 15px #ff1f71, 0 0 30px #ff1f71,
   0 0 60px #ff1f71;
+}
+
+.btn.btn-user-info {
+  width: clamp(220px, 24vw, 280px);
+}
+
+.btn.btn-user-info .nav-btn {
+  justify-content: space-between;
+  padding: 10px 14px;
+  letter-spacing: 0.4px;
+}
+
+.btn.btn-user-info:hover .nav-btn {
+  letter-spacing: 0.4px;
 }
 
 
