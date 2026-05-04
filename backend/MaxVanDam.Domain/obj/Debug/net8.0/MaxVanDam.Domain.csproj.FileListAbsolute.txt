@@ -1,0 +1,12 @@
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/bin/Debug/net8.0/MaxVanDam.Domain.deps.json
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/bin/Debug/net8.0/MaxVanDam.Domain.dll
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/bin/Debug/net8.0/MaxVanDam.Domain.pdb
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/MaxVanDam.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/MaxVanDam.Domain.AssemblyInfoInputs.cache
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/MaxVanDam.Domain.AssemblyInfo.cs
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/MaxVanDam.Domain.csproj.CoreCompileInputs.cache
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/MaxVanDam.Domain.sourcelink.json
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/MaxVanDam.Domain.dll
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/refint/MaxVanDam.Domain.dll
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/MaxVanDam.Domain.pdb
+/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/Debug/net8.0/ref/MaxVanDam.Domain.dll
