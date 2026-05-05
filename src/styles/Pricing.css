@@ -1,0 +1,456 @@
+/* ==========================================================================
+   PRICING PAGE — Industrial Dark (COMPLETE REWRITE)
+   ========================================================================== */
+
+.pricing-page {
+  padding: 3.5rem 1.5rem 5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #E2E8F0;
+  position: relative;
+  overflow: visible;
+  background: #0B0F14;
+}
+
+/* Kill old light background decorations */
+.pricing-bg { display: none; }
+
+/* ---- Header ---- */
+.pricing-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.pricing-page.is-loaded .pricing-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pricing-header h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #E2E8F0;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.5rem;
+}
+
+.pricing-header .subtitle {
+  color: #64748B;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ---- Grid ---- */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  position: relative;
+}
+
+/* ---- Plan card ---- */
+.plan-card {
+  background: #151C26;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.75rem;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+  opacity: 0;
+  transform: translateY(12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.plan-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.plan-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(59, 130, 246, 0.12),
+    0 0 30px rgba(59, 130, 246, 0.07);
+}
+
+.plan-card.popular {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(59, 130, 246, 0.15);
+  background: linear-gradient(180deg, #1C2533, #151C26);
+}
+
+.plan-card.selected {
+  border-color: rgba(34, 197, 94, 0.35);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(34, 197, 94, 0.15),
+    0 0 30px rgba(34, 197, 94, 0.06);
+  transform: translateY(-4px);
+}
+
+/* ---- Plan header ---- */
+.plan-top {
+  display: flex;
+  gap: 0.875rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.plan-icon svg {
+  display: block;
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
+}
+
+.icon { transition: transform 0.3s ease; }
+.plan-card:hover .icon { transform: translateY(-3px); }
+.plan-card.selected .icon { transform: scale(1.05) rotate(-3deg); }
+
+.plan-title .plan-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #E2E8F0;
+  letter-spacing: 0.03em;
+}
+
+.popular-pill {
+  display: inline-block;
+  margin-top: 0.3rem;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #60A5FA;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---- Price ---- */
+.plan-price { margin-bottom: 1.25rem; }
+
+.plan-price .monthly {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #E2E8F0;
+  letter-spacing: 0.01em;
+}
+
+.plan-price .per {
+  font-size: 0.875rem;
+  color: #475569;
+  font-weight: 500;
+  margin-left: 0.35rem;
+}
+
+.plan-price .total {
+  color: #475569;
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.plan-price .first-free {
+  margin-top: 0.4rem;
+  color: #4ADE80;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+/* ---- Features list ---- */
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.feature-item {
+  color: #64748B;
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.feature-item::before {
+  content: '✓';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  color: #22C55E;
+  font-weight: 700;
+  font-size: 0.72rem;
+  margin-top: 1px;
+}
+
+/* ---- Actions ---- */
+.plan-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: auto;
+}
+
+.choose-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: #E2E8F0;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.choose-btn:hover {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Ripple */
+.choose-btn .ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  opacity: 0.5;
+  background: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+.learn-more {
+  color: #475569;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  transition: color 0.2s ease;
+}
+
+.learn-more:hover { color: #3B82F6; }
+
+/* ---- Footer ---- */
+.pricing-footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: #475569;
+  font-size: 0.875rem;
+}
+
+/* ---- Single plan detail/contact page ---- */
+.pricing-intro {
+  animation: pricingSlideUp 0.4s ease both;
+}
+
+@keyframes pricingSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pricing-single-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #151C26;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.details-enter,
+.contact-enter {
+  animation: singleCardEnter 0.4s ease both;
+}
+
+@keyframes singleCardEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.single-head { margin-bottom: 1.25rem; }
+
+.single-tag {
+  display: inline-flex;
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #60A5FA;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 0.75rem;
+}
+
+.single-head h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #E2E8F0;
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.02em;
+}
+
+.single-head .subtitle {
+  margin: 0;
+  color: #64748B;
+  font-size: 0.9rem;
+}
+
+.single-price-block {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.single-price-block strong {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #3B82F6;
+}
+
+.single-price-block span {
+  color: #475569;
+  font-size: 0.875rem;
+}
+
+.single-features h2 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #475569;
+  margin: 0 0 0.75rem;
+}
+
+.single-features ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.single-features li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  color: #64748B;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.single-features li::before {
+  content: '✓';
+  min-width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #22C55E;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  margin-top: 1px;
+}
+
+.single-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.single-btn-link { text-decoration: none; }
+
+/* ---- Contact grid ---- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contact-box {
+  border: 1px solid rgba(34, 44, 61, 0.8);
+  border-radius: 10px;
+  padding: 1.25rem;
+  background: #0F1620;
+}
+
+.contact-box h2 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #E2E8F0;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.contact-box p {
+  margin: 0 0 0.6rem;
+  color: #64748B;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.map-wrapper {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(34, 44, 61, 0.8);
+}
+
+.map-wrapper iframe {
+  width: 100%;
+  min-height: 300px;
+  border: 0;
+  filter: invert(0.9) hue-rotate(180deg) saturate(0.5);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 980px) {
+  .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-page { padding: 2rem 1rem 3rem; }
+  .pricing-single-card { padding: 1.25rem; }
+  .contact-grid { grid-template-columns: 1fr; }
+}

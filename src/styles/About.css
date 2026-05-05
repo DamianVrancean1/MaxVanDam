@@ -1,0 +1,472 @@
+/* ==========================================================================
+   ABOUT PAGE — Industrial Dark (COMPLETE REWRITE)
+   ========================================================================== */
+
+.about-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  color: #E2E8F0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0B0F14;
+}
+
+/* ---- Hero grid ---- */
+.about-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1.25rem;
+}
+
+/* Base card style — metal panel */
+.about-hero-content,
+.about-hero-media,
+.about-card,
+.about-step-card,
+.about-cta,
+.about-stats article,
+.about-tech {
+  background: #151C26;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.about-hero-content {
+  padding: 2rem;
+}
+
+/* ---- Badge ---- */
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #60A5FA;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.about-hero-content h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  line-height: 1.15;
+  margin: 0 0 0.875rem;
+  color: #E2E8F0;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.about-hero-content p {
+  margin: 0;
+  color: #64748B;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.about-hero-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ---- Buttons ---- */
+.about-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0.65rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.about-btn-primary {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: #E2E8F0;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.about-btn-primary:hover {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.45);
+  transform: translateY(-2px);
+}
+
+.about-btn-secondary {
+  border: 1px solid rgba(34, 44, 61, 0.8);
+  background: rgba(255, 255, 255, 0.03);
+  color: #94A3B8;
+}
+
+.about-btn-secondary:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #E2E8F0;
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+.about-hero-media {
+  overflow: hidden;
+  min-height: 280px;
+  border-radius: 12px;
+}
+
+.about-hero-media img,
+.about-image-card img,
+.about-tech img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.85) brightness(0.85);
+}
+
+/* ---- Stats grid ---- */
+.about-stats {
+  margin: 0 0 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.about-stats article {
+  padding: 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-stats article::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 130, 246, 0.06);
+  border-radius: 12px;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+.about-stats article:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(59, 130, 246, 0.08);
+}
+
+.about-stats article:hover::before {
+  opacity: 1;
+}
+
+.about-stats article:active {
+  transform: translateY(-1px);
+}
+
+.about-stats strong {
+  display: block;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3B82F6;
+  margin-bottom: 0.35rem;
+  position: relative;
+  z-index: 1;
+}
+
+.about-stats span {
+  color: #64748B;
+  font-size: 0.82rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Section ---- */
+.about-section {
+  margin-bottom: 1.25rem;
+}
+
+.about-section-head {
+  margin-bottom: 1rem;
+}
+
+.about-section-head h2 {
+  font-family: 'Rajdhani', sans-serif;
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  color: #E2E8F0;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.about-section-head p {
+  margin: 0;
+  color: #64748B;
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+.about-grid-2,
+.about-adv-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.about-card {
+  padding: 1.5rem;
+  transition: all 0.25s ease;
+}
+
+.about-card:hover,
+.about-step-card:hover,
+.about-image-card:hover,
+.about-tech:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+.about-card h3,
+.about-step-card h3 {
+  font-family: 'Rajdhani', sans-serif;
+  margin: 0 0 0.75rem;
+  color: #E2E8F0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.about-card p,
+.about-step-card p,
+.about-card li,
+.about-tech li {
+  color: #64748B;
+  line-height: 1.65;
+  font-size: 0.875rem;
+}
+
+.about-card ul,
+.about-tech ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.about-card-danger {
+  border-color: rgba(239, 68, 68, 0.15);
+  background: rgba(21, 28, 38, 0.8);
+}
+
+.about-card-accent {
+  border-color: rgba(59, 130, 246, 0.2);
+  background: rgba(21, 28, 38, 0.8);
+}
+
+.about-solution-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.about-image-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  min-height: 240px;
+  transition: all 0.25s ease;
+}
+
+/* ---- Steps ---- */
+.about-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.about-step-card {
+  padding: 1.25rem;
+  transition: all 0.25s ease;
+}
+
+.about-step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #3B82F6;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 0.875rem;
+}
+
+/* ---- Tags ---- */
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.about-tags span {
+  border: 1px solid rgba(34, 44, 61, 0.8);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  background: rgba(21, 28, 38, 0.6);
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: static;
+  overflow: visible;
+}
+
+.about-tags span::before {
+  display: none;
+}
+
+.about-tags span:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #E2E8F0;
+  box-shadow: none;
+}
+
+/* ---- Tech section ---- */
+.about-tech {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: stretch;
+}
+
+.about-tech h2 {
+  font-family: 'Rajdhani', sans-serif;
+  margin: 0 0 0.5rem;
+  color: #E2E8F0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.about-tech p {
+  margin: 0 0 0.75rem;
+  color: #64748B;
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+.about-tech img {
+  border-radius: 8px;
+  min-height: 200px;
+}
+
+/* ---- CTA ---- */
+.about-cta {
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #151C26, #1C2533);
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+.about-cta h2 {
+  font-family: 'Rajdhani', sans-serif;
+  margin: 0 0 0.75rem;
+  color: #E2E8F0;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.about-cta p {
+  max-width: 640px;
+  margin: 0 auto;
+  color: #64748B;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.about-cta .about-hero-actions {
+  justify-content: center;
+}
+
+/* ---- Fade-in animations ---- */
+.about-fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: aboutFadeIn 0.5s ease forwards;
+}
+
+.about-fade-delay-1 { animation-delay: 0.06s; }
+.about-fade-delay-2 { animation-delay: 0.12s; }
+.about-fade-delay-3 { animation-delay: 0.18s; }
+.about-fade-delay-4 { animation-delay: 0.24s; }
+.about-fade-delay-5 { animation-delay: 0.30s; }
+
+@keyframes aboutFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .about-hero,
+  .about-solution-layout,
+  .about-tech {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .about-page {
+    padding: 2rem 1rem 3.5rem;
+  }
+
+  .about-grid-2,
+  .about-adv-grid,
+  .about-stats,
+  .about-steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-hero-content,
+  .about-card,
+  .about-step-card,
+  .about-tech,
+  .about-cta {
+    padding: 1.25rem;
+  }
+}

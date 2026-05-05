@@ -1,0 +1,140 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.DataAccessLayer/MaxVanDam.DataAccessLayer.csproj": {}
+  },
+  "projects": {
+    "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.DataAccessLayer/MaxVanDam.DataAccessLayer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.DataAccessLayer/MaxVanDam.DataAccessLayer.csproj",
+        "projectName": "MaxVanDam.DataAccessLayer",
+        "projectPath": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.DataAccessLayer/MaxVanDam.DataAccessLayer.csproj",
+        "packagesPath": "/Users/damianvr/.nuget/packages/",
+        "outputPath": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.DataAccessLayer/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/damianvr/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj": {
+                "projectPath": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
+        "projectName": "MaxVanDam.Domain",
+        "projectPath": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
+        "packagesPath": "/Users/damianvr/.nuget/packages/",
+        "outputPath": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/damianvr/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
