@@ -1,0 +1,835 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ==========================================================================
+   IX DESIGN SYSTEM — Industrial-Luxury Automotive Warehouse
+   Chapter 2: Design Tokens + Grid System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS CUSTOM PROPERTIES (Design Tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  /* — Color Palette (Industrial Dark Blue-Black) — */
+  --ix-bg-primary:      #0B0F14;
+  --ix-bg-secondary:    #0F1620;
+  --ix-bg-surface:      #151C26;
+  --ix-bg-elevated:     #1C2533;
+  --ix-bg-overlay:      rgba(11, 15, 20, 0.95);
+
+  --ix-accent-blue:      #3B82F6;
+  --ix-accent-blue-dim:  rgba(59, 130, 246, 0.12);
+  --ix-accent-cyan:      #00E5FF;
+  --ix-accent-cyan-dim:  rgba(0, 229, 255, 0.1);
+  --ix-accent-orange:    #F97316;
+  --ix-accent-orange-dim: rgba(249, 115, 22, 0.12);
+  --ix-accent-green:     #22C55E;
+  --ix-accent-green-dim: rgba(34, 197, 94, 0.1);
+  --ix-accent-red:       #EF4444;
+  --ix-accent-red-dim:   rgba(239, 68, 68, 0.1);
+
+  --ix-border-subtle:  #222C3D;
+  --ix-border-default: rgba(34, 44, 61, 0.8);
+  --ix-border-accent:  rgba(59, 130, 246, 0.3);
+
+  --ix-text-primary:   #E2E8F0;
+  --ix-text-secondary: #94A3B8;
+  --ix-text-muted:     #64748B;
+  --ix-text-faint:     #334155;
+  --ix-text-accent:    #3B82F6;
+
+  /* — Glow Effects — */
+  --ix-glow-blue:   0 0 20px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.15);
+  --ix-glow-cyan:   0 0 20px rgba(0, 229, 255, 0.25), 0 0 60px rgba(0, 229, 255, 0.1);
+  --ix-glow-green:  0 0 20px rgba(34, 197, 94, 0.35), 0 0 60px rgba(34, 197, 94, 0.12);
+  --ix-glow-orange: 0 0 20px rgba(249, 115, 22, 0.35), 0 0 60px rgba(249, 115, 22, 0.12);
+
+  /* — Borders — */
+  --ix-border:         1px solid rgba(34, 44, 61, 0.8);
+  --ix-border-accent:  1px solid rgba(59, 130, 246, 0.35);
+  --ix-border-metal:   1px solid rgba(255, 255, 255, 0.05);
+  --ix-border-radius:  6px;
+  --ix-border-radius-lg: 12px;
+
+  /* — Spacing System (8pt grid) — */
+  --ix-space-1:  4px;
+  --ix-space-2:  8px;
+  --ix-space-3:  12px;
+  --ix-space-4:  16px;
+  --ix-space-5:  20px;
+  --ix-space-6:  24px;
+  --ix-space-8:  32px;
+  --ix-space-10: 40px;
+  --ix-space-12: 48px;
+  --ix-space-16: 64px;
+  --ix-space-20: 80px;
+  --ix-space-24: 96px;
+
+  /* — Typography — */
+  --ix-font-display: 'Rajdhani', 'Orbitron', 'Segoe UI', sans-serif;
+  --ix-font-body:    'Inter', 'Segoe UI', system-ui, sans-serif;
+  --ix-font-mono:    'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --ix-text-xs:   0.75rem;
+  --ix-text-sm:   0.875rem;
+  --ix-text-base: 1rem;
+  --ix-text-lg:   1.125rem;
+  --ix-text-xl:   1.25rem;
+  --ix-text-2xl:  1.5rem;
+  --ix-text-3xl:  1.875rem;
+  --ix-text-4xl:  2.25rem;
+  --ix-text-5xl:  3rem;
+  --ix-text-6xl:  3.75rem;
+
+  --ix-weight-regular: 400;
+  --ix-weight-medium:  500;
+  --ix-weight-semibold: 600;
+  --ix-weight-bold:    700;
+
+  /* — Layout — */
+  --ix-header-h:    72px;
+  --ix-sidebar-w:   280px;
+  --ix-container-max: 1440px;
+
+  /* — Transitions — */
+  --ix-transition-fast:   0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --ix-transition-base:   0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --ix-transition-slow:   0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* — Z-index layers — */
+  --ix-z-canvas:   -10;
+  --ix-z-base:       1;
+  --ix-z-overlay:   10;
+  --ix-z-sidebar:   20;
+  --ix-z-header:   100;
+  --ix-z-modal:    200;
+  --ix-z-toast:    300;
+}
+
+/* --------------------------------------------------------------------------
+   2. GLOBAL RESET & BASE (overrides index.css)
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--ix-font-body);
+  background-color: var(--ix-bg-primary) !important;
+  color: var(--ix-text-primary) !important;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Force override the light theme from index.css */
+html,
+body,
+#root,
+.app,
+.ix-app,
+.main-content,
+.ix-main,
+.home,
+.about-page,
+.pricing-page,
+.login-page {
+  background-color: var(--ix-bg-primary) !important;
+  color: var(--ix-text-primary) !important;
+}
+
+/* Reset index.css color overrides */
+.main-content > div > h1,
+.main-content > div > h2,
+.main-content > div > h3,
+.main-content > div > p,
+.main-content > div > section > h1,
+.main-content > div > section > h2,
+.main-content > div > section > h3,
+.main-content > div > section > p {
+  color: inherit !important;
+}
+
+/* Allow dark overlays from Home */
+.home::before,
+.home::after {
+  background: unset !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. APP LAYOUT (Shell)
+   -------------------------------------------------------------------------- */
+.ix-app {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+/* Three.js background canvas */
+.ix-bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--ix-z-canvas);
+  pointer-events: none;
+}
+
+/* Film grain texture overlay */
+.ix-grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--ix-z-canvas) + 1);
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+.ix-main {
+  flex: 1;
+  position: relative;
+  z-index: var(--ix-z-base);
+}
+
+/* --------------------------------------------------------------------------
+   4. DASHBOARD LAYOUT GRID (for Products page and similar)
+   -------------------------------------------------------------------------- */
+.ix-dashboard-layout {
+  display: grid;
+  grid-template-columns: var(--ix-sidebar-w) 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: calc(100vh - var(--ix-header-h));
+  gap: 0;
+}
+
+.ix-dashboard-layout .ix-panel-header {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.ix-dashboard-layout .ix-sidebar {
+  grid-column: 1;
+  grid-row: 1 / -1;
+}
+
+.ix-dashboard-layout .ix-content-panel {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   5. SIDEBAR ZONE
+   -------------------------------------------------------------------------- */
+.ix-sidebar {
+  position: sticky;
+  top: var(--ix-header-h);
+  height: calc(100vh - var(--ix-header-h));
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: var(--ix-z-sidebar);
+  background: #0F1620;
+  border-right: 1px solid rgba(34, 44, 61, 0.8);
+  display: flex;
+  flex-direction: column;
+  padding: var(--ix-space-6) var(--ix-space-4);
+  gap: var(--ix-space-4);
+
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #222C3D transparent;
+}
+
+.ix-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.ix-sidebar::-webkit-scrollbar-track { background: transparent; }
+.ix-sidebar::-webkit-scrollbar-thumb {
+  background: var(--ix-metal-600);
+  border-radius: 2px;
+}
+
+.ix-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-3);
+}
+
+.ix-sidebar-title {
+  font-family: var(--ix-font-display);
+  font-size: var(--ix-text-xs);
+  font-weight: var(--ix-weight-semibold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ix-text-muted);
+  padding-bottom: var(--ix-space-2);
+  border-bottom: var(--ix-border-metal);
+}
+
+.ix-sidebar-divider {
+  height: 1px;
+  background: var(--ix-border-metal);
+  margin: var(--ix-space-2) 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. CONTENT PANEL ZONE
+   -------------------------------------------------------------------------- */
+.ix-content-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--ix-bg-primary);
+}
+
+.ix-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ix-space-6) var(--ix-space-8);
+  border-bottom: var(--ix-border);
+  background: var(--ix-bg-secondary);
+  gap: var(--ix-space-4);
+  flex-wrap: wrap;
+}
+
+.ix-panel-header h1,
+.ix-panel-header h2 {
+  font-family: var(--ix-font-display);
+  font-size: var(--ix-text-2xl);
+  font-weight: var(--ix-weight-bold);
+  letter-spacing: 0.03em;
+  color: var(--ix-text-primary);
+}
+
+.ix-panel-body {
+  flex: 1;
+  padding: var(--ix-space-8);
+  overflow-y: auto;
+}
+
+/* --------------------------------------------------------------------------
+   7. PRODUCT GRID ZONE
+   -------------------------------------------------------------------------- */
+.ix-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--ix-space-6);
+  padding: var(--ix-space-6) var(--ix-space-8);
+}
+
+/* --------------------------------------------------------------------------
+   8. HEADER ZONE STRUCTURE
+   -------------------------------------------------------------------------- */
+.ix-header-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ix-accent-blue) 30%,
+    var(--ix-accent-blue) 70%,
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+.ix-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ix-accent-green);
+  box-shadow: var(--ix-glow-green);
+  animation: ix-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.ix-system-status {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+  font-family: var(--ix-font-mono);
+  font-size: var(--ix-text-xs);
+  color: var(--ix-text-muted);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   9. UTILITY CLASSES
+   -------------------------------------------------------------------------- */
+.ix-container {
+  width: 100%;
+  max-width: var(--ix-container-max);
+  margin-inline: auto;
+  padding-inline: var(--ix-space-8);
+}
+
+.ix-section {
+  padding-block: var(--ix-space-20);
+}
+
+.ix-label {
+  font-family: var(--ix-font-mono);
+  font-size: var(--ix-text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ix-text-muted);
+}
+
+.ix-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ix-space-1);
+  padding: var(--ix-space-1) var(--ix-space-3);
+  border-radius: var(--ix-border-radius);
+  font-family: var(--ix-font-mono);
+  font-size: var(--ix-text-xs);
+  font-weight: var(--ix-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: var(--ix-border);
+  background: var(--ix-accent-blue-dim);
+  color: var(--ix-accent-blue);
+}
+
+.ix-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ix-metal-600) 20%,
+    var(--ix-metal-600) 80%,
+    transparent
+  );
+}
+
+/* --------------------------------------------------------------------------
+   10. KEYFRAME ANIMATIONS
+   -------------------------------------------------------------------------- */
+@keyframes ix-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.85); }
+}
+
+@keyframes ix-scan-line {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes ix-flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96%           { opacity: 0.85; }
+  98%           { opacity: 0.92; }
+}
+
+/* --------------------------------------------------------------------------
+   11. RESPONSIVE — Collapse sidebar on tablet/mobile
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .ix-dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ix-sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: var(--ix-border);
+    padding: var(--ix-space-4);
+  }
+
+  .ix-dashboard-layout .ix-sidebar,
+  .ix-dashboard-layout .ix-content-panel {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --ix-sidebar-w: 100%;
+    --ix-header-h: 60px;
+  }
+
+  .ix-product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    padding: var(--ix-space-4);
+    gap: var(--ix-space-4);
+  }
+
+  .ix-panel-body {
+    padding: var(--ix-space-4);
+  }
+
+  .ix-panel-header {
+    padding: var(--ix-space-4);
+  }
+}
+
+/* ==========================================================================
+   LIGHT THEME — full override
+   ========================================================================== */
+
+[data-theme="light"] {
+  --ix-bg-primary:    #F0F4F8;
+  --ix-bg-secondary:  #FFFFFF;
+  --ix-bg-surface:    #FFFFFF;
+  --ix-bg-elevated:   #F8FAFC;
+  --ix-bg-overlay:    rgba(255, 255, 255, 0.97);
+
+  --ix-border-subtle:  #CBD5E1;
+  --ix-border-default: rgba(203, 213, 225, 0.8);
+  --ix-border:         1px solid rgba(203, 213, 225, 0.8);
+  --ix-border-metal:   1px solid rgba(203, 213, 225, 0.6);
+
+  --ix-text-primary:   #0F172A;
+  --ix-text-secondary: #334155;
+  --ix-text-muted:     #64748B;
+  --ix-text-faint:     #94A3B8;
+
+  --ix-glow-blue:  none;
+  --ix-glow-cyan:  none;
+  --ix-glow-green: none;
+}
+
+/* ---- Global backgrounds ---- */
+[data-theme="light"] body,
+[data-theme="light"] #root,
+[data-theme="light"] .app,
+[data-theme="light"] .ix-app,
+[data-theme="light"] .main-content,
+[data-theme="light"] .ix-main,
+[data-theme="light"] .home,
+[data-theme="light"] .about-page,
+[data-theme="light"] .pricing-page,
+[data-theme="light"] .products-page,
+[data-theme="light"] .ix-dashboard-layout {
+  background-color: #F0F4F8 !important;
+  color: #0F172A !important;
+}
+
+/* ---- Canvas / grain — hide in light mode ---- */
+[data-theme="light"] .ix-bg-canvas { opacity: 0; }
+[data-theme="light"] .ix-grain-overlay { opacity: 0; }
+
+/* ---- Header ---- */
+[data-theme="light"] .header,
+[data-theme="light"] .ix-header {
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-bottom-color: rgba(203, 213, 225, 0.8) !important;
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.07) !important;
+}
+
+[data-theme="light"] .btn .nav-btn { color: #475569 !important; }
+[data-theme="light"] .btn:hover .nav-btn {
+  color: #0F172A !important;
+  background: rgba(59, 130, 246, 0.07) !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+[data-theme="light"] .ix-system-status {
+  color: #16A34A !important;
+  border-color: rgba(22, 163, 74, 0.3) !important;
+  background: rgba(22, 163, 74, 0.06) !important;
+}
+
+[data-theme="light"] .ix-status-dot {
+  background: #16A34A !important;
+  box-shadow: 0 0 6px rgba(22, 163, 74, 0.5) !important;
+}
+
+[data-theme="light"] .cart-badge {
+  color: #FFFFFF !important;
+  background: #2563EB !important;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.4) !important;
+}
+
+[data-theme="light"] .logo-img {
+  filter: brightness(1) drop-shadow(0 0 6px rgba(59, 130, 246, 0.15)) !important;
+}
+
+/* ---- Sidebar ---- */
+[data-theme="light"] .ix-sidebar {
+  background: #FFFFFF !important;
+  border-right-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+[data-theme="light"] .ix-sidebar-title { color: #94A3B8 !important; }
+[data-theme="light"] .ix-sidebar-divider { background: rgba(203, 213, 225, 0.6) !important; }
+
+[data-theme="light"] .search-input {
+  background: #F8FAFC !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .search-input:focus {
+  border-color: rgba(37, 99, 235, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+[data-theme="light"] .category-btn {
+  color: #475569 !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+[data-theme="light"] .category-btn:hover,
+[data-theme="light"] .category-btn.active {
+  background: rgba(37, 99, 235, 0.08) !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  color: #2563EB !important;
+}
+
+[data-theme="light"] .ix-stat-label { color: #94A3B8 !important; }
+[data-theme="light"] .ix-stat-value { color: #2563EB !important; }
+
+/* ---- Panel header ---- */
+[data-theme="light"] .ix-panel-header {
+  background: #FFFFFF !important;
+  border-bottom-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+[data-theme="light"] .ix-panel-header h1,
+[data-theme="light"] .ix-panel-header h2 { color: #0F172A !important; }
+
+[data-theme="light"] .ix-badge {
+  background: rgba(37, 99, 235, 0.08) !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+  color: #2563EB !important;
+}
+
+/* ---- Content panel ---- */
+[data-theme="light"] .ix-content-panel { background: #F0F4F8 !important; }
+
+/* ---- Product cards ---- */
+[data-theme="light"] .card {
+  background: #FFFFFF !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .card:hover {
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(37, 99, 235, 0.15) !important;
+}
+
+[data-theme="light"] .card-image {
+  filter: saturate(1) brightness(1) !important;
+  border-bottom-color: rgba(203, 213, 225, 0.6) !important;
+}
+
+[data-theme="light"] .card-title { color: #0F172A !important; }
+[data-theme="light"] .card-description { color: #64748B !important; }
+
+[data-theme="light"] .card-category {
+  color: #2563EB !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+[data-theme="light"] .card-price { color: #2563EB !important; }
+
+[data-theme="light"] .card-stock {
+  color: #16A34A !important;
+  background: rgba(22, 163, 74, 0.08) !important;
+  border-color: rgba(22, 163, 74, 0.2) !important;
+}
+
+[data-theme="light"] .card-stock.card-stock-empty {
+  color: #DC2626 !important;
+  background: rgba(220, 38, 38, 0.08) !important;
+  border-color: rgba(220, 38, 38, 0.2) !important;
+}
+
+[data-theme="light"] .card-footer {
+  border-top-color: rgba(203, 213, 225, 0.6) !important;
+}
+
+[data-theme="light"] .card-link {
+  color: #334155 !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+[data-theme="light"] .card-link:hover {
+  background: rgba(37, 99, 235, 0.07) !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  color: #2563EB !important;
+}
+
+/* ---- QuantitySelector light ---- */
+[data-theme="light"] .quantity-step-btn {
+  color: #64748B !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+[data-theme="light"] .quantity-step-btn.quantity-step-btn-plus {
+  color: #16A34A !important;
+  background: rgba(22, 163, 74, 0.08) !important;
+  border-color: rgba(22, 163, 74, 0.25) !important;
+}
+
+[data-theme="light"] .quantity-input {
+  background: #F8FAFC !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  color: #0F172A !important;
+}
+
+/* ---- Hero section ---- */
+[data-theme="light"] .hero::before {
+  background: linear-gradient(
+    160deg,
+    rgba(240, 244, 248, 0.55) 0%,
+    rgba(248, 250, 252, 0.40) 40%,
+    rgba(219, 234, 254, 0.50) 100%
+  ) !important;
+}
+
+[data-theme="light"] .hero-content h1 { color: #0F172A !important; text-shadow: none !important; }
+[data-theme="light"] .hero-content p  { color: #334155 !important; }
+
+[data-theme="light"] .hero-btn {
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35) !important;
+}
+
+/* ---- Features section ---- */
+[data-theme="light"] .features {
+  background: #FFFFFF !important;
+  border-color: rgba(203, 213, 225, 0.6) !important;
+}
+
+[data-theme="light"] .features .container .box {
+  background: #F8FAFC !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+[data-theme="light"] .features .container .box:hover {
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .features .container .box .content h2 { color: #0F172A !important; }
+[data-theme="light"] .features .container .box .content p  { color: #64748B !important; }
+
+[data-theme="light"] .features .container .box .content a {
+  color: #2563EB !important;
+  background: rgba(37, 99, 235, 0.06) !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+/* ---- Categories ---- */
+[data-theme="light"] .categories { background: transparent !important; }
+[data-theme="light"] .categories h2 { color: #0F172A !important; }
+
+[data-theme="light"] .category-card-3d {
+  background: #FFFFFF !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .category-card-3d:hover {
+  border-color: rgba(37, 99, 235, 0.35) !important;
+}
+
+[data-theme="light"] .category-card-3d .face.face1 .content h3 { color: #0F172A !important; }
+[data-theme="light"] .category-card-3d .face.face1 .content p  { color: #64748B !important; }
+
+[data-theme="light"] .category-card-3d .face.face2 h2 {
+  color: rgba(37, 99, 235, 0.08) !important;
+}
+
+/* ---- Footer ---- */
+[data-theme="light"] footer,
+[data-theme="light"] .footer {
+  background: #FFFFFF !important;
+  border-top-color: rgba(203, 213, 225, 0.8) !important;
+  color: #475569 !important;
+}
+
+/* ---- Login ---- */
+[data-theme="light"] .login-page { background: #F0F4F8 !important; }
+
+[data-theme="light"] .login-container {
+  background: #FFFFFF !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .login-container h1 { color: #0F172A !important; }
+
+[data-theme="light"] .login-info {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+/* ---- Admin ---- */
+[data-theme="light"] .admin-shell { background: #F0F4F8 !important; }
+[data-theme="light"] .admin-sidebar {
+  background: #FFFFFF !important;
+  border-right-color: rgba(203, 213, 225, 0.8) !important;
+}
+[data-theme="light"] .admin-content-wrap { background: #F0F4F8 !important; }
+[data-theme="light"] .admin-card,
+[data-theme="light"] .admin-stat-card {
+  background: #FFFFFF !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+[data-theme="light"] .admin-topbar h1,
+[data-theme="light"] .admin-card h2,
+[data-theme="light"] .admin-card h3 { color: #0F172A !important; }
+[data-theme="light"] .admin-topbar p,
+[data-theme="light"] .admin-card p  { color: #64748B !important; }
+[data-theme="light"] .admin-nav-link { color: #64748B !important; }
+[data-theme="light"] .admin-nav-link.active,
+[data-theme="light"] .admin-nav-link:hover {
+  color: #0F172A !important;
+  background: rgba(37, 99, 235, 0.07) !important;
+  border-color: rgba(37, 99, 235, 0.15) !important;
+}
+[data-theme="light"] .admin-table th { color: #94A3B8 !important; background: rgba(248, 250, 252, 0.8) !important; }
+[data-theme="light"] .admin-table td { color: #334155 !important; border-bottom-color: rgba(203, 213, 225, 0.6) !important; }
+[data-theme="light"] .admin-table tr:hover td { background: rgba(37, 99, 235, 0.03) !important; }
+[data-theme="light"] .admin-form-input {
+  background: #F8FAFC !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  color: #0F172A !important;
+}
+[data-theme="light"] .admin-role-select {
+  background: #F8FAFC !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  color: #0F172A !important;
+}
+[data-theme="light"] .admin-topbar { background: transparent !important; }
+[data-theme="light"] .admin-sidebar-footer { border-top-color: rgba(203, 213, 225, 0.8) !important; }
+[data-theme="light"] .admin-preview-link {
+  color: #2563EB !important;
+  background: rgba(37, 99, 235, 0.07) !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+[data-theme="light"] .admin-logout-btn { color: #94A3B8 !important; }
+[data-theme="light"] .admin-logout-btn:hover {
+  color: #DC2626 !important;
+  background: rgba(220, 38, 38, 0.07) !important;
+  border-color: rgba(220, 38, 38, 0.2) !important;
+}

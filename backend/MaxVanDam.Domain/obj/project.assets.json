@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/Users/user/.nuget/packages/": {}
+    "/Users/damianvr/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
+      "projectUniqueName": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
       "projectName": "MaxVanDam.Domain",
-      "projectPath": "/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
-      "packagesPath": "/Users/user/.nuget/packages/",
-      "outputPath": "/Users/user/RiderProjects/MaxVanDam/backend/MaxVanDam.Domain/obj/",
+      "projectPath": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
+      "packagesPath": "/Users/damianvr/.nuget/packages/",
+      "outputPath": "/Users/damianvr/Desktop/MaxVanDam/backend/MaxVanDam.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/user/.nuget/NuGet/NuGet.Config"
+        "/Users/damianvr/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -64,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.418/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

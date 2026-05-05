@@ -1,6 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigationType } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -24,9 +26,16 @@ import Pricing from './pages/Pricing';
 import PricingPlanDetails from './pages/PricingPlanDetails';
 import PricingContact from './pages/PricingContact';
 import './styles/App.css';
+import './styles/ix-design-system.css';
+import { initBackground } from './lib/background3d';
+import { animatePageLoad, initScrollReveal, animateStatusDot } from './lib/animations';
 
 const AppLayout = () => {
   const location = useLocation();
+  const navType = useNavigationType();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const cleanupRef = useRef<(() => void) | null>(null);
+
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isAuthRoute = location.pathname === '/login' || location.pathname === '/register';
   const isShowcaseRoute =
@@ -35,10 +44,35 @@ const AppLayout = () => {
     location.pathname.startsWith('/organizare-inteligenta');
   const hideChrome = isAdminRoute || isAuthRoute || isShowcaseRoute;
 
+  // Three.js background — init once on mount
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const cleanup = initBackground(canvasRef.current);
+    cleanupRef.current = cleanup;
+    return () => cleanup();
+  }, []);
+
+  // GSAP: re-run on every route change
+  useEffect(() => {
+    const tl = animatePageLoad();
+    const revealTimer = setTimeout(() => initScrollReveal(), 120);
+    animateStatusDot();
+    return () => {
+      tl.kill();
+      clearTimeout(revealTimer);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, navType]);
+
   return (
-    <div className="app">
+    <div className="app ix-app">
+      {/* Three.js background canvas */}
+      <canvas ref={canvasRef} id="ix-bg-canvas" className="ix-bg-canvas" aria-hidden="true" />
+      {/* Film grain overlay for premium texture */}
+      <div className="ix-grain-overlay" aria-hidden="true" />
+
       {!hideChrome && <Header />}
-      <main className="main-content">
+      <main className="main-content ix-main">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -97,13 +131,15 @@ const AppLayout = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <AppLayout />
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <AppLayout />
+          </Router>
+        </CartProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

@@ -75,6 +75,29 @@ const createWarehouseLocation = (index: number): string => {
   return `${row}-${slot}`;
 };
 
+/* Category → loremflickr keywords for relevant automotive images */
+const categoryKeywords: Record<string, string> = {
+  'Filtre de aer':         'car,engine,filter',
+  'Filtre de ulei':        'car,oil,engine',
+  'Filtre de combustibil': 'car,fuel,tank',
+  'Filtre de habitaclu':   'automobile,interior,car',
+  'Sistem de frânare':     'brake,disc,car',
+  'Suspensie':             'suspension,shock,car',
+  'Transmisie':            'transmission,gearbox,car',
+  'Electric':              'battery,electric,car',
+  'Motor':                 'engine,motor,car',
+  'Răcire':                'radiator,cooling,car',
+  'Alimentare':            'fuel,pump,car',
+  'Senzori':               'sensor,electronic,car',
+  'Rulare':                'wheel,bearing,car',
+  'Direcție':              'steering,wheel,car',
+};
+
+const getProductImage = (categoryName: string, productId: number): string => {
+  const keywords = categoryKeywords[categoryName] ?? 'car,parts,auto';
+  return `https://loremflickr.com/480/320/${keywords}?lock=${productId}`;
+};
+
 const createSeedProducts = (): Product[] => {
   const generated: Product[] = [];
 
@@ -94,6 +117,7 @@ const createSeedProducts = (): Product[] => {
     const engineB = engines[(i + 2) % engines.length];
 
     const shortDescription = `${category.part} pentru ${brandGroup.brand} ${model}, calitate OEM pentru utilizare zilnică.`;
+    const imageUrl = getProductImage(category.name, i + 1);
 
     generated.push({
       id: i + 1,
@@ -105,13 +129,13 @@ const createSeedProducts = (): Product[] => {
       stock,
       warehouseLocation: createWarehouseLocation(i),
       shortDescription,
-      image: `/products/${i + 1}.jpg`,
+      image: imageUrl,
       compatibility: [
         `${brandGroup.brand} ${model} ${engineA}`,
         `${brandGroup.brand} ${model} ${engineB}`
       ],
       description: shortDescription,
-      imageUrl: `/products/${i + 1}.jpg`
+      imageUrl,
     });
   }
 

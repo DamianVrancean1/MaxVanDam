@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import '../../styles/QuantitySelector.css';
 
 
 interface QuantitySelectorProps {

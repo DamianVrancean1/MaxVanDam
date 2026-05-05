@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Product } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import QuantitySelector from './QuantitySelector';
+import { flyToCart } from '../../lib/animations';
 import '../../styles/Card.css';
 
 interface CardProps {
@@ -14,6 +15,7 @@ const Card = ({ product }: CardProps) => {
   const { user } = useAuth();
   const { items, addToCart } = useCart();
   const isUserLoggedIn = user?.role === 'user';
+  const addBtnRef = useRef<HTMLDivElement>(null);
 
   const currentInCart = items.find((item) => item.product.id === product.id)?.quantity ?? 0;
   const maxAddable = Math.max(product.stock - currentInCart, 0);
@@ -29,10 +31,9 @@ const Card = ({ product }: CardProps) => {
   }, [maxAddable]);
 
   const handleAddToCart = (qty: number) => {
-    if (!canAdd) {
-      return;
-    }
+    if (!canAdd) return;
     addToCart(product, qty);
+    if (addBtnRef.current) flyToCart(addBtnRef.current);
   };
 
   return (
@@ -44,7 +45,9 @@ const Card = ({ product }: CardProps) => {
         <p className="card-description">{product.description}</p>
         <div className="card-footer">
           <span className="card-price">{product.price} MDL</span>
-          <span className="card-stock">Stoc: {product.stock}</span>
+          <span className={`card-stock ${maxAddable === 0 ? 'card-stock-empty' : ''}`}>
+            Stoc: {maxAddable}
+          </span>
         </div>
 
         <div className="card-actions">
@@ -53,14 +56,17 @@ const Card = ({ product }: CardProps) => {
           </Link>
 
           {isUserLoggedIn ? (
-            <QuantitySelector
+            <div ref={addBtnRef}>
+              <QuantitySelector
+                key={maxAddable}
                 value={selectedQuantity}
                 onChange={setSelectedQuantity}
                 maxQuantity={maxAddable}
                 onAddClick={handleAddToCart}
-                addButtonLabel="🛒 Adauga in cos"
+                addButtonLabel="Adaugă în coș"
                 showAddButton={canAdd}
-            />
+              />
+            </div>
           ) : null}
         </div>
       </div>

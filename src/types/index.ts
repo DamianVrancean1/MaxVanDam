@@ -10,6 +10,14 @@ export interface User {
   email: string;
 }
 
+export interface StoredUser {
+  id: number;
+  username: string;
+  password: string;
+  role: UserRole;
+  email: string;
+}
+
 export interface AuthResponse {
   id: number;
   username: string;
