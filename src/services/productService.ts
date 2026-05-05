@@ -3,7 +3,7 @@ import { products as seedProducts } from '../data/mockData';
 
 const PRODUCTS_STORAGE_KEY = 'mockProducts';
 const PRODUCTS_VERSION_KEY = 'mockProductsVersion';
-const PRODUCTS_DATA_VERSION = 'v6-stock-notifications';
+const PRODUCTS_DATA_VERSION = 'v8-loremflickr-images';
 const NOTIFICATIONS_STORAGE_KEY = 'inventoryNotifications';
 const MIN_PRODUCTS_COUNT = 100;
 

@@ -1,5 +1,5 @@
 import type { AuthResponse, User, UserRole } from '../types';
-import { mockUsers } from '../data/mockData';
+import { getUserByUsername } from './userService';
 
 const AUTH_STORAGE_KEY = 'authUser';
 const TOKEN_STORAGE_KEY = 'authToken';
@@ -72,11 +72,9 @@ export const loginUser = async (username: string, password: string): Promise<{ u
     return apiLogin;
   }
 
-  const foundUser = mockUsers.find(
-    user => user.username === username && user.password === password
-  );
+  const foundUser = getUserByUsername(username);
 
-  if (!foundUser) {
+  if (!foundUser || foundUser.password !== password) {
     return null;
   }
 

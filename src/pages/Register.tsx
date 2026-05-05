@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import '../styles/Login.css';
@@ -29,6 +30,8 @@ const Register = () => {
 
   return (
     <div className="login-page">
+      <Link to="/" className="back-btn">← Acasă</Link>
+
       <div className="login-container">
         <h1>Înregistrare</h1>
         <form onSubmit={handleSubmit} className="login-form">

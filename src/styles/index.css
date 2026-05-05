@@ -1,48 +1,43 @@
-* {
+/* ==========================================================================
+   GLOBAL RESET — Industrial Dark Theme (COMPLETE OVERRIDE)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  height: 100%;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  background: #0B0F14 !important;
+  color: #E2E8F0 !important;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
-  color: #333;
-  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Force a consistent light background across all page shells */
-html,
-body,
-#root,
-.app,
-.main-content,
-.home,
-.about-page,
-.pricing-page,
-.login-page,
-.admin-shell,
-.admin-content-wrap,
-.admin-main {
-  background-color: #fafafa !important;
+/* Force dark everywhere — kill all light-theme overrides */
+html, body, #root,
+.app, .ix-app,
+.main-content, .ix-main,
+.home, .about-page, .pricing-page,
+.login-page, .admin-shell, .admin-content-wrap, .admin-main {
+  background-color: #0B0F14 !important;
+  color: #E2E8F0 !important;
 }
 
-/* Disable dark overlays from the Home theme so page background remains #fafafa */
-.home::before,
-.home::after {
-  background: transparent !important;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-/* Keep text black only for content rendered directly on the main background */
+/* Kill old text color selectors */
 .main-content > div > h1,
 .main-content > div > h2,
 .main-content > div > h3,
@@ -51,5 +46,53 @@ code {
 .main-content > div > section > h2,
 .main-content > div > section > h3,
 .main-content > div > section > p {
-  color: #000 !important;
+  color: inherit !important;
+}
+
+/* Allow dark overlays from Home */
+.home::before,
+.home::after {
+  background: unset !important;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font: inherit; border: none; background: none; padding: 0; }
+input, textarea, select { font: inherit; color: inherit; }
+ul, ol { list-style: none; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Rajdhani', 'Space Grotesk', sans-serif; line-height: 1.2; }
+
+code, pre, kbd {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+/* Scrollbar global */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0B0F14; }
+::-webkit-scrollbar-thumb { background: #222C3D; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3B82F6; }
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #E2E8F0;
+}
+
+/* ---- Cart fly-to-cart dot (created dynamically by GSAP) ---- */
+.cart-fly-dot {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.4);
+  pointer-events: none;
+  z-index: 9999;
+  transform-origin: center;
 }
