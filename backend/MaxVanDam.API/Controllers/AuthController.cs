@@ -2,6 +2,7 @@ using MaxVanDam.BusinessLayer;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace MaxVanDam.API.Controllers;
 
@@ -11,9 +12,9 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthLogic _authLogic;
 
-    public AuthController()
+    public AuthController(ILoggerFactory loggerFactory)
     {
-        var bl = new BusinessLogic();
+        var bl = new BusinessLogic(loggerFactory);
         _authLogic = bl.GetAuthLogic();
     }
 
