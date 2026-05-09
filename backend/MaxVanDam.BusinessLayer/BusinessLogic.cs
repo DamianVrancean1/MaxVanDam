@@ -9,4 +9,5 @@ public class BusinessLogic
     public IProductLogic GetProductLogic() => new ProductLogic();
     public IUserLogic GetUserLogic() => new UserLogic();
     public INotificationLogic GetNotificationLogic() => new NotificationLogic();
+    public ISubscriptionLogic GetSubscriptionLogic() => new SubscriptionLogic();
 }
