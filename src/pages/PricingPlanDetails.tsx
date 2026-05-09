@@ -37,8 +37,8 @@ const PricingPlanDetails = () => {
         </section>
 
         <div className="single-actions">
-          <Link to={`/pricing/${plan.id}/contact`} className="choose-btn single-btn-link">
-            Contact pentru acest plan
+          <Link to={`/pricing/${plan.id}/checkout`} className="choose-btn single-btn-link">
+            Cumpără abonament
           </Link>
           <Link to="/pricing" className="learn-more">
             Inapoi la abonamente
