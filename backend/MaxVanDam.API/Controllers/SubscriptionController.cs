@@ -3,20 +3,17 @@ using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Subscription;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 namespace MaxVanDam.API.Controllers;
 
 [ApiController]
-[Route("api/v{version:apiVersion}/subscriptions")]
-[ApiVersion("1.0")]
+[Route("api/subscriptions")]
 public class SubscriptionController : ControllerBase
 {
     private readonly ISubscriptionLogic _subscriptionLogic;
 
-    public SubscriptionController(ILoggerFactory loggerFactory)
+    public SubscriptionController()
     {
-        var bl = new BusinessLogic(loggerFactory);
+        var bl = new BusinessLogic();
         _subscriptionLogic = bl.GetSubscriptionLogic();
     }
 

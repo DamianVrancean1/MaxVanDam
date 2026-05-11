@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MaxVanDam.DataAccessLayer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6fa90a640f3858bc9651ab779ae82b030d110216")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ab518dc92cc67305b659852884c889e6637d8ff")]
 [assembly: System.Reflection.AssemblyProductAttribute("MaxVanDam.DataAccessLayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MaxVanDam.DataAccessLayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
