@@ -1,0 +1,203 @@
+﻿.admin-subscriptions {
+  background: linear-gradient(135deg, #1b2030, #232a3f);
+  color: #fff;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.admin-subscriptions-header {
+  margin-bottom: 2rem;
+}
+
+.admin-subscriptions-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #f06595;
+}
+
+.admin-subscriptions-header p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.admin-error {
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.5);
+  color: #ff6b6b;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.admin-filter {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #d63384, #f06595);
+  border-color: #f06595;
+  color: #fff;
+}
+
+.admin-subscriptions-table {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-subscriptions-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-subscriptions-table thead {
+  background: rgba(240, 101, 149, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-subscriptions-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #f06595;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.admin-subscriptions-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+.admin-subscriptions-table tbody tr:hover {
+  background: rgba(240, 101, 149, 0.05);
+}
+
+.admin-subscriptions-table td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.admin-subscriptions-table strong {
+  color: #f06595;
+  font-weight: 600;
+}
+
+.amount {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.card-number {
+  font-family: monospace;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.5);
+}
+
+.status-cancelled {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.5);
+}
+
+.action-btn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.cancel-btn {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.5);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 107, 107, 0.4);
+  border-color: #ff6b6b;
+}
+
+.empty-state {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 1024px) {
+  .admin-subscriptions-table {
+    overflow-x: auto;
+  }
+
+  .admin-subscriptions-table table {
+    min-width: 900px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-subscriptions {
+    padding: 1rem;
+  }
+
+  .admin-subscriptions-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .admin-filter {
+    flex-direction: column;
+  }
+
+  .filter-btn {
+    width: 100%;
+  }
+
+  .admin-subscriptions-table th,
+  .admin-subscriptions-table td {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .action-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+

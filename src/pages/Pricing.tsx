@@ -104,7 +104,7 @@ const Pricing = () => {
 		return () => observer.disconnect();
 	}, []);
 
-	const openContact = (event: React.MouseEvent<HTMLButtonElement>, planId: string) => {
+	const openCheckout = (event: React.MouseEvent<HTMLButtonElement>, planId: string) => {
 		const button = event.currentTarget;
 		const rect = button.getBoundingClientRect();
 		const ripple = document.createElement('span');
@@ -119,7 +119,7 @@ const Pricing = () => {
 
 		setTimeout(() => {
 			ripple.remove();
-			navigate(`/pricing/${planId}/contact`);
+			navigate(`/pricing/${planId}/checkout`);
 		}, 180);
 	};
 
@@ -179,9 +179,9 @@ const Pricing = () => {
 							<button
 								type="button"
 								className="choose-btn"
-								onClick={(event) => openContact(event, plan.id)}
+								onClick={(event) => openCheckout(event, plan.id)}
 							>
-								Alege planul
+								Cumpără abonament
 							</button>
 							<Link to={`/pricing/${plan.id}/details`} className="learn-more">
 								Detalii

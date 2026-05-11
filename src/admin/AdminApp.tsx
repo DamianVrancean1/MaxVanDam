@@ -5,6 +5,7 @@ import ProductsPage from './layouts/ProductsPage';
 import ProductFormPage from './layouts/ProductFormPage';
 import ProfilePage from './layouts/ProfilePage';
 import UsersPage from './layouts/UsersPage';
+import AdminSubscriptionsPage from '../pages/AdminSubscriptionsPage';
 import '../styles/AdminTheme.css';
 
 const AdminShell = ({
@@ -20,6 +21,7 @@ const AdminShell = ({
     { to: '/admin/products', label: 'Produse' },
     { to: '/admin/products/new', label: 'Adaugă produs' },
     { to: '/admin/users', label: 'Utilizatori' },
+    { to: '/admin/subscriptions', label: 'Abonamente' },
     { to: '/admin/profile', label: 'Profil' },
   ];
 
@@ -84,16 +86,17 @@ const AdminApp = () => {
 
   return (
       <AdminShell onLogout={logout}>
-        <Routes>
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="products" element={<ProductsPage />} />
-          <Route path="products/new" element={<ProductFormPage mode="create" />} />
-          <Route path="products/:id/edit" element={<ProductFormPage mode="edit" />} />
-          <Route path="users" element={<UsersPage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="*" element={<Navigate to="dashboard" replace />} />
-        </Routes>
+       <Routes>
+           <Route index element={<Navigate to="dashboard" replace />} />
+           <Route path="dashboard" element={<DashboardPage />} />
+           <Route path="products" element={<ProductsPage />} />
+           <Route path="products/new" element={<ProductFormPage mode="create" />} />
+           <Route path="products/:id/edit" element={<ProductFormPage mode="edit" />} />
+           <Route path="users" element={<UsersPage />} />
+           <Route path="subscriptions" element={<AdminSubscriptionsPage />} />
+           <Route path="profile" element={<ProfilePage />} />
+           <Route path="*" element={<Navigate to="dashboard" replace />} />
+         </Routes>
       </AdminShell>
   );
 };

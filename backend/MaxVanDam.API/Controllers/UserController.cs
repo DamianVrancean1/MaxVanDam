@@ -3,6 +3,7 @@ using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Auth;
 using MaxVanDam.Domain.Models.User;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace MaxVanDam.API.Controllers;
 
@@ -12,9 +13,9 @@ public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
 
-    public UserController()
+    public UserController(ILoggerFactory loggerFactory)
     {
-        var bl = new BusinessLogic();
+        var bl = new BusinessLogic(loggerFactory);
         _userLogic = bl.GetUserLogic();
     }
 

@@ -25,6 +25,7 @@ import SubscriptionsPage from './pages/Subscriptions';
 import Pricing from './pages/Pricing';
 import PricingPlanDetails from './pages/PricingPlanDetails';
 import PricingContact from './pages/PricingContact';
+import CheckoutPage from './pages/CheckoutPage';
 import './styles/App.css';
 import './styles/ix-design-system.css';
 import { initBackground } from './lib/background3d';
@@ -96,9 +97,10 @@ const AppLayout = () => {
           <Route path="/about" element={<About />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
           <Route path="/subscriptions-info" element={<SubscriptionsInfo />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/pricing/:planId/details" element={<PricingPlanDetails />} />
-          <Route path="/pricing/:planId/contact" element={<PricingContact />} />
+           <Route path="/pricing" element={<Pricing />} />
+           <Route path="/pricing/:planId/details" element={<PricingPlanDetails />} />
+           <Route path="/pricing/:planId/checkout" element={<CheckoutPage />} />
+           <Route path="/pricing/:planId/contact" element={<PricingContact />} />
           <Route path="/inventory-visibility" element={<InventoryVisibility />} />
           <Route path="/informatii-detaliate" element={<DetailedInfoShowcase />} />
           <Route path="/organizare-inteligenta" element={<SmartOrganizationShowcase />} />
