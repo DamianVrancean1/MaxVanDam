@@ -1215,19 +1215,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ion\\.nuget\\packages\\": {}
+    "/Users/user/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.BusinessLayer\\MaxVanDam.BusinessLayer.csproj",
+      "projectUniqueName": "/Users/user/MaxVanDam/backend/MaxVanDam.BusinessLayer/MaxVanDam.BusinessLayer.csproj",
       "projectName": "MaxVanDam.BusinessLayer",
-      "projectPath": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.BusinessLayer\\MaxVanDam.BusinessLayer.csproj",
-      "packagesPath": "C:\\Users\\Ion\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.BusinessLayer\\obj\\",
+      "projectPath": "/Users/user/MaxVanDam/backend/MaxVanDam.BusinessLayer/MaxVanDam.BusinessLayer.csproj",
+      "packagesPath": "/Users/user/.nuget/packages/",
+      "outputPath": "/Users/user/MaxVanDam/backend/MaxVanDam.BusinessLayer/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Ion\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/user/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1239,11 +1239,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.DataAccessLayer\\MaxVanDam.DataAccessLayer.csproj": {
-              "projectPath": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.DataAccessLayer\\MaxVanDam.DataAccessLayer.csproj"
+            "/Users/user/MaxVanDam/backend/MaxVanDam.DataAccessLayer/MaxVanDam.DataAccessLayer.csproj": {
+              "projectPath": "/Users/user/MaxVanDam/backend/MaxVanDam.DataAccessLayer/MaxVanDam.DataAccessLayer.csproj"
             },
-            "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.Domain\\MaxVanDam.Domain.csproj": {
-              "projectPath": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.Domain\\MaxVanDam.Domain.csproj"
+            "/Users/user/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj": {
+              "projectPath": "/Users/user/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj"
             }
           }
         }
@@ -1288,7 +1288,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.420/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.418/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
