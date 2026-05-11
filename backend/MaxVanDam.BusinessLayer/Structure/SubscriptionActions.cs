@@ -107,6 +107,33 @@ public class SubscriptionActions
         }
     }
 
+    protected ServiceResponse GetStatsAction()
+    {
+        try
+        {
+            using var db = new SubscriptionDbContext();
+            var total = db.Subscriptions.Count();
+            var active = db.Subscriptions.Count(s => s.Status == "active");
+            var cancelled = db.Subscriptions.Count(s => s.Status == "cancelled");
+            var revenue = db.Subscriptions.Sum(s => (decimal?)s.Amount) ?? 0m;
+
+            var stats = new
+            {
+                TotalSubscriptions = total,
+                ActiveSubscriptions = active,
+                CancelledSubscriptions = cancelled,
+                TotalRevenue = revenue,
+                AverageRevenue = total > 0 ? revenue / total : 0m
+            };
+
+            return new ServiceResponse { IsSuccess = true, Data = stats };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
+
     private static SubscriptionInfoDto MapToDto(SubscriptionEntity s) => new()
     {
         Id               = s.Id,

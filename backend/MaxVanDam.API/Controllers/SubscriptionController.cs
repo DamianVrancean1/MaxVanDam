@@ -1,8 +1,8 @@
-﻿using MaxVanDam.BusinessLayer;
+using MaxVanDam.BusinessLayer;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Subscription;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace MaxVanDam.API.Controllers;
 
 [ApiController]
@@ -25,7 +25,6 @@ public class SubscriptionController : ControllerBase
         return Ok(response.Data);
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpGet("list")]
     public IActionResult GetList()
     {
@@ -34,7 +33,6 @@ public class SubscriptionController : ControllerBase
         return Ok(response.Data);
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
@@ -43,7 +41,6 @@ public class SubscriptionController : ControllerBase
         return Ok(response.Data);
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpPost("{id}/cancel")]
     public IActionResult Cancel(int id)
     {
@@ -52,32 +49,11 @@ public class SubscriptionController : ControllerBase
         return Ok(response.Message);
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpGet("stats")]
     public IActionResult GetStats()
     {
-        try
-        {
-            using var db = new MaxVanDam.DataAccessLayer.Context.SubscriptionDbContext();
-            var totalSubscriptions = db.Subscriptions.Count();
-            var activeSubscriptions = db.Subscriptions.Count(s => s.Status == "active");
-            var cancelledSubscriptions = db.Subscriptions.Count(s => s.Status == "cancelled");
-            var totalRevenue = db.Subscriptions.Sum(s => s.Amount);
-
-            var stats = new
-            {
-                TotalSubscriptions = totalSubscriptions,
-                ActiveSubscriptions = activeSubscriptions,
-                CancelledSubscriptions = cancelledSubscriptions,
-                TotalRevenue = totalRevenue,
-                AverageRevenue = totalSubscriptions > 0 ? totalRevenue / totalSubscriptions : 0
-            };
-
-            return Ok(stats);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest($"Eroare la obținerea statisticilor: {ex.Message}");
-        }
+        var response = _subscriptionLogic.GetStats();
+        if (!response.IsSuccess) return BadRequest(response.Message);
+        return Ok(response.Data);
     }
 }

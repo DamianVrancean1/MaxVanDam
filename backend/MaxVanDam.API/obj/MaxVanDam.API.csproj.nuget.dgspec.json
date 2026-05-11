@@ -47,47 +47,15 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "AspNetCoreRateLimit": {
-              "target": "Package",
-              "version": "[5.0.0, )"
-            },
             "DotNetEnv": {
               "target": "Package",
               "version": "[3.1.1, )"
-            },
-            "MailKit": {
-              "target": "Package",
-              "version": "[4.16.0, )"
-            },
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[8.0.5, )"
-            },
-            "Microsoft.AspNetCore.Mvc.Versioning": {
-              "target": "Package",
-              "version": "[5.1.0, )"
-            },
-            "Microsoft.AspNetCore.OpenApi": {
-              "target": "Package",
-              "version": "[8.0.25, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.0, )"
-            },
-            "Serilog.AspNetCore": {
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
-            "Serilog.Sinks.Console": {
-              "target": "Package",
-              "version": "[5.0.1, )"
-            },
-            "Serilog.Sinks.File": {
-              "target": "Package",
-              "version": "[5.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

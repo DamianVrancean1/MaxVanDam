@@ -18,4 +18,7 @@ public class SubscriptionLogic : SubscriptionActions, ISubscriptionLogic
 
     public ServiceResponse CancelSubscription(int id)
         => CancelSubscriptionAction(id);
+
+    public ServiceResponse GetStats()
+        => GetStatsAction();
 }
