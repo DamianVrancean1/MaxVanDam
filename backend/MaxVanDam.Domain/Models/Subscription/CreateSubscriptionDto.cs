@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace MaxVanDam.Domain.Models.Subscription;
 
@@ -49,21 +49,4 @@ public class CreateSubscriptionDto
     [Required(ErrorMessage = "Suma este obligatorie")]
     [Range(0.01, 10000, ErrorMessage = "Suma trebuie să fie între 0.01 și 10000")]
     public decimal Amount { get; set; }
-}
-
-public class SubscriptionInfoDto
-{
-    public int Id { get; set; }
-    public string PlanId { get; set; } = string.Empty;
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string PhoneNumber { get; set; } = string.Empty;
-    public string CompanyName { get; set; } = string.Empty;
-    public string CardHolderName { get; set; } = string.Empty;
-    public string CardNumberMasked { get; set; } = string.Empty;
-    public decimal Amount { get; set; }
-    public string Status { get; set; } = string.Empty;
-    public DateTime PurchaseDate { get; set; }
-    public DateTime ExpirationDate { get; set; }
 }
