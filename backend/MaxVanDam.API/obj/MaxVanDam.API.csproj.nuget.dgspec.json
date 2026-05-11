@@ -131,10 +131,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "MailKit": {
-              "target": "Package",
-              "version": "[4.16.0, )"
-            },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[8.16.0, )"
