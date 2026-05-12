@@ -2,8 +2,6 @@ using MaxVanDam.BusinessLayer;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Product;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 namespace MaxVanDam.API.Controllers;
 
 [ApiController]
@@ -12,9 +10,9 @@ public class ProductController : ControllerBase
 {
     private readonly IProductLogic _productLogic;
 
-    public ProductController(ILoggerFactory loggerFactory)
+    public ProductController()
     {
-        var bl = new BusinessLogic(loggerFactory);
+        var bl = new BusinessLogic();
         _productLogic = bl.GetProductLogic();
     }
 

@@ -1,16 +1,16 @@
 # MaxVanDam — Aplicație Piese Auto
 
-Aplicație web full-stack pentru un magazin de piese auto, construită cu .NET 8 (backend) și React + TypeScript + Vite (frontend).
+Aplicație web full-stack pentru gestiunea unui depozit de piese auto, construită cu .NET 8 (backend) și React + TypeScript + Vite (frontend).
 
 ## Arhitectură Backend
 
-Backend-ul urmează o arhitectură în **4 straturi**:
+Backend-ul urmează o arhitectură în **4 straturi**, identică cu patternul clubHub:
 
 ```
 MaxVanDam.API              ← Controllers (HTTP, routing, responses)
-MaxVanDam.BusinessLayer    ← Factory + Logic + Actions (business rules)
-MaxVanDam.DataAccessLayer  ← DbContexts + Migrations (EF Core + PostgreSQL)
-MaxVanDam.Domain           ← Entities + DTOs + Interfaces
+MaxVanDam.BusinessLayer    ← Factory + Logic + Actions + Security
+MaxVanDam.DataAccessLayer  ← DbContexts + DbSession + Migrations
+MaxVanDam.Domain           ← Entities + Models (DTOs) + ServiceResponse
 ```
 
 ### Fluxul unui request
@@ -19,22 +19,22 @@ MaxVanDam.Domain           ← Entities + DTOs + Interfaces
 Controller
   → new BusinessLogic().GetXxxLogic()   (factory, fără DI)
   → IXxxLogic.XxxMethod()               (interfață)
-  → XxxLogic : XxxActions, IXxxLogic    (implementare)
-  → XxxActions.XxxAction()              (acces la DB)
-  → new XxxDbContext()                  (OnConfiguring cu CONNECTION_DEFAULT)
+  → XxxLogic : XxxActions, IXxxLogic    (implementare — Core/)
+  → XxxActions.XxxAction()              (acces DB — Structure/)
+  → new XxxDbContext()                  (OnConfiguring cu DbSession.ConnectionString)
   → PostgreSQL
 ```
 
 ### Pattern-uri cheie
 
-- **Factory**: `BusinessLogic` expune `GetAuthLogic()`, `GetProductLogic()`, `GetUserLogic()`, `GetNotificationLogic()`
-- **Moștenire**: `XxxLogic : XxxActions, IXxxLogic`
-- **ServiceResponse**: răspuns uniform `{ IsSuccess, Message, Data }`
-- **DbContexts per entitate**: `UserDbContext`, `ProductsDbContext`, `NotificationsDbContext`, `MasterDbContext`
+- **Factory fără DI**: `BusinessLogic` expune `GetXxxLogic()` — fiecare returnează `new XxxLogic()`
+- **Moștenire dublă**: `XxxLogic : XxxActions, IXxxLogic`
+- **ServiceResponse**: răspuns uniform `{ IsSuccess, Message, Data:object? }` — fără generics
+- **DbContext per entitate**: `UserDbContext`, `ProductsDbContext`, `NotificationsDbContext`, `SubscriptionDbContext`, `MasterDbContext`
 - **Fără DI în constructori**: contextele folosesc `OnConfiguring`, nu `AddDbContext`
 - **Sincron**: fără `async/await` în BusinessLayer și DataAccessLayer
-- **Securitate**: SHA512 + salt + pepper (custom `PasswordHasher`), JWT via `System.IdentityModel.Tokens.Jwt`
-- **Env vars**: `DotNetEnv` încarcă `.env` la startup
+- **Securitate**: SHA512 + salt + pepper (`PasswordHasher`), JWT via `System.IdentityModel.Tokens.Jwt`
+- **Env vars**: `DotNetEnv.Env.Load()` pe prima linie din `Program.cs`
 
 ## Structura proiectului
 
@@ -43,77 +43,80 @@ MaxVanDam/
 ├── backend/
 │   ├── MaxVanDam.sln
 │   ├── global.json                          # SDK 8.0, rollForward latestMinor
-│   ├── .env                                 # variabile locale (git-ignored)
-│   ├── .env.example                         # template fără valori
+│   ├── .env                                 # variabile locale (ignorat local)
+│   ├── .env.example                         # template cu chei, fără valori
 │   ├── MaxVanDam.API/
 │   │   ├── Controllers/
+│   │   │   ├── HealthController.cs
 │   │   │   ├── AuthController.cs
 │   │   │   ├── ProductController.cs
 │   │   │   ├── UserController.cs
-│   │   │   └── NotificationController.cs
+│   │   │   ├── NotificationController.cs
+│   │   │   └── SubscriptionController.cs
 │   │   └── Program.cs
 │   ├── MaxVanDam.BusinessLayer/
 │   │   ├── BusinessLogic.cs                 # factory
 │   │   ├── Core/                            # XxxLogic : XxxActions, IXxxLogic
-│   │   ├── Structure/                       # XxxActions (acces DB)
+│   │   ├── Structure/                       # XxxActions — acces direct DB
+│   │   ├── Interfaces/                      # IXxxLogic
 │   │   └── Security/
 │   │       ├── PasswordHasher.cs
 │   │       └── JwtGenerator.cs
 │   ├── MaxVanDam.DataAccessLayer/
-│   │   ├── DbSession.cs                     # CONNECTION_DEFAULT
+│   │   ├── DbSession.cs                     # citește CONNECTION_DEFAULT din env
 │   │   ├── Context/
 │   │   │   ├── MasterDbContext.cs
 │   │   │   ├── UserDbContext.cs
 │   │   │   ├── ProductsDbContext.cs
-│   │   │   └── NotificationsDbContext.cs
+│   │   │   ├── NotificationsDbContext.cs
+│   │   │   └── SubscriptionDbContext.cs
 │   │   └── Migrations/
 │   │       ├── Users/
 │   │       ├── Products/
-│   │       └── Notifications/
+│   │       ├── Notifications/
+│   │       └── Subscriptions/
 │   └── MaxVanDam.Domain/
 │       ├── Entities/
 │       │   ├── User/UserEntity.cs
 │       │   ├── Product/ProductEntity.cs
-│       │   └── Notification/InventoryNotificationEntity.cs
-│       ├── DTOs/
-│       │   ├── Auth/
-│       │   ├── Product/
-│       │   └── Notification/
-│       ├── Interfaces/
-│       │   ├── IAuthLogic.cs
-│       │   ├── IProductLogic.cs
-│       │   ├── IUserLogic.cs
-│       │   └── INotificationLogic.cs
-│       └── ServiceResponse.cs
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   └── types/
-│   └── package.json
-└── docker-compose.yml
+│       │   ├── InventoryNotification/InventoryNotificationEntity.cs
+│       │   └── Subscription/SubscriptionEntity.cs
+│       └── Models/
+│           ├── Auth/         (LoginDto, RegisterDto, AuthResponseDto)
+│           ├── Product/      (ProductCreateDto, ProductUpdateDto, ProductInfoDto)
+│           ├── User/         (UserInfoDto, UserUpdateDto, UserUpdatePasswordDto, AdminUserUpdateDto)
+│           ├── Notification/ (NotificationInfoDto)
+│           ├── Subscription/ (CreateSubscriptionDto, SubscriptionInfoDto)
+│           └── Service/      (ServiceResponse)
+├── src/                                     # frontend React + TypeScript
+├── docker-compose.yml                       # serviciu postgres
+└── README.md
 ```
 
 ## Pornire locală
 
 ### Cerințe
+
 - .NET 8 SDK
 - Node.js 18+
-- Docker (pentru PostgreSQL)
+- Docker
 - EF Core CLI: `dotnet tool install --global dotnet-ef`
 
-### 1. Baza de date (Docker)
+### 1. Configurare variabile de mediu
 
 ```bash
 # din rădăcina proiectului
 cp backend/.env.example backend/.env
-# editează backend/.env cu valorile tale (parole, secrete JWT etc.)
-
-docker-compose up -d
+# editează backend/.env cu valorile tale
 ```
 
-### 2. Migrări EF Core
+### 2. Pornire bază de date
+
+```bash
+docker-compose up -d postgres
+```
+
+### 3. Migrații EF Core
 
 ```bash
 cd backend
@@ -121,47 +124,53 @@ cd backend
 # încarcă env vars în shell
 set -a && source .env && set +a
 
-dotnet ef database update --project MaxVanDam.DataAccessLayer --startup-project MaxVanDam.API --context UserDbContext
-dotnet ef database update --project MaxVanDam.DataAccessLayer --startup-project MaxVanDam.API --context ProductsDbContext
-dotnet ef database update --project MaxVanDam.DataAccessLayer --startup-project MaxVanDam.API --context NotificationsDbContext
+dotnet ef database update --context UserDbContext          -p MaxVanDam.DataAccessLayer -s MaxVanDam.API
+dotnet ef database update --context ProductsDbContext      -p MaxVanDam.DataAccessLayer -s MaxVanDam.API
+dotnet ef database update --context NotificationsDbContext -p MaxVanDam.DataAccessLayer -s MaxVanDam.API
+dotnet ef database update --context SubscriptionDbContext  -p MaxVanDam.DataAccessLayer -s MaxVanDam.API
 ```
 
-### 3. Backend (.NET API)
+### 4. Backend
 
 ```bash
-cd backend/MaxVanDam.API
-dotnet run
-# API: http://localhost:5000
-# Swagger: http://localhost:5000/swagger
+cd backend
+dotnet run --project MaxVanDam.API
+# API:     https://localhost:7xxx
+# Swagger: https://localhost:7xxx/swagger
 ```
 
-### 4. Frontend (React + Vite)
+### 5. Frontend
 
 ```bash
-cd frontend
+# din rădăcina proiectului
 npm install
 npm run dev
 # UI: http://localhost:5173
 ```
 
-## Variabile de mediu (`.env`)
+## Variabile de mediu (`backend/.env`)
 
 | Variabilă | Descriere |
 |---|---|
-| `CONNECTION_DEFAULT` | Connection string PostgreSQL |
-| `AUTH_PEPPER` | Pepper secret pentru hashing parole |
-| `JWT_SECRET` | Secret minim 32 caractere pentru JWT |
-| `JWT_ISSUER` | Issuer token JWT |
-| `JWT_AUDIENCE` | Audience token JWT |
-| `JWT_EXPIRY_MINUTES` | Durata de viață a token-ului (minute) |
-| `POSTGRES_PASSWORD` | Parola PostgreSQL (folosită de docker-compose) |
+| `CONNECTION_DEFAULT` | Connection string PostgreSQL complet |
+| `AUTH_PEPPER` | Pepper secret pentru hashing parole (SHA512) |
+| `JWT_SECRET` | Secret minim 32 caractere pentru semnare JWT |
+| `JWT_ISSUER` | Issuer token JWT (ex: `MaxVanDam`) |
+| `JWT_AUDIENCE` | Audience token JWT (ex: `MaxVanDam`) |
+| `JWT_EXPIRY_MINUTES` | Durata de viață a token-ului în minute (ex: `60`) |
+| `POSTGRES_PASSWORD` | Parola PostgreSQL — folosită de `docker-compose.yml` |
 
 ## Endpoint-uri API
+
+### Health — `/api/health`
+| Metodă | Rută | Descriere |
+|---|---|---|
+| GET | `/api/health` | Stare aplicație |
 
 ### Auth — `/api/auth`
 | Metodă | Rută | Descriere |
 |---|---|---|
-| POST | `/api/auth/register` | Înregistrare utilizator |
+| POST | `/api/auth/register` | Înregistrare utilizator nou |
 | POST | `/api/auth/login` | Autentificare, returnează JWT |
 
 ### Products — `/api/products`
@@ -177,25 +186,35 @@ npm run dev
 | Metodă | Rută | Descriere |
 |---|---|---|
 | GET | `/api/users/list` | Listă utilizatori |
-| GET | `/api/users/{id}` | Detalii utilizator |
-| PUT | `/api/users/{id}` | Actualizează utilizator |
+| POST | `/api/users/create` | Crează utilizator |
+| PUT | `/api/users/{id}/role` | Actualizează rol utilizator |
 | DELETE | `/api/users/{id}` | Șterge utilizator |
 
 ### Notifications — `/api/notifications`
 | Metodă | Rută | Descriere |
 |---|---|---|
-| GET | `/api/notifications/list` | Listă notificări inventar |
-| POST | `/api/notifications/create` | Crează notificare |
+| GET | `/api/notifications/list` | Listă toate notificările |
+| GET | `/api/notifications/unread` | Notificări necitite |
 | PATCH | `/api/notifications/{id}/read` | Marchează ca citită |
-| DELETE | `/api/notifications/{id}` | Șterge notificare |
+| POST | `/api/notifications/create` | Crează notificare pentru produs |
+
+### Subscriptions — `/api/subscriptions`
+| Metodă | Rută | Descriere |
+|---|---|---|
+| POST | `/api/subscriptions/create` | Crează abonament nou |
+| GET | `/api/subscriptions/list` | Listă abonamente |
+| GET | `/api/subscriptions/{id}` | Detalii abonament |
+| POST | `/api/subscriptions/{id}/cancel` | Anulează abonament |
+| GET | `/api/subscriptions/stats` | Statistici abonamente |
 
 ## Tehnologii
 
 ### Backend
 - **.NET 8** / C# 12
-- **Entity Framework Core** + Npgsql (PostgreSQL)
+- **Entity Framework Core 8** + Npgsql (PostgreSQL)
 - **System.IdentityModel.Tokens.Jwt** 8.16.0
 - **DotNetEnv** 3.1.1
+- **Swashbuckle** (Swagger UI)
 
 ### Frontend
 - **React 19** + **TypeScript**

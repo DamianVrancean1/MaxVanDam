@@ -9,5 +9,6 @@ public interface ISubscriptionLogic
     ServiceResponse GetSubscriptionsList();
     ServiceResponse GetSubscriptionById(int id);
     ServiceResponse CancelSubscription(int id);
+    ServiceResponse GetStats();
 }
 

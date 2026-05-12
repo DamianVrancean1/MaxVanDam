@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.Domain\\MaxVanDam.Domain.csproj": {}
+    "/Users/user/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.Domain\\MaxVanDam.Domain.csproj": {
+    "/Users/user/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.Domain\\MaxVanDam.Domain.csproj",
+        "projectUniqueName": "/Users/user/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
         "projectName": "MaxVanDam.Domain",
-        "projectPath": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.Domain\\MaxVanDam.Domain.csproj",
-        "packagesPath": "C:\\Users\\Ion\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ion\\RiderProjects\\MaxVanDam\\backend\\MaxVanDam.Domain\\obj\\",
+        "projectPath": "/Users/user/MaxVanDam/backend/MaxVanDam.Domain/MaxVanDam.Domain.csproj",
+        "packagesPath": "/Users/user/.nuget/packages/",
+        "outputPath": "/Users/user/MaxVanDam/backend/MaxVanDam.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ion\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/user/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.420/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.418/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

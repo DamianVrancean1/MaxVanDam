@@ -1,8 +1,6 @@
 using MaxVanDam.BusinessLayer;
 using MaxVanDam.BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 namespace MaxVanDam.API.Controllers;
 
 [ApiController]
@@ -11,9 +9,9 @@ public class NotificationController : ControllerBase
 {
     private readonly INotificationLogic _notificationLogic;
 
-    public NotificationController(ILoggerFactory loggerFactory)
+    public NotificationController()
     {
-        var bl = new BusinessLogic(loggerFactory);
+        var bl = new BusinessLogic();
         _notificationLogic = bl.GetNotificationLogic();
     }
 
