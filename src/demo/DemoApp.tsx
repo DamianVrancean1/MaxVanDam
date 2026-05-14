@@ -1,4 +1,4 @@
-import { NavLink, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { NavLink, Navigate, Route, Routes } from "react-router-dom";
 import {
   LayoutDashboard, Package, ShoppingCart, BarChart3, Bell,
   Settings, BookOpen, Search, ChevronRight, MoreHorizontal,
@@ -6,12 +6,13 @@ import {
 } from "lucide-react";
 import Dashboard from "./Dashboard";
 import Inventory from "./Inventory";
+import Analytics from "./Analytics";
+import Comenzi from "./Comenzi";
+import Alerte from "./Alerte";
 import "./demo.css";
 
 /* ── sidebar ── */
 const Sidebar = () => {
-  const loc = useLocation();
-
   return (
     <aside className="dm-sidebar">
       {/* Brand */}
@@ -37,12 +38,10 @@ const Sidebar = () => {
 
         <NavLink
           to="/ui-demo/analytics"
-          className={`dm-nav-link${loc.pathname === "/ui-demo/analytics" ? " active" : ""}`}
-          onClick={(e) => e.preventDefault()}
+          className={({ isActive }) => `dm-nav-link${isActive ? " active" : ""}`}
         >
           <BarChart3 className="dm-nav-icon" />
           Analytics
-          <span className="dm-nav-chip">Soon</span>
         </NavLink>
 
         <p className="dm-nav-section">Management</p>
@@ -55,28 +54,36 @@ const Sidebar = () => {
           Inventar
         </NavLink>
 
-        <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
+        <NavLink
+          to="/ui-demo/comenzi"
+          className={({ isActive }) => `dm-nav-link${isActive ? " active" : ""}`}
+        >
           <ShoppingCart className="dm-nav-icon" />
           Comenzi
-          <span className="dm-nav-chip">Soon</span>
-        </button>
+        </NavLink>
 
-        <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
+        <NavLink
+          to="/ui-demo/alerte"
+          className={({ isActive }) => `dm-nav-link${isActive ? " active" : ""}`}
+        >
           <Bell className="dm-nav-icon" />
           Alerte
           <span className="dm-nav-badge">8</span>
-        </button>
+        </NavLink>
 
         <p className="dm-nav-section">System</p>
 
         <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
           <Settings className="dm-nav-icon" />
           Setări
+          <span className="dm-nav-chip">Premium</span>
         </button>
 
         <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
           <BookOpen className="dm-nav-icon" />
           Documentație
+           <span className="dm-nav-chip">Premium</span>
+
         </button>
       </nav>
 
@@ -161,6 +168,30 @@ const DemoApp = () => (
         element={
           <DemoLayout title="Inventar">
             <Inventory />
+          </DemoLayout>
+        }
+      />
+      <Route
+        path="analytics"
+        element={
+          <DemoLayout title="Analytics">
+            <Analytics />
+          </DemoLayout>
+        }
+      />
+      <Route
+        path="comenzi"
+        element={
+          <DemoLayout title="Comenzi">
+            <Comenzi />
+          </DemoLayout>
+        }
+      />
+      <Route
+        path="alerte"
+        element={
+          <DemoLayout title="Alerte">
+            <Alerte />
           </DemoLayout>
         }
       />
