@@ -1,4 +1,4 @@
-DotNetEnv.Env.Load();
+DotNetEnv.Env.Load(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".env"));
 
 var builder = WebApplication.CreateBuilder(args);
 
