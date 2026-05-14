@@ -141,7 +141,7 @@ const HOW_IT_WORKS = [
 const TESTIMONIALS = [
   {
     name: "Ion Ciorici", role: "Manager depozit", company: "AutoParts SRL", initials: "IC",
-    quote: "MaxVanDam a schimbat complet modul în care gestionăm stocul. Am trecut de la tabele Excel haotice la un sistem clar și rapid. Angajații mei s-au adaptat în câteva ore.",
+    quote: "Auto Parts a schimbat complet modul în care gestionăm stocul. Am trecut de la tabele Excel haotice la un sistem clar și rapid. Angajații mei s-au adaptat în câteva ore.",
   },
   {
     name: "Elena Rotaru", role: "Proprietar", company: "Distribuitor Auto MD", initials: "ER",
@@ -149,7 +149,7 @@ const TESTIMONIALS = [
   },
   {
     name: "Vasile Grosu", role: "Director logistică", company: "AutoTech Distribution", initials: "VG",
-    quote: "Am testat multe sisteme, dar MaxVanDam este singurul care se potrivește perfect cu specificul depozitelor auto din Moldova. Simplu, rapid și fără bătăi de cap.",
+    quote: "Am testat multe sisteme, dar Auto Parts este singurul care se potrivește perfect cu specificul depozitelor auto din Moldova. Simplu, rapid și fără bătăi de cap.",
   },
 ];
 
@@ -171,11 +171,11 @@ const PLANS = [
 const FAQ = [
   {
     q: "Cum pot testa platforma înainte de a mă abona?",
-    a: "Oferim un demo gratuit de 14 zile fără card de credit. Poți testa toate funcționalitățile platformei în condiții reale de lucru.",
+    a: "Oferim un demo gratuit de 30 zile fără card de credit. Poți testa toate funcționalitățile platformei în condiții reale de lucru.",
   },
   {
     q: "Pot importa datele din Excel sau din sistemele existente?",
-    a: "Da. MaxVanDam suportă import din fișiere Excel (.xlsx, .csv) și oferă asistență tehnică pentru migrarea datelor din sisteme existente precum 1C.",
+    a: "Da. Auto Parts suportă import din fișiere Excel (.xlsx, .csv) și oferă asistență tehnică pentru migrarea datelor din sisteme existente precum 1C.",
   },
   {
     q: "Câți utilizatori pot lucra simultan în platformă?",
@@ -203,7 +203,6 @@ const Home = () => (
       <div className="hm-hero-overlay" />
       <div className="hm-hero-grid-overlay" />
       <div className="hm-hero-content">
-        <span className="hm-badge">Platformă digitală auto · Moldova · 2024</span>
         <h1 className="hm-hero-h1">
           Stoc precis.<br />
           <span className="hm-hero-accent">Control total.</span>
@@ -212,8 +211,13 @@ const Home = () => (
           Platformă modernă pentru managementul stocurilor auto. Înlocuiește Excelul și 1C cu un sistem cloud rapid, securizat și ușor de folosit de întreaga echipă.
         </p>
         <div className="hm-hero-ctas">
-          <Link to="/products" className="hm-btn hm-btn-primary">Explorează Produsele</Link>
-          <Link to="/about"    className="hm-btn hm-btn-ghost">Descoperă Platforma →</Link>
+          <Link to="/products"   className="hm-btn hm-btn-primary">Explorează Produsele</Link>
+          <Link to="/ui-demo/dashboard" className="hm-btn hm-btn-demo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 15, height: 15 }}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+            </svg>
+            Vezi demo platformă
+          </Link>
         </div>
         <div className="hm-hero-trust">
           <span>500+ Produse</span><span className="hm-dot">·</span>
@@ -240,7 +244,7 @@ const Home = () => (
     <section className="hm-section hm-section-alt">
       <div className="hm-container">
         <div className="hm-section-head">
-          <span className="hm-badge">De ce MaxVanDam?</span>
+          <span className="hm-badge">De ce Auto Parts?</span>
           <h2>Tot ce ai nevoie într-o singură platformă</h2>
           <p>Construită specific pentru depozite auto și distribuitori de piese, cu fiecare funcție gândită să reducă munca manuală și să elimine erorile.</p>
         </div>
@@ -272,14 +276,14 @@ const Home = () => (
               <li><Check />Modificări trasabile — cine, ce și când a schimbat</li>
               <li><Check />Căutare rapidă după cod OEM, denumire sau categorie</li>
             </ul>
-            <Link to="/inventory-visibility" className="hm-btn hm-btn-primary hm-mt">
+            <Link to="/ui-demo/dashboard" className="hm-btn hm-btn-primary hm-mt">
               Vezi Demo Platformă →
             </Link>
           </div>
           <div className="hm-split-img">
             <img
               src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80"
-              alt="Dashboard analytics MaxVanDam"
+              alt="Dashboard analytics Auto Parts"
               loading="lazy"
             />
           </div>
@@ -357,7 +361,7 @@ const Home = () => (
         <div className="hm-section-head">
           <span className="hm-badge">Clienți</span>
           <h2>Ce spun clienții noștri</h2>
-          <p>Depozite auto și distribuitori din toată Moldova folosesc MaxVanDam zilnic.</p>
+          <p>Depozite auto și distribuitori din toată Moldova folosesc Auto Parts zilnic.</p>
         </div>
         <div className="hm-testimonials-grid">
           {TESTIMONIALS.map((t) => (
@@ -468,7 +472,7 @@ const Home = () => (
       <div className="hm-container hm-cta-content">
         <span className="hm-badge">Start astăzi</span>
         <h2>Pregătit să treci la un depozit inteligent?</h2>
-        <p>Renunță la Excel și la sistemele greoaie. MaxVanDam funcționează din prima zi — import rapid, echipă conectată, stoc sub control.</p>
+        <p>Renunță la Excel și la sistemele greoaie. Auto Parts funcționează din prima zi — import rapid, echipă conectată, stoc sub control.</p>
         <div className="hm-cta-actions">
           <Link to="/pricing" className="hm-btn hm-btn-primary hm-btn-lg">Alege un plan →</Link>
           <Link to="/about"   className="hm-btn hm-btn-ghost">Află mai multe</Link>

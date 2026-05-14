@@ -15,6 +15,7 @@ import Unauthorized401 from './pages/Unauthorized401';
 import Forbidden403 from './pages/Forbidden403';
 import NotFound404 from './pages/NotFound404';
 import AdminApp from './admin/AdminApp';
+import DemoApp from './demo/DemoApp';
 import About from './pages/About';
 import Register from './pages/Register';
 import InventoryVisibility from './pages/InventoryVisibility';
@@ -37,6 +38,8 @@ const AppLayout = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
 
+  const isDemoRoute = location.pathname.startsWith('/ui-demo');
+
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isAuthRoute = location.pathname === '/login' || location.pathname === '/register';
   const isShowcaseRoute =
@@ -53,8 +56,9 @@ const AppLayout = () => {
     return () => cleanup();
   }, []);
 
-  // GSAP: re-run on every route change
+  // GSAP: re-run on every route change (skip for demo)
   useEffect(() => {
+    if (isDemoRoute) return;
     const tl = animatePageLoad();
     const revealTimer = setTimeout(() => initScrollReveal(), 120);
     animateStatusDot();
@@ -65,6 +69,17 @@ const AppLayout = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, navType]);
 
+  /* ── Demo: render completely standalone, outside app chrome ── */
+  if (isDemoRoute) {
+    return (
+      <Routes>
+        <Route path="/ui-demo/*" element={<DemoApp />} />
+        <Route path="*" element={<Navigate to="/ui-demo/dashboard" replace />} />
+      </Routes>
+    );
+  }
+
+  /* ── Main app ── */
   return (
     <div className="app ix-app">
       {/* Three.js background canvas */}
@@ -97,10 +112,10 @@ const AppLayout = () => {
           <Route path="/about" element={<About />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
           <Route path="/subscriptions-info" element={<SubscriptionsInfo />} />
-           <Route path="/pricing" element={<Pricing />} />
-           <Route path="/pricing/:planId/details" element={<PricingPlanDetails />} />
-           <Route path="/pricing/:planId/checkout" element={<CheckoutPage />} />
-           <Route path="/pricing/:planId/contact" element={<PricingContact />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/pricing/:planId/details" element={<PricingPlanDetails />} />
+          <Route path="/pricing/:planId/checkout" element={<CheckoutPage />} />
+          <Route path="/pricing/:planId/contact" element={<PricingContact />} />
           <Route path="/inventory-visibility" element={<InventoryVisibility />} />
           <Route path="/informatii-detaliate" element={<DetailedInfoShowcase />} />
           <Route path="/organizare-inteligenta" element={<SmartOrganizationShowcase />} />

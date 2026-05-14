@@ -114,6 +114,21 @@
   transform: translateY(-1px);
 }
 
+.hm-btn-demo {
+  background: rgba(139, 92, 246, 0.10);
+  color: #C4B5FD;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.12);
+}
+
+.hm-btn-demo:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: rgba(139, 92, 246, 0.55);
+  color: #DDD6FE;
+  box-shadow: 0 0 28px rgba(139, 92, 246, 0.25);
+  transform: translateY(-2px);
+}
+
 .hm-btn-outline {
   background: transparent;
   color: #94A3B8;

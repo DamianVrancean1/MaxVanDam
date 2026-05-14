@@ -1,0 +1,172 @@
+import { NavLink, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard, Package, ShoppingCart, BarChart3, Bell,
+  Settings, BookOpen, Search, ChevronRight, MoreHorizontal,
+  RefreshCw, Download, Plus
+} from "lucide-react";
+import Dashboard from "./Dashboard";
+import Inventory from "./Inventory";
+import "./demo.css";
+
+/* ── sidebar ── */
+const Sidebar = () => {
+  const loc = useLocation();
+
+  return (
+    <aside className="dm-sidebar">
+      {/* Brand */}
+      <div className="dm-brand">
+        <div className="dm-brand-logo">MV</div>
+        <div className="dm-brand-name">
+          <strong>MaxVanDam</strong>
+          <span>Admin Panel</span>
+        </div>
+      </div>
+
+      {/* Nav */}
+      <nav className="dm-nav">
+        <p className="dm-nav-section">Overview</p>
+
+        <NavLink
+          to="/ui-demo/dashboard"
+          className={({ isActive }) => `dm-nav-link${isActive ? " active" : ""}`}
+        >
+          <LayoutDashboard className="dm-nav-icon" />
+          Dashboard
+        </NavLink>
+
+        <NavLink
+          to="/ui-demo/analytics"
+          className={`dm-nav-link${loc.pathname === "/ui-demo/analytics" ? " active" : ""}`}
+          onClick={(e) => e.preventDefault()}
+        >
+          <BarChart3 className="dm-nav-icon" />
+          Analytics
+          <span className="dm-nav-chip">Soon</span>
+        </NavLink>
+
+        <p className="dm-nav-section">Management</p>
+
+        <NavLink
+          to="/ui-demo/inventory"
+          className={({ isActive }) => `dm-nav-link${isActive ? " active" : ""}`}
+        >
+          <Package className="dm-nav-icon" />
+          Inventar
+        </NavLink>
+
+        <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
+          <ShoppingCart className="dm-nav-icon" />
+          Comenzi
+          <span className="dm-nav-chip">Soon</span>
+        </button>
+
+        <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
+          <Bell className="dm-nav-icon" />
+          Alerte
+          <span className="dm-nav-badge">8</span>
+        </button>
+
+        <p className="dm-nav-section">System</p>
+
+        <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
+          <Settings className="dm-nav-icon" />
+          Setări
+        </button>
+
+        <button className="dm-nav-link" onClick={(e) => e.preventDefault()}>
+          <BookOpen className="dm-nav-icon" />
+          Documentație
+        </button>
+      </nav>
+
+      {/* Footer */}
+      <div className="dm-sidebar-footer">
+        <div className="dm-user-row">
+          <div className="dm-user-avatar">AD</div>
+          <div className="dm-user-info">
+            <strong>Admin Demo</strong>
+            <span>admin@maxvandam.md</span>
+          </div>
+          <MoreHorizontal className="dm-user-dots" style={{ width: 14, height: 14 }} />
+        </div>
+      </div>
+    </aside>
+  );
+};
+
+/* ── topbar ── */
+const Topbar = ({ title, sub }: { title: string; sub?: string }) => (
+  <header className="dm-topbar">
+    <div className="dm-breadcrumb">
+      <a href="/ui-demo/dashboard">MaxVanDam</a>
+      <ChevronRight size={13} className="dm-breadcrumb-sep" />
+      <span className="dm-breadcrumb-cur">{title}</span>
+    </div>
+
+    <div className="dm-search">
+      <Search size={13} style={{ color: "var(--t-tertiary)", flexShrink: 0 }} />
+      <input placeholder="Caută produse, SKU..." readOnly />
+      <div className="dm-search-kbd">
+        <kbd>⌘</kbd><kbd>K</kbd>
+      </div>
+    </div>
+
+    <div className="dm-topbar-actions">
+      <button className="dm-icon-btn" title="Reîncarcă">
+        <RefreshCw size={15} />
+      </button>
+      <button className="dm-icon-btn" title="Notificări" style={{ position: "relative" }}>
+        <Bell size={15} />
+        <span className="dm-notif-dot" />
+      </button>
+      <button className="dm-icon-btn" title="Export">
+        <Download size={15} />
+      </button>
+      <div className="dm-topbar-avatar" title="Profil">AD</div>
+    </div>
+  </header>
+);
+
+/* ── shell ── */
+const DemoLayout = ({
+  children,
+  title,
+}: {
+  children: React.ReactNode;
+  title: string;
+}) => (
+  <div className="dm-main-wrap">
+    <Topbar title={title} />
+    <main className="dm-page">{children}</main>
+  </div>
+);
+
+/* ── app root ── */
+const DemoApp = () => (
+  <div className="dm-app">
+    <Sidebar />
+    <Routes>
+      <Route index element={<Navigate to="dashboard" replace />} />
+      <Route
+        path="dashboard"
+        element={
+          <DemoLayout title="Dashboard">
+            <Dashboard />
+          </DemoLayout>
+        }
+      />
+      <Route
+        path="inventory"
+        element={
+          <DemoLayout title="Inventar">
+            <Inventory />
+          </DemoLayout>
+        }
+      />
+      <Route path="*" element={<Navigate to="dashboard" replace />} />
+    </Routes>
+  </div>
+);
+
+export default DemoApp;
