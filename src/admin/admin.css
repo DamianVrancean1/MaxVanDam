@@ -1,0 +1,34 @@
+/* ============================================================
+   ADMIN PANEL — același sistem de design ca DemoUI
+   Toate clasele dm- sunt disponibile în contextul .dm-app
+   ============================================================ */
+
+/* Re-importă variabilele și clasele DemoUI */
+@import "../demo/demo.css";
+
+/* ── Overrides specifice Admin (dacă e nevoie) ── */
+
+/* Sidebar-ul admin poate fi ușor mai lat pentru label-uri lungi */
+.dm-app.admin-app {
+  --sidebar-w: 248px;
+}
+
+/* Nav section — spațiere consistentă */
+.admin-app .dm-nav-section:first-child {
+  margin-top: 0.5rem;
+}
+
+/* Badge logout — roșu */
+.dm-nav-link.dm-logout {
+  color: var(--c-red) !important;
+  margin-top: 0.25rem;
+}
+
+.dm-nav-link.dm-logout:hover {
+  background: var(--c-red-dim) !important;
+  color: var(--c-red) !important;
+}
+
+.dm-nav-link.dm-logout svg {
+  color: var(--c-red) !important;
+}

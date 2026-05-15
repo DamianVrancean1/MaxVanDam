@@ -1,8 +1,8 @@
-import { NavLink, Navigate, Route, Routes } from "react-router-dom";
+import { Link, NavLink, Navigate, Route, Routes } from "react-router-dom";
 import {
   LayoutDashboard, Package, ShoppingCart, BarChart3, Bell,
   Settings, BookOpen, Search, ChevronRight, MoreHorizontal,
-  RefreshCw, Download,
+  RefreshCw, Download, ArrowLeft,
 } from "lucide-react";
 import Dashboard from "./Dashboard";
 import Inventory from "./Inventory";
@@ -90,6 +90,30 @@ const Sidebar = () => (
     </nav>
 
     <div className="dm-sidebar-footer">
+      <Link
+        to="/"
+        style={{
+          display: "flex", alignItems: "center", gap: 8,
+          padding: "0.5rem 0.625rem", marginBottom: "0.5rem",
+          borderRadius: "var(--radius-sm)", textDecoration: "none",
+          fontSize: 12.5, fontWeight: 500, color: "var(--t-tertiary)",
+          border: "1px solid var(--s-border)",
+          transition: "background 0.15s, color 0.15s, border-color 0.15s",
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLAnchorElement).style.background = "var(--s-hover)";
+          (e.currentTarget as HTMLAnchorElement).style.color = "var(--t-secondary)";
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--s-border-2)";
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
+          (e.currentTarget as HTMLAnchorElement).style.color = "var(--t-tertiary)";
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--s-border)";
+        }}
+      >
+        <ArrowLeft size={13} />
+        Înapoi la site
+      </Link>
       <div className="dm-user-row">
         <div className="dm-user-avatar">AD</div>
         <div className="dm-user-info">
