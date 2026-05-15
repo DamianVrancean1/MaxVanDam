@@ -32,3 +32,223 @@
 .dm-nav-link.dm-logout svg {
   color: var(--c-red) !important;
 }
+
+/* ── modal overlay (shared backdrop) ── */
+.dm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+  z-index: 200;
+  display: flex;
+}
+
+/* ── right-side drawer ── */
+.dm-drawer {
+  width: 500px;
+  max-width: 100vw;
+  height: 100%;
+  background: var(--s-elevated);
+  border-left: 1px solid var(--s-border-2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45);
+}
+
+.dm-drawer-hd {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--s-border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.dm-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--s-border-2) transparent;
+}
+
+.dm-drawer-ft {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--s-border);
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  background: var(--s-surface);
+}
+
+/* ── form layout ── */
+.dm-form-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+}
+
+.dm-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dm-form-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--t-secondary);
+  letter-spacing: 0.025em;
+}
+
+.dm-input {
+  background: var(--s-surface);
+  border: 1px solid var(--s-border-2);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  font-size: 13px;
+  color: var(--t-primary);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dm-input:focus {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+.dm-input.err {
+  border-color: rgba(239, 68, 68, 0.55);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.07);
+}
+
+.dm-input::placeholder { color: var(--t-tertiary); }
+
+.dm-select {
+  appearance: auto;
+  cursor: pointer;
+  padding-right: 0.5rem;
+}
+
+.dm-select option { background: var(--s-surface-2); color: var(--t-primary); }
+
+.dm-textarea {
+  resize: vertical;
+  min-height: 70px;
+  line-height: 1.5;
+}
+
+.dm-form-err {
+  font-size: 11px;
+  color: var(--c-red);
+  margin-top: 1px;
+}
+
+/* ── confirm dialog ── */
+.dm-confirm-box {
+  background: var(--s-surface);
+  border: 1px solid var(--s-border-2);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem 1.5rem;
+  width: 380px;
+  max-width: calc(100vw - 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.dm-confirm-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--c-red-dim);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-red);
+  margin-bottom: 0.25rem;
+}
+
+.dm-confirm-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--t-primary);
+  letter-spacing: -0.01em;
+}
+
+.dm-confirm-msg {
+  font-size: 13px;
+  color: var(--t-secondary);
+  line-height: 1.55;
+  margin: 0.25rem 0 0.875rem;
+}
+
+.dm-confirm-msg strong { color: var(--t-primary); }
+
+.dm-confirm-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+/* ── danger button ── */
+.dm-btn-danger {
+  background: var(--c-red);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.dm-btn-danger:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ── toast ── */
+.dm-toast-wrap {
+  position: fixed;
+  bottom: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  pointer-events: none;
+}
+
+.dm-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.575rem 1.1rem 0.575rem 0.875rem;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+.dm-toast.success {
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+.dm-toast.error {
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+.dm-toast svg { flex-shrink: 0; }

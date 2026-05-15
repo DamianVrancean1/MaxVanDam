@@ -49,6 +49,7 @@ export interface Product {
   compatibility?: string[];
   description: string;
   imageUrl: string;
+  warehouseLocation?: string;
 }
 
 export interface ProductFormData {
