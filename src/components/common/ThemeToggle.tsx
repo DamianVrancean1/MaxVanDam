@@ -2,13 +2,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
-const ThemeToggle = () => {
+interface Props {
+  className?: string;
+}
+
+const ThemeToggle = ({ className = 'theme-toggle-btn' }: Props) => {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
   return (
     <button
-      className="theme-toggle-btn"
+      className={className}
       onClick={toggleTheme}
       aria-label={isDark ? 'Activează tema deschisă' : 'Activează tema întunecată'}
       title={isDark ? 'Temă deschisă' : 'Temă întunecată'}

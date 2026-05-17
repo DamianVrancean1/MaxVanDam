@@ -307,6 +307,53 @@
   color: #64748B;
 }
 
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .login-page { background: #F0F4F8; }
+
+[data-theme="light"] .login-container {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .login-container:hover {
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(37, 99, 235, 0.12);
+}
+
+[data-theme="light"] .login-container h1 { color: #0F172A; }
+
+[data-theme="light"] .register-btn {
+  color: #475569;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .register-btn:hover {
+  color: #334155;
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+[data-theme="light"] .back-btn {
+  color: #475569;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .back-btn:hover {
+  color: #334155;
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="light"] .login-info {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .login-info h3 { color: #475569; }
+[data-theme="light"] .login-info p { color: #64748B; }
+[data-theme="light"] .login-info strong { color: #475569; }
+
 /* ---- Responsive ---- */
 @media (max-width: 480px) {
   .login-container {

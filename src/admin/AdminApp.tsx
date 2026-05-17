@@ -5,6 +5,7 @@ import {
   ArrowLeft, LogOut, ShoppingCart, Settings,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import ThemeToggle from '../components/common/ThemeToggle';
 import DashboardPage from './layouts/DashboardPage';
 import ProductsPage from './layouts/ProductsPage';
 import ProductFormPage from './layouts/ProductFormPage';
@@ -147,6 +148,7 @@ const Topbar = ({ title }: { title: string }) => {
           <span className="dm-notif-dot" />
         </button>
         <button className="dm-icon-btn" title="Export"><Download size={15} /></button>
+        <ThemeToggle className="dm-icon-btn" />
         <div className="dm-topbar-avatar" title={user?.username ?? 'Admin'}>
           {user ? initials(user.username) : 'AD'}
         </div>

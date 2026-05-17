@@ -4,11 +4,11 @@
 
 /* Kill old background overrides */
 .main-content {
-  background: #0B0F14 !important;
+  background: var(--bg-canvas) !important;
 }
 
 .products-page {
-  background: #0B0F14 !important;
+  background: var(--bg-canvas) !important;
   min-height: calc(100vh - 72px);
   max-width: none;
   margin: 0;
@@ -184,6 +184,54 @@
   border: 1px solid rgba(34, 44, 61, 0.6);
   border-radius: 10px;
   backdrop-filter: none;
+}
+
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .ix-panel-header {
+  background: #FFFFFF;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .ix-panel-header h1 { color: #0F172A; }
+
+[data-theme="light"] .ix-stat-row {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .ix-stat-label { color: #64748B; }
+
+[data-theme="light"] .search-input {
+  background: #FFFFFF;
+  color: #0F172A;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .search-input::placeholder { color: #94A3B8; }
+
+[data-theme="light"] .search-input:focus {
+  background: #FFFFFF;
+  border-color: rgba(37, 99, 235, 0.5);
+}
+
+[data-theme="light"] .category-btn { color: #475569; }
+
+[data-theme="light"] .category-btn:hover {
+  color: #0F172A;
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+[data-theme="light"] .category-btn.active {
+  color: #2563EB;
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+
+[data-theme="light"] .no-products {
+  color: #64748B;
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.07);
 }
 
 /* ---- Responsive ---- */
