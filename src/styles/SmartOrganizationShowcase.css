@@ -99,6 +99,48 @@
 }
 .smart-dashboard tr:hover td { background: rgba(59, 130, 246, 0.03); }
 
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .smart-dashboard { background: #F0F4F8; color: #0F172A; }
+
+[data-theme="light"] .smart-sidebar {
+  background: #FFFFFF;
+  border-right-color: rgba(0, 0, 0, 0.07);
+  color: #0F172A;
+}
+
+[data-theme="light"] .smart-sidebar h1,
+[data-theme="light"] .smart-sidebar h2,
+[data-theme="light"] .smart-sidebar [class*="brand"] { color: #0F172A; }
+
+[data-theme="light"] .smart-sidebar a,
+[data-theme="light"] .smart-sidebar [class*="nav"] { color: #475569; }
+
+[data-theme="light"] .smart-sidebar a:hover,
+[data-theme="light"] .smart-sidebar [class*="nav"]:hover,
+[data-theme="light"] .smart-sidebar [class*="active"] {
+  color: #0F172A;
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+[data-theme="light"] .smart-main,
+[data-theme="light"] .smart-content { background: #F0F4F8; }
+
+[data-theme="light"] .smart-dashboard h1,
+[data-theme="light"] .smart-dashboard h2,
+[data-theme="light"] .smart-dashboard h3 { color: #0F172A; }
+
+[data-theme="light"] .smart-dashboard [class*="card"],
+[data-theme="light"] .smart-dashboard [class*="panel"] {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .smart-dashboard p { color: #475569; }
+[data-theme="light"] .smart-dashboard th { color: #64748B; border-bottom-color: rgba(0, 0, 0, 0.08); }
+[data-theme="light"] .smart-dashboard td { color: #334155; border-bottom-color: rgba(0, 0, 0, 0.05); }
+[data-theme="light"] .smart-dashboard tr:hover td { background: rgba(37, 99, 235, 0.03); }
+
 @media (max-width: 768px) {
   .smart-dashboard { grid-template-columns: 1fr; }
   .smart-sidebar { position: static; height: auto; }

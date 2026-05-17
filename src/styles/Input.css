@@ -70,3 +70,20 @@ textarea.input-field {
   min-height: 120px;
   line-height: 1.6;
 }
+
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .input-label { color: #475569; }
+
+[data-theme="light"] .input-field {
+  background: #FFFFFF;
+  color: #0F172A;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .input-field::placeholder { color: #94A3B8; }
+
+[data-theme="light"] .input-field:focus {
+  background: #FFFFFF;
+  border-color: rgba(37, 99, 235, 0.5);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}

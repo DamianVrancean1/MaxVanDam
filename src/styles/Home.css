@@ -1084,6 +1084,153 @@
 }
 
 /* ────────────────────────────────────────────────
+   LIGHT THEME OVERRIDES
+──────────────────────────────────────────────── */
+[data-theme="light"] .home-page { background: #F0F4F8; color: #0F172A; }
+
+[data-theme="light"] .hm-section-alt {
+  background: #FFFFFF;
+  border-top-color: rgba(0, 0, 0, 0.07);
+  border-bottom-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .hm-section-head h2 { color: #0F172A; }
+
+[data-theme="light"] .hm-btn-ghost {
+  background: rgba(0, 0, 0, 0.04);
+  color: #475569;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .hm-btn-ghost:hover {
+  color: #0F172A;
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="light"] .hm-btn-outline {
+  color: #475569;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .hm-btn-outline:hover { color: #0F172A; }
+
+/* Stats strip */
+[data-theme="light"] .hm-stats-strip {
+  background: #FFFFFF;
+  border-top-color: rgba(37, 99, 235, 0.1);
+  border-bottom-color: rgba(37, 99, 235, 0.06);
+}
+
+/* Feature cards */
+[data-theme="light"] .hm-feature-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hm-feature-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(37, 99, 235, 0.1);
+}
+
+[data-theme="light"] .hm-feature-card h3 { color: #0F172A; }
+
+/* Tech pills */
+[data-theme="light"] .hm-tech-pills span {
+  background: #F1F5F9;
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #475569;
+}
+
+/* Split text */
+[data-theme="light"] .hm-split-text h2 { color: #0F172A; }
+[data-theme="light"] .hm-split-img {
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .hm-split-img img { filter: saturate(1) brightness(1); }
+[data-theme="light"] .hm-check-list li { color: #475569; }
+
+/* Category cards */
+[data-theme="light"] .hm-cat-card {
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hm-cat-card h3 { color: #0F172A; }
+
+/* Step cards */
+[data-theme="light"] .hm-step-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hm-step-card h3 { color: #0F172A; }
+
+/* Brands strip */
+[data-theme="light"] .hm-brands-strip {
+  background: #F8FAFC;
+  border-top-color: rgba(0, 0, 0, 0.07);
+  border-bottom-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .hm-brands-label { color: #CBD5E1; }
+[data-theme="light"] .hm-brand { color: #CBD5E1; }
+[data-theme="light"] .hm-brand:hover { color: #2563EB; }
+
+/* Testimonials */
+[data-theme="light"] .hm-testimonial-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hm-testimonial-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .hm-testimonial-text { color: #475569; }
+[data-theme="light"] .hm-testimonial-author { border-top-color: rgba(0, 0, 0, 0.07); }
+[data-theme="light"] .hm-author-info strong { color: #0F172A; }
+
+/* Pricing cards */
+[data-theme="light"] .hm-price-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hm-popular {
+  border-color: rgba(37, 99, 235, 0.25);
+  background: linear-gradient(135deg, #FFFFFF, #F0F7FF);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+}
+
+[data-theme="light"] .hm-price-name { color: #0F172A; }
+
+/* FAQ */
+[data-theme="light"] .hm-faq-item {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .hm-faq-item:hover,
+[data-theme="light"] .hm-faq-item.open {
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+[data-theme="light"] .hm-faq-q span { color: #0F172A; }
+[data-theme="light"] .hm-faq-a {
+  color: #475569;
+  border-top-color: rgba(0, 0, 0, 0.07);
+}
+
+/* CTA final */
+[data-theme="light"] .hm-cta-final { background: #F0F4F8; }
+[data-theme="light"] .hm-cta-content h2 { color: #0F172A; }
+
+/* ────────────────────────────────────────────────
    RESPONSIVE
 ──────────────────────────────────────────────── */
 @media (max-width: 1100px) {

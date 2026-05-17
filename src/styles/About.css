@@ -433,6 +433,72 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .about-page { background: #F0F4F8; color: #0F172A; }
+
+[data-theme="light"] .about-hero-content,
+[data-theme="light"] .about-hero-media,
+[data-theme="light"] .about-card,
+[data-theme="light"] .about-step-card,
+[data-theme="light"] .about-stats article,
+[data-theme="light"] .about-tech {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .about-card:hover,
+[data-theme="light"] .about-step-card:hover,
+[data-theme="light"] .about-image-card:hover,
+[data-theme="light"] .about-tech:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+[data-theme="light"] .about-hero-content h1 { color: #0F172A; }
+[data-theme="light"] .about-section-head h2 { color: #0F172A; }
+[data-theme="light"] .about-card h3,
+[data-theme="light"] .about-step-card h3 { color: #0F172A; }
+[data-theme="light"] .about-tech h2 { color: #0F172A; }
+
+[data-theme="light"] .about-btn-secondary {
+  border-color: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.02);
+  color: #475569;
+}
+
+[data-theme="light"] .about-btn-secondary:hover {
+  color: #0F172A;
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="light"] .about-tags span {
+  background: #F1F5F9;
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #475569;
+}
+
+[data-theme="light"] .about-tags span:hover { color: #0F172A; }
+
+[data-theme="light"] .about-card-danger { border-color: rgba(239, 68, 68, 0.2); background: #FFFFFF; }
+[data-theme="light"] .about-card-accent { border-color: rgba(37, 99, 235, 0.2); background: #FFFFFF; }
+
+[data-theme="light"] .about-image-card {
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .about-hero-media img,
+[data-theme="light"] .about-image-card img,
+[data-theme="light"] .about-tech img { filter: saturate(1) brightness(1); }
+
+[data-theme="light"] .about-cta {
+  background: linear-gradient(135deg, #EFF6FF, #F0F4F8);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+[data-theme="light"] .about-cta h2 { color: #0F172A; }
+
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
   .about-hero,

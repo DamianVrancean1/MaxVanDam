@@ -194,6 +194,49 @@ button, .btn, [class*="btn"] {
 p { color: #64748B; font-family: 'Inter', sans-serif; line-height: 1.65; }
 h1, h2, h3, h4 { font-family: 'Rajdhani', sans-serif; color: #E2E8F0; font-weight: 700; }
 
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .inventory-dashboard { background: #F0F4F8; color: #0F172A; }
+
+[data-theme="light"] .inventory-sidebar {
+  background: #FFFFFF;
+  border-right-color: rgba(0, 0, 0, 0.07);
+  color: #0F172A;
+}
+
+[data-theme="light"] .inventory-brand { border-bottom-color: rgba(0, 0, 0, 0.07); }
+[data-theme="light"] .inventory-brand h1,
+[data-theme="light"] .inventory-brand h2 { color: #0F172A; }
+
+[data-theme="light"] .inventory-sidebar a,
+[data-theme="light"] .inventory-sidebar [class*="nav"] { color: #475569; }
+
+[data-theme="light"] .inventory-sidebar a:hover,
+[data-theme="light"] .inventory-sidebar [class*="nav"]:hover,
+[data-theme="light"] .inventory-sidebar [class*="active"] {
+  color: #0F172A;
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+[data-theme="light"] .inventory-main,
+[data-theme="light"] .inventory-content { background: #F0F4F8; }
+
+[data-theme="light"] .inventory-topbar h1,
+[data-theme="light"] .inventory-topbar h2,
+[data-theme="light"] .inventory-header h1 { color: #0F172A; }
+
+[data-theme="light"] .inventory-card,
+[data-theme="light"] .inventory-panel,
+[data-theme="light"] [class*="inventory-card"],
+[data-theme="light"] [class*="inventory-panel"] {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] h1, [data-theme="light"] h2,
+[data-theme="light"] h3, [data-theme="light"] h4 { color: #0F172A; }
+
 /* Responsive */
 @media (max-width: 768px) {
   .inventory-dashboard {

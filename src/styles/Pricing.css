@@ -443,6 +443,50 @@
   filter: invert(0.9) hue-rotate(180deg) saturate(0.5);
 }
 
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .pricing-page { background: #F0F4F8; color: #0F172A; }
+[data-theme="light"] .pricing-header h1 { color: #0F172A; }
+
+[data-theme="light"] .plan-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .plan-card:hover {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.1);
+}
+
+[data-theme="light"] .plan-card.popular {
+  border-color: rgba(37, 99, 235, 0.25);
+  background: linear-gradient(180deg, #F0F7FF, #FFFFFF);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1), 0 0 0 1px rgba(37, 99, 235, 0.12);
+}
+
+[data-theme="light"] .plan-title .plan-name { color: #0F172A; }
+[data-theme="light"] .plan-price .monthly { color: #0F172A; }
+
+[data-theme="light"] .pricing-single-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .single-head h1 { color: #0F172A; }
+
+[data-theme="light"] .contact-box {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .contact-box h2 { color: #0F172A; }
+
+[data-theme="light"] .map-wrapper { border-color: rgba(0, 0, 0, 0.1); }
+[data-theme="light"] .map-wrapper iframe { filter: none; }
+
+[data-theme="light"] .learn-more { color: #64748B; }
+[data-theme="light"] .learn-more:hover { color: #2563EB; }
+
 /* ---- Responsive ---- */
 @media (max-width: 980px) {
   .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

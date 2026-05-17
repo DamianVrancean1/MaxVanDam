@@ -1,5 +1,5 @@
-/* About theme alias — dark override */
+/* About theme alias — uses semantic CSS variables */
 .about-page {
-  background: #0B0F14 !important;
-  color: #E2E8F0 !important;
+  background: var(--bg-canvas) !important;
+  color: var(--fg-canvas) !important;
 }

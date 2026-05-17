@@ -68,6 +68,22 @@
   transform: translateY(-3px);
 }
 
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .subscriptions-info-page { background: #F0F4F8; color: #0F172A; }
+
+[data-theme="light"] .subscriptions-info-page h1,
+[data-theme="light"] .subscriptions-info-page h2,
+[data-theme="light"] .subscriptions-info-page h3 { color: #0F172A; }
+
+[data-theme="light"] .subscriptions-info-page p,
+[data-theme="light"] .subscriptions-info-page li { color: #475569; }
+
+[data-theme="light"] .subscriptions-info-page .card,
+[data-theme="light"] .subscriptions-info-page [class*="card"] {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
 /* Buttons */
 .subscriptions-info-page button,
 .subscriptions-info-page .btn {
