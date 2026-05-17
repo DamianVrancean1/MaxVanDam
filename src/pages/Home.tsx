@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 import "../styles/Home.css";
 
 /* ── animated counter ── */
@@ -93,24 +94,28 @@ const CATEGORIES = [
     id: "01", name: "Frâne", desc: "Plăcuțe, discuri, etriere și componente complete",
     count: "120+", accent: "#3B82F6",
     bg: "linear-gradient(135deg, #101828 0%, #0d1f3c 100%)",
+    bgLight: "linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)",
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4" /><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" /><path strokeLinecap="round" d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M16.9 16.9l1.5 1.5M5.6 18.4l1.4-1.4M16.9 7.1l1.5-1.5" /></svg>,
   },
   {
     id: "02", name: "Filtre", desc: "Ulei, aer, combustibil și habitaclu",
     count: "85+", accent: "#10B981",
     bg: "linear-gradient(135deg, #101c14 0%, #0b2a1a 100%)",
+    bgLight: "linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)",
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><path strokeLinecap="round" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" /><path strokeLinecap="round" d="M8 9h8M8 12h5M8 15h6" /><circle cx="12" cy="12" r="3" /></svg>,
   },
   {
     id: "03", name: "Suspensie", desc: "Amortizoare, arcuri, silent blocuri",
     count: "95+", accent: "#F59E0B",
     bg: "linear-gradient(135deg, #1c1410 0%, #2a1a0a 100%)",
+    bgLight: "linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)",
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><path strokeLinecap="round" d="M12 2v5M12 17v5" /><path strokeLinecap="round" d="M8 5l4 4 4-4M8 19l4-4 4 4" /><line x1="7" y1="10" x2="17" y2="10" /><line x1="7" y1="14" x2="17" y2="14" /></svg>,
   },
   {
     id: "04", name: "Motor", desc: "Distribuție, răcire, piese interne",
     count: "200+", accent: "#8B5CF6",
     bg: "linear-gradient(135deg, #120e1c 0%, #1a0e2e 100%)",
+    bgLight: "linear-gradient(135deg, #FAF5FF 0%, #EDE9FE 100%)",
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><rect x="2" y="7" width="20" height="10" rx="2" /><path strokeLinecap="round" d="M6 7V5a2 2 0 012-2h8a2 2 0 012 2v2" /><circle cx="7" cy="12" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="17" cy="12" r="1.5" /></svg>,
   },
 ];
@@ -195,7 +200,10 @@ const Check = () => (
 
 /* ══════════════════════════════════════════════════ */
 
-const Home = () => (
+const Home = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  return (
   <div className="home-page">
 
     {/* ━ 1. HERO ━ */}
@@ -307,7 +315,7 @@ const Home = () => (
               className="hm-cat-card"
               style={{ "--cat-accent": c.accent } as React.CSSProperties}
             >
-              <div className="hm-cat-bg" style={{ background: c.bg }} />
+              <div className="hm-cat-bg" style={{ background: isDark ? c.bg : c.bgLight }} />
               <div className="hm-cat-icon-wrap">{c.icon}</div>
               <div className="hm-cat-body">
                 <span className="hm-cat-count">{c.count} produse</span>
@@ -481,6 +489,7 @@ const Home = () => (
     </section>
 
   </div>
-);
+  );
+};
 
 export default Home;
