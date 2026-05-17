@@ -32,7 +32,34 @@ function timeAgo(dateStr: string): string {
 
 const CAT_COLORS = ['#3B82F6', '#8B5CF6', '#F59E0B', '#10B981'];
 const DAYS       = ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm', 'Dum'];
-const HMAP_COLS  = ['L', 'M', 'M', 'J', 'V', 'S', 'D', 'L', 'M', 'M', 'J', 'V'];
+const MONTHS     = ['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'];
+
+type ActivityPeriod = 'luna' | 'saptamana' | 'zi' | 'ore';
+const ACT_PERIODS: { id: ActivityPeriod; label: string }[] = [
+  { id: 'luna',      label: 'Lună' },
+  { id: 'saptamana', label: 'Săptămână' },
+  { id: 'zi',        label: 'Zi' },
+  { id: 'ore',       label: 'Ore' },
+];
+function genActivityData(period: ActivityPeriod) {
+  const v = (i: number, s: number) =>
+    Math.round(Math.abs(Math.sin(i * s + 1.7) * 65 + Math.sin(i * 0.5) * 25) + 15);
+  if (period === 'luna') {
+    const cur = new Date().getMonth();
+    return Array.from({ length: 6 }, (_, i) => ({ label: MONTHS[(cur - 5 + i + 12) % 12], value: v(i, 2.3) }));
+  }
+  if (period === 'saptamana') {
+    return Array.from({ length: 8 }, (_, i) => ({ label: `S${i + 1}`, value: v(i, 1.7) }));
+  }
+  if (period === 'zi') {
+    const d = new Date();
+    return Array.from({ length: 14 }, (_, i) => {
+      const day = new Date(d); day.setDate(d.getDate() - 13 + i);
+      return { label: `${day.getDate()} ${MONTHS[day.getMonth()]}`, value: v(i, 3.1) };
+    });
+  }
+  return Array.from({ length: 24 }, (_, i) => ({ label: `${i}h`, value: v(i, 0.9) }));
+}
 
 const CardVariants = {
   hidden:  { opacity: 0, y: 16 },
@@ -212,11 +239,8 @@ const DashboardPage = () => {
     return ins;
   }, [outOfStock, criticalProducts, totalValue, catDist]);
 
-  /* Heatmap — stable across renders (no random on re-render) */
-  const heatmap = useMemo(
-    () => Array.from({ length: 84 }, (_, i) => ((Math.sin(i * 2.3) + 1) / 2) * 0.9 + 0.05),
-    [],
-  );
+  const [actPeriod, setActPeriod] = useState<ActivityPeriod>('saptamana');
+  const actData = useMemo(() => genActivityData(actPeriod), [actPeriod]);
 
   const today = new Date().toLocaleDateString('ro-RO', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -479,7 +503,7 @@ const DashboardPage = () => {
 
       </div>
 
-      {/* Warehouse heatmap */}
+      {/* Activity bar chart */}
       <motion.div className="dm-card" style={{ marginTop: '1rem' }}
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.45 }}>
@@ -487,29 +511,42 @@ const DashboardPage = () => {
           <div className="dm-card-header">
             <div>
               <div className="dm-card-title">Activitate depozit</div>
-              <div className="dm-card-subtitle">Intensitate mișcări pe zone · ultimele 12 zile</div>
+              <div className="dm-card-subtitle">
+                Mișcări pe {ACT_PERIODS.find(p => p.id === actPeriod)?.label.toLowerCase()}
+              </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 11, color: 'var(--t-tertiary)' }}>
-              <span>Mai puțin</span>
-              {[0.1, 0.3, 0.5, 0.7, 0.9].map((op, i) => (
-                <span key={i} style={{ width: 12, height: 12, background: '#3B82F6', opacity: op, borderRadius: 2, display: 'inline-block' }} />
+            <div style={{ display: 'flex', gap: 4 }}>
+              {ACT_PERIODS.map(p => (
+                <button key={p.id} onClick={() => setActPeriod(p.id)} style={{
+                  padding: '3px 10px', borderRadius: 'var(--radius-sm)', fontSize: 11.5,
+                  fontWeight: 500, border: '1px solid', cursor: 'pointer', transition: 'all 0.15s',
+                  background: actPeriod === p.id ? 'rgba(59,130,246,0.12)' : 'transparent',
+                  borderColor: actPeriod === p.id ? 'rgba(59,130,246,0.35)' : 'var(--s-border)',
+                  color: actPeriod === p.id ? 'var(--c-blue)' : 'var(--t-secondary)',
+                }}>{p.label}</button>
               ))}
-              <span>Mai mult</span>
             </div>
           </div>
-          <div className="dm-heatmap-grid">
-            {heatmap.map((val, i) => (
-              <div key={i} className="dm-hm-cell"
-                style={{ opacity: Math.max(0.06, val) }}
-                title={`Activitate: ${Math.round(val * 100)}%`}
+          <ResponsiveContainer width="100%" height={190}>
+            <BarChart data={actData} barCategoryGap="30%" margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
+              <defs>
+                <linearGradient id="actBarGradAdmin" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.85} />
+                  <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.45} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} stroke="var(--s-border)" strokeDasharray="3 3" />
+              <XAxis dataKey="label" tick={{ fontSize: 10, fill: 'var(--t-tertiary)' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: 'var(--t-tertiary)' }} axisLine={false} tickLine={false} width={28} />
+              <Tooltip
+                contentStyle={{ background: 'var(--s-elevated)', border: '1px solid var(--s-border-2)', borderRadius: 8, fontSize: 12 }}
+                labelStyle={{ color: 'var(--t-secondary)', fontWeight: 600, marginBottom: 4 }}
+                formatter={(v) => [`${v} mișcări`, '']}
+                cursor={{ fill: 'rgba(59,130,246,0.07)' }}
               />
-            ))}
-          </div>
-          <div className="dm-hm-labels">
-            {HMAP_COLS.map((l, i) => (
-              <div key={i} className="dm-hm-label">{l}</div>
-            ))}
-          </div>
+              <Bar dataKey="value" fill="url(#actBarGradAdmin)" radius={[3, 3, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </motion.div>
     </>
