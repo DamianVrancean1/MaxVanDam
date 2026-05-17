@@ -3,7 +3,7 @@
    All classes scoped under .dm-app to prevent conflicts
    ============================================================ */
 
-/* ── variables ── */
+/* ── variables — DARK (default) ── */
 .dm-app {
   --s-bg:         #060A13;
   --s-elevated:   #0B1120;
@@ -45,6 +45,39 @@
   -webkit-font-smoothing: antialiased;
   color: var(--t-primary);
   background: var(--s-bg);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* ── variables — LIGHT override ── */
+[data-theme="light"] .dm-app {
+  --s-bg:         #F0F4F8;
+  --s-elevated:   #FFFFFF;
+  --s-surface:    #F8FAFC;
+  --s-surface-2:  #F1F5F9;
+  --s-surface-3:  #E2E8F0;
+  --s-hover:      rgba(0,0,0,0.04);
+  --s-border:     rgba(0,0,0,0.07);
+  --s-border-2:   rgba(0,0,0,0.12);
+
+  --t-primary:    #0F172A;
+  --t-secondary:  #334155;
+  --t-tertiary:   #64748B;
+  --t-muted:      #94A3B8;
+
+  /* Accent colors — ușor întunecate pentru contrast pe fond deschis */
+  --c-blue:       #2563EB;
+  --c-blue-dim:   rgba(37,99,235,0.10);
+  --c-blue-glow:  rgba(37,99,235,0.18);
+  --c-blue-lt:    #3B82F6;
+  --c-green:      #059669;
+  --c-green-dim:  rgba(5,150,105,0.10);
+  --c-amber:      #D97706;
+  --c-amber-dim:  rgba(217,119,6,0.10);
+  --c-red:        #DC2626;
+  --c-red-dim:    rgba(220,38,38,0.10);
+  --c-purple:     #7C3AED;
+  --c-purple-dim: rgba(124,58,237,0.10);
+  --c-cyan:       #0891B2;
 }
 
 /* ── layout ── */

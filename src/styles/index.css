@@ -1,8 +1,20 @@
 /* ==========================================================================
-   GLOBAL RESET — Industrial Dark Theme (COMPLETE OVERRIDE)
+   GLOBAL RESET — Semantic Theme System
+   Culori hardcodate ELIMINATE — totul prin CSS variables
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ── Semantic tokens (single source of truth) ── */
+:root {
+  --bg-canvas:   #0B0F14;
+  --fg-canvas:   #E2E8F0;
+}
+
+[data-theme="light"] {
+  --bg-canvas:   #F0F4F8;
+  --fg-canvas:   #0F172A;
+}
 
 *, *::before, *::after {
   margin: 0;
@@ -18,26 +30,27 @@ html {
 
 body {
   font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, sans-serif;
-  background: #0B0F14 !important;
-  color: #E2E8F0 !important;
+  background: var(--bg-canvas);
+  color: var(--fg-canvas);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* Force dark everywhere — kill all light-theme overrides */
+/* Propagă culoarea pe elementele de layout principale */
 html, body, #root,
 .app, .ix-app,
 .main-content, .ix-main,
 .home, .about-page, .pricing-page,
 .login-page, .admin-shell, .admin-content-wrap, .admin-main {
-  background-color: #0B0F14 !important;
-  color: #E2E8F0 !important;
+  background-color: var(--bg-canvas);
+  color: var(--fg-canvas);
 }
 
-/* Kill old text color selectors */
+/* Text inherit în content areas */
 .main-content > div > h1,
 .main-content > div > h2,
 .main-content > div > h3,
@@ -46,13 +59,13 @@ html, body, #root,
 .main-content > div > section > h2,
 .main-content > div > section > h3,
 .main-content > div > section > p {
-  color: inherit !important;
+  color: inherit;
 }
 
-/* Allow dark overlays from Home */
+/* Overlays din Home rămân neschimbate */
 .home::before,
 .home::after {
-  background: unset !important;
+  background: unset;
 }
 
 img, svg, video { display: block; max-width: 100%; }
