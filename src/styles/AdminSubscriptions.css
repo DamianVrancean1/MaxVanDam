@@ -172,6 +172,53 @@
   }
 }
 
+/* ---- Light theme overrides ---- */
+[data-theme="light"] .admin-subscriptions {
+  background: linear-gradient(135deg, #EFF6FF, #F0F4F8);
+  color: #0F172A;
+}
+
+[data-theme="light"] .admin-subscriptions-header h2 { color: #d63384; }
+
+[data-theme="light"] .admin-subscriptions-header p { color: #475569; }
+
+[data-theme="light"] .filter-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #475569;
+}
+
+[data-theme="light"] .filter-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .admin-subscriptions-table {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .admin-subscriptions-table thead {
+  background: rgba(214, 51, 132, 0.06);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .admin-subscriptions-table th { color: #d63384; }
+
+[data-theme="light"] .admin-subscriptions-table tbody tr {
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .admin-subscriptions-table tbody tr:hover {
+  background: rgba(214, 51, 132, 0.04);
+}
+
+[data-theme="light"] .admin-subscriptions-table td { color: #334155; }
+
+[data-theme="light"] .admin-subscriptions-table strong { color: #d63384; }
+
+[data-theme="light"] .empty-state { color: #64748B; }
+
 @media (max-width: 768px) {
   .admin-subscriptions {
     padding: 1rem;
