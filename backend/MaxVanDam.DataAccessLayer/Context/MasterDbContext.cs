@@ -1,4 +1,5 @@
 using MaxVanDam.Domain.Entities.InventoryNotification;
+using MaxVanDam.Domain.Entities.Order;
 using MaxVanDam.Domain.Entities.Product;
 using MaxVanDam.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ public sealed class MasterDbContext : DbContext
     public DbSet<ProductEntity> Products => Set<ProductEntity>();
     public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<InventoryNotificationEntity> InventoryNotifications => Set<InventoryNotificationEntity>();
+    public DbSet<OrderEntity> Orders => Set<OrderEntity>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(DbSession.ConnectionString);
@@ -52,6 +54,17 @@ public sealed class MasterDbContext : DbContext
                   .WithMany(p => p.InventoryNotifications)
                   .HasForeignKey(n => n.ProductId)
                   .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<OrderEntity>(entity =>
+        {
+            entity.HasKey(o => o.Id);
+            entity.Property(o => o.SupplierName).IsRequired().HasMaxLength(200);
+            entity.Property(o => o.Status).IsRequired().HasMaxLength(50);
+            entity.Property(o => o.Priority).IsRequired().HasMaxLength(50);
+            entity.Property(o => o.Category).HasMaxLength(100);
+            entity.Property(o => o.TotalValue).HasColumnType("decimal(12,2)");
+            entity.Property(o => o.ItemsJson).HasColumnType("text");
         });
     }
 }

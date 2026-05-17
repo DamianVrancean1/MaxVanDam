@@ -499,3 +499,6 @@ C:/Users/Ion/RiderProjects/MaxVanDam/backend/MaxVanDam.API/bin/Debug/net8.0/runt
 /Users/user/MaxVanDam/backend/MaxVanDam.API/obj/Debug/net8.0/MaxVanDam.API.pdb
 /Users/user/MaxVanDam/backend/MaxVanDam.API/obj/Debug/net8.0/MaxVanDam.API.genruntimeconfig.cache
 /Users/user/MaxVanDam/backend/MaxVanDam.API/obj/Debug/net8.0/ref/MaxVanDam.API.dll
+/Users/user/MaxVanDam/backend/MaxVanDam.API/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/user/MaxVanDam/backend/MaxVanDam.API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/user/MaxVanDam/backend/MaxVanDam.API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

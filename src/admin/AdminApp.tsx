@@ -2,7 +2,7 @@ import { Link, NavLink, Navigate, Route, Routes, useLocation } from 'react-route
 import {
   LayoutDashboard, Package, PackagePlus, Users, CreditCard,
   User, Search, ChevronRight,
-  RefreshCw, Bell, Download, ArrowLeft, LogOut,
+  RefreshCw, Bell, Download, ArrowLeft, LogOut, ShoppingCart,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import DashboardPage from './layouts/DashboardPage';
@@ -11,6 +11,7 @@ import ProductFormPage from './layouts/ProductFormPage';
 import ProfilePage from './layouts/ProfilePage';
 import UsersPage from './layouts/UsersPage';
 import AdminSubscriptionsPage from '../pages/AdminSubscriptionsPage';
+import AdminComenzi from './pages/AdminComenzi';
 import './admin.css';
 
 /* ── helpers ── */
@@ -79,6 +80,14 @@ const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
         >
           <CreditCard className="dm-nav-icon" />
           Abonamente
+        </NavLink>
+
+        <NavLink
+          to="/admin/comenzi"
+          className={({ isActive }) => `dm-nav-link${isActive ? ' active' : ''}`}
+        >
+          <ShoppingCart className="dm-nav-icon" />
+          Comenzi
         </NavLink>
 
         <NavLink
@@ -194,6 +203,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/products/new': 'Adaugă produs',
   '/admin/users':        'Utilizatori',
   '/admin/subscriptions':'Abonamente',
+  '/admin/comenzi':      'Comenzi',
   '/admin/profile':      'Profil',
 };
 
@@ -242,6 +252,7 @@ const AdminApp = () => {
         <Route path="products/:id/edit" element={<ProductFormPage mode="edit" />} />
         <Route path="users"          element={<UsersPage />} />
         <Route path="subscriptions"  element={<AdminSubscriptionsPage />} />
+        <Route path="comenzi"        element={<AdminComenzi />} />
         <Route path="profile"        element={<ProfilePage />} />
         <Route path="*"              element={<Navigate to="dashboard" replace />} />
       </Routes>
