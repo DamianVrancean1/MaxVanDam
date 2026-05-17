@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
-import { useTheme } from "../../context/ThemeContext";
+import ThemeToggle from "../common/ThemeToggle";
 import "../../styles/Header.css";
 import logo from "../../img/logo2.png";
   
 const Header = () => {
   const { user, logout } = useAuth();
   const { totalItems } = useCart();
-  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
@@ -73,14 +72,7 @@ const Header = () => {
           {/* Auth + system status zone */}
           <div className="auth-section ix-header-auth-zone">
             {/* Theme toggle */}
-            <button
-              className="theme-toggle-btn"
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Activează tema deschisă' : 'Activează tema întunecată'}
-              title={theme === 'dark' ? 'Temă deschisă' : 'Temă întunecată'}
-            >
-              {theme === 'dark' ? '☀' : '🌙'}
-            </button>
+            <ThemeToggle />
 
             {/* Live system indicator */}
             <div className="ix-system-status" aria-label="Sistem activ">
