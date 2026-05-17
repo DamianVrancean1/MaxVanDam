@@ -3,6 +3,7 @@ using MaxVanDam.DataAccessLayer.Context;
 using MaxVanDam.Domain.Entities.User;
 using MaxVanDam.Domain.Models.Auth;
 using MaxVanDam.Domain.Models.Service;
+using MaxVanDam.Domain.Models.User;
 
 namespace MaxVanDam.BusinessLayer.Structure;
 
@@ -76,6 +77,9 @@ public class AuthActions
 
             var token = JwtGenerator.Generate(user);
 
+            user.LastLoginAt = DateTime.UtcNow;
+            db.SaveChanges();
+
             return new ServiceResponse
             {
                 IsSuccess = true,
@@ -87,6 +91,82 @@ public class AuthActions
                     Email = user.Email,
                     CreatedAt = user.CreatedAt,
                     Token = token
+                }
+            };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
+
+    protected ServiceResponse ChangePasswordAction(int userId, ChangePasswordDto dto)
+    {
+        try
+        {
+            using var db = new UserDbContext();
+            var user = db.Users.Find(userId);
+            if (user is null)
+                return new ServiceResponse { IsSuccess = false, Message = "Utilizatorul nu a fost găsit." };
+
+            var parts = user.PasswordHash.Split(':', 2);
+            if (parts.Length != 2)
+                return new ServiceResponse { IsSuccess = false, Message = "Eroare internă de autentificare." };
+
+            var pepper = Environment.GetEnvironmentVariable("AUTH_PEPPER") ?? string.Empty;
+
+            if (!PasswordHasher.Verify(dto.OldPassword, parts[0], pepper, 0, 0, parts[1]))
+                return new ServiceResponse { IsSuccess = false, Message = "Parola curentă este incorectă." };
+
+            var salt = PasswordHasher.GenerateSalt();
+            var hash = PasswordHasher.Hash(dto.NewPassword, salt, pepper, 0, 0);
+            user.PasswordHash = $"{salt}:{hash}";
+            db.SaveChanges();
+
+            return new ServiceResponse { IsSuccess = true, Message = "Parola a fost schimbată cu succes." };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
+
+    protected ServiceResponse UpdateProfileAction(int userId, UpdateProfileDto dto)
+    {
+        try
+        {
+            using var db = new UserDbContext();
+            var user = db.Users.Find(userId);
+            if (user is null)
+                return new ServiceResponse { IsSuccess = false, Message = "Utilizatorul nu a fost găsit." };
+
+            if (!string.IsNullOrWhiteSpace(dto.Username) && dto.Username != user.Username)
+            {
+                if (db.Users.Any(u => u.Username == dto.Username))
+                    return new ServiceResponse { IsSuccess = false, Message = "Username-ul este deja folosit." };
+                user.Username = dto.Username;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Email) && dto.Email != user.Email)
+            {
+                if (db.Users.Any(u => u.Email == dto.Email))
+                    return new ServiceResponse { IsSuccess = false, Message = "Email-ul este deja folosit." };
+                user.Email = dto.Email;
+            }
+
+            db.SaveChanges();
+
+            return new ServiceResponse
+            {
+                IsSuccess = true,
+                Data = new UserInfoDto
+                {
+                    Id       = user.Id,
+                    Username = user.Username,
+                    Email    = user.Email,
+                    Role     = user.Role,
+                    CreatedAt = user.CreatedAt,
+                    IsActive = user.IsActive,
                 }
             };
         }

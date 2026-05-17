@@ -23,4 +23,8 @@ public class UserEntity
     public string Email { get; set; } = string.Empty;
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public bool IsActive { get; set; } = true;
+
+    public DateTime? LastLoginAt { get; set; }
 }

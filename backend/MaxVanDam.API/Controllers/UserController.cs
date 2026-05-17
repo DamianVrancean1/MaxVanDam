@@ -2,11 +2,14 @@ using MaxVanDam.BusinessLayer;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Auth;
 using MaxVanDam.Domain.Models.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace MaxVanDam.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize(Roles = "admin")]
 public class UserController : ControllerBase
 {
     private readonly IUserLogic _userLogic;
@@ -37,6 +40,14 @@ public class UserController : ControllerBase
     public IActionResult UpdateRole(int id, [FromBody] AdminUserUpdateDto dto)
     {
         var response = _userLogic.UpdateUserRole(id, dto);
+        if (!response.IsSuccess) return BadRequest(response.Message);
+        return Ok(response.Data);
+    }
+
+    [HttpPatch("{id}/status")]
+    public IActionResult UpdateStatus(int id, [FromBody] UserStatusDto dto)
+    {
+        var response = _userLogic.UpdateUserStatus(id, dto);
         if (!response.IsSuccess) return BadRequest(response.Message);
         return Ok(response.Data);
     }

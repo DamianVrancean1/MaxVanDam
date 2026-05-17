@@ -1,3 +1,4 @@
+using MaxVanDam.BusinessLayer.Security;
 using MaxVanDam.DataAccessLayer.Context;
 using MaxVanDam.Domain.Entities.User;
 using MaxVanDam.Domain.Models.Auth;
@@ -33,13 +34,21 @@ public class UserActions
             if (db.Users.Any(u => u.Username == dto.Username))
                 return new ServiceResponse { IsSuccess = false, Message = "Username-ul este deja folosit." };
 
+            if (db.Users.Any(u => u.Email == dto.Email))
+                return new ServiceResponse { IsSuccess = false, Message = "Email-ul este deja folosit." };
+
+            var pepper = Environment.GetEnvironmentVariable("AUTH_PEPPER") ?? string.Empty;
+            var salt   = PasswordHasher.GenerateSalt();
+            var hash   = PasswordHasher.Hash(dto.Password, salt, pepper, 0, 0);
+
             var user = new UserEntity
             {
-                Username = dto.Username,
-                PasswordHash = dto.Password,
-                Email = dto.Email,
-                Role = "user",
-                CreatedAt = DateTime.UtcNow
+                Username     = dto.Username,
+                PasswordHash = $"{salt}:{hash}",
+                Email        = dto.Email,
+                Role         = dto.Role ?? "user",
+                CreatedAt    = DateTime.UtcNow,
+                IsActive     = true,
             };
 
             db.Users.Add(user);
@@ -71,6 +80,25 @@ public class UserActions
         }
     }
 
+    protected ServiceResponse UpdateUserStatusAction(int id, UserStatusDto dto)
+    {
+        try
+        {
+            using var db = new UserDbContext();
+            var user = db.Users.Find(id);
+            if (user is null)
+                return new ServiceResponse { IsSuccess = false, Message = $"Utilizatorul cu id {id} nu a fost găsit." };
+
+            user.IsActive = dto.IsActive;
+            db.SaveChanges();
+            return new ServiceResponse { IsSuccess = true, Data = MapToDto(user) };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
+
     protected ServiceResponse DeleteUserAction(int id)
     {
         try
@@ -92,10 +120,12 @@ public class UserActions
 
     private static UserInfoDto MapToDto(UserEntity u) => new()
     {
-        Id = u.Id,
-        Username = u.Username,
-        Role = u.Role,
-        Email = u.Email,
-        CreatedAt = u.CreatedAt
+        Id          = u.Id,
+        Username    = u.Username,
+        Role        = u.Role,
+        Email       = u.Email,
+        CreatedAt   = u.CreatedAt,
+        IsActive    = u.IsActive,
+        LastLoginAt = u.LastLoginAt,
     };
 }
