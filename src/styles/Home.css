@@ -1088,6 +1088,11 @@
 ──────────────────────────────────────────────── */
 [data-theme="light"] .home-page { background: #F0F4F8; color: #0F172A; }
 
+[data-theme="light"] .hm-hero-overlay,
+[data-theme="light"] .hm-hero-grid-overlay {
+  opacity: 0;
+}
+
 [data-theme="light"] .hm-section-alt {
   background: #FFFFFF;
   border-top-color: rgba(0, 0, 0, 0.07);
