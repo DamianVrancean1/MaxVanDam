@@ -115,6 +115,28 @@
   margin: 0;
 }
 
+/* ---- Inline rating (below title) ---- */
+.detail-rating-inline {
+  display:     flex;
+  align-items: center;
+  gap:         0.4rem;
+}
+
+.detail-rating-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size:   0.8rem;
+  font-weight: 700;
+  color:       #F59E0B;
+}
+
+.detail-rating-count {
+  font-family: 'Inter', sans-serif;
+  font-size:   0.78rem;
+  color:       #475569;
+}
+
+[data-theme="light"] .detail-rating-count { color: #94A3B8; }
+
 /* ---- Price + stock ---- */
 .detail-price-stock {
   display: flex;
