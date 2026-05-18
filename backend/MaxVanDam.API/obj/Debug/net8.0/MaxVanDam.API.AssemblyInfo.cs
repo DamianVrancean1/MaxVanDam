@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MaxVanDam.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d7aa80db396f686c4f90cac027634fff21d55d38")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9944898fc21e37be2b5a8f868ba0b17275164909")]
 [assembly: System.Reflection.AssemblyProductAttribute("MaxVanDam.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MaxVanDam.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
