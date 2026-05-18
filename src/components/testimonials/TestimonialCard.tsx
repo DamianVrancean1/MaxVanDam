@@ -1,43 +1,50 @@
 import type { Testimonial } from '../../types';
-import StarRating from '../reviews/StarRating';
+import { getStarRating } from '../../lib/getStarRating';
 
 interface TestimonialCardProps {
   testimonial: Testimonial;
   index?: number;
 }
 
-const TestimonialCard = ({ testimonial, index = 0 }: TestimonialCardProps) => (
-  <article
-    className={`tst-card${testimonial.featured ? ' tst-card--featured' : ''}`}
-    style={{ animationDelay: `${index * 0.07}s` }}
-  >
-    {testimonial.featured && (
-      <span className="tst-featured-badge">★ Evidențiat</span>
-    )}
+const TestimonialCard = ({ testimonial, index = 0 }: TestimonialCardProps) => {
+  const { filled, empty } = getStarRating(testimonial.rating);
 
-    <span className="tst-quote" aria-hidden="true">"</span>
+  return (
+    <article
+      className={`tst-card${testimonial.featured ? ' tst-card--featured' : ''}`}
+      style={{ animationDelay: `${index * 0.07}s` }}
+    >
+      {testimonial.featured && (
+        <span className="tst-featured-badge">★ Evidențiat</span>
+      )}
 
-    <h4 className={`tst-title${testimonial.featured ? ' tst-title--padded' : ''}`}>
-      {testimonial.title}
-    </h4>
+      <span className="tst-quote" aria-hidden="true">"</span>
 
-    <p className="tst-body">{testimonial.body}</p>
+      <h4 className={`tst-title${testimonial.featured ? ' tst-title--padded' : ''}`}>
+        {testimonial.title}
+      </h4>
 
-    <footer className="tst-footer">
-      <StarRating rating={testimonial.rating} size="sm" />
-      <div className="tst-author">
-        <span className="tst-author-name">{testimonial.authorName}</span>
-        <span className="tst-author-meta">
-          {testimonial.role}
-          <span className="tst-author-sep" aria-hidden="true">·</span>
-          {testimonial.company}
+      <p className="tst-body">{testimonial.body}</p>
+
+      <footer className="tst-footer">
+        <span className="tst-rating-badge" aria-label={`${testimonial.rating} din 5 stele`}>
+          {filled}
+          <span className="tst-stars-empty">{empty}</span>
         </span>
-        {testimonial.location && (
-          <span className="tst-location">{testimonial.location}</span>
-        )}
-      </div>
-    </footer>
-  </article>
-);
+        <div className="tst-author">
+          <span className="tst-author-name">{testimonial.authorName}</span>
+          <span className="tst-author-meta">
+            {testimonial.role}
+            <span className="tst-author-sep" aria-hidden="true">·</span>
+            {testimonial.company}
+          </span>
+          {testimonial.location && (
+            <span className="tst-location">{testimonial.location}</span>
+          )}
+        </div>
+      </footer>
+    </article>
+  );
+};
 
 export default TestimonialCard;

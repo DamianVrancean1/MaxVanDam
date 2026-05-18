@@ -4,7 +4,7 @@ import {
   getTestimonialStats,
   sortTestimonials,
 } from '../../services/testimonialService';
-import StarRating from '../reviews/StarRating';
+import { getStarRating } from '../../lib/getStarRating';
 import TestimonialCard from './TestimonialCard';
 
 const INITIAL_VISIBLE = 6;
@@ -12,7 +12,10 @@ const INITIAL_VISIBLE = 6;
 const TestimonialsSection = () => {
   const [showAll, setShowAll] = useState(false);
 
-  const all      = useMemo(() => sortTestimonials(getTestimonials(), 'featured'), []);
+  const all      = useMemo(
+    () => sortTestimonials(getTestimonials().filter(t => t.rating >= 4), 'featured'),
+    [],
+  );
   const stats    = useMemo(() => getTestimonialStats(), []);
   const featured = useMemo(() => all.filter(t => t.featured), [all]);
   const regular  = useMemo(() => all.filter(t => !t.featured), [all]);
@@ -35,7 +38,11 @@ const TestimonialsSection = () => {
       {stats && (
         <div className="tst-stats-bar">
           <div className="tst-stat">
-            <StarRating rating={stats.average} size="sm" showValue />
+            <span className="tst-stat-stars" aria-label={`${stats.average} din 5 stele`}>
+              {getStarRating(stats.average).filled}
+              <span className="tst-stars-empty">{getStarRating(stats.average).empty}</span>
+            </span>
+            <span className="tst-stat-avg">{stats.average.toFixed(1)}</span>
             <span className="tst-stat-label">rating mediu</span>
           </div>
           <div className="tst-stat-divider" aria-hidden="true" />

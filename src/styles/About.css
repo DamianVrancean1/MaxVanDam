@@ -528,8 +528,8 @@
 
 .tst-stat-value {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 2.35rem;
+  font-weight: 7000;
   color: #F59E0B;
   line-height: 1;
 }
@@ -538,6 +538,21 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
   color: #475569;
+}
+
+.tst-stat-stars {
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  line-height: 1;
+  user-select: none;
+}
+
+.tst-stat-avg {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #F59E0B;
+  line-height: 1;
 }
 
 .tst-stat-divider {
@@ -551,7 +566,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .tst-card {
@@ -578,7 +593,6 @@
 
 .tst-card--featured {
   border-color: rgba(245, 158, 11, 0.3);
-  background: linear-gradient(140deg, #151C26 0%, rgba(245, 158, 11, 0.04) 100%);
 }
 
 .tst-card--featured:hover {
@@ -598,10 +612,6 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #FBBF24;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  border-radius: 4px;
-  padding: 0.15rem 0.45rem;
 }
 
 .tst-quote {
@@ -633,6 +643,22 @@
   color: #64748B;
   margin: 0;
   flex: 1;
+  text-indent: 1.25em;
+}
+
+.tst-rating-badge {
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  line-height: 1;
+  user-select: none;
+}
+
+.tst-stars-empty {
+  color: rgba(245, 158, 11, 0.25);
+}
+
+[data-theme="light"] .tst-stars-empty {
+  color: rgba(245, 158, 11, 0.3);
 }
 
 .tst-footer {
@@ -774,7 +800,6 @@
 }
 
 [data-theme="light"] .tst-card--featured {
-  background: linear-gradient(140deg, #FFFFFF 0%, rgba(245, 158, 11, 0.03) 100%);
   border-color: rgba(245, 158, 11, 0.35);
 }
 

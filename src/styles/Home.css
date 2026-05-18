@@ -233,11 +233,11 @@
 }
 
 .hm-hero-sub {
-  font-size: clamp(1rem, 2.5vw, 1.15rem);
-  color: #64748B;
+  font-size: clamp(1.25rem, 2.5vw, 1.15rem);
+  color:  #003b8d;
   max-width: 560px;
   line-height: 1.75;
-  margin: 0;
+  margin: 15em 0 0;
   animation: hmFadeUp 0.65s 0.2s ease both;
 }
 
