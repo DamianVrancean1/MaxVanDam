@@ -24,6 +24,24 @@ public class OrderActions
         }
     }
 
+    protected ServiceResponse GetMyOrdersAction(int userId)
+    {
+        try
+        {
+            using var db = new MasterDbContext();
+            var orders = db.Orders
+                .Where(o => o.UserId == userId)
+                .OrderByDescending(o => o.CreatedAt)
+                .Select(o => MapToDto(o))
+                .ToList();
+            return new ServiceResponse { IsSuccess = true, Data = orders };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
+
     protected ServiceResponse GetOrderByIdAction(int id)
     {
         try

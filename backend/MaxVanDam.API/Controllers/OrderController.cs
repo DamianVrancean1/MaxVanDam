@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MaxVanDam.BusinessLayer;
 using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Order;
@@ -18,7 +19,20 @@ public class OrderController : ControllerBase
         _orderLogic = bl.GetOrderLogic();
     }
 
+    [HttpGet("my")]
+    [Authorize]
+    public IActionResult GetMy()
+    {
+        var userId = GetCurrentUserId();
+        if (userId is null) return Unauthorized();
+
+        var response = _orderLogic.GetMyOrders(userId.Value);
+        if (!response.IsSuccess) return BadRequest(response.Message);
+        return Ok(response.Data);
+    }
+
     [HttpGet("list")]
+    [Authorize(Roles = "admin")]
     public IActionResult GetList()
     {
         var response = _orderLogic.GetOrderList();
@@ -27,6 +41,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "admin")]
     public IActionResult GetById(int id)
     {
         var response = _orderLogic.GetOrderById(id);
@@ -59,5 +74,11 @@ public class OrderController : ControllerBase
         var response = _orderLogic.DeleteOrder(id);
         if (!response.IsSuccess) return BadRequest(response.Message);
         return Ok(response.Message);
+    }
+
+    private int? GetCurrentUserId()
+    {
+        var claim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return int.TryParse(claim, out var id) ? id : null;
     }
 }

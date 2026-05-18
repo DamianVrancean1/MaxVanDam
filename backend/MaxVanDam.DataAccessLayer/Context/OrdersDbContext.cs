@@ -17,6 +17,7 @@ public sealed class OrdersDbContext : DbContext
         modelBuilder.Entity<OrderEntity>(entity =>
         {
             entity.HasKey(o => o.Id);
+            entity.Property(o => o.UserId);
             entity.Property(o => o.SupplierName).IsRequired().HasMaxLength(200);
             entity.Property(o => o.Status).IsRequired().HasMaxLength(50);
             entity.Property(o => o.Priority).IsRequired().HasMaxLength(50);
