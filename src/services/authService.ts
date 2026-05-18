@@ -1,9 +1,7 @@
 import type { AuthResponse, User, UserRole } from '../types';
 import { getUserByUsername } from './userService';
 
-const AUTH_STORAGE_KEY    = 'authUser';
-const TOKEN_STORAGE_KEY   = 'authToken';
-const REFRESH_STORAGE_KEY = 'refreshToken';
+const AUTH_STORAGE_KEY = 'authUser';
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() ?? '';
 
 const normalizeRole = (role: string): UserRole =>
@@ -16,23 +14,8 @@ const toUser = (payload: AuthResponse): User => ({
   email:    payload.email,
 });
 
-export const persistTokens = (accessToken: string, refreshToken: string | null): void => {
-  localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
-  if (refreshToken) {
-    localStorage.setItem(REFRESH_STORAGE_KEY, refreshToken);
-  } else {
-    localStorage.removeItem(REFRESH_STORAGE_KEY);
-  }
-};
-
-const persistAuth = (user: User, accessToken: string | null, refreshToken: string | null): void => {
+const persistUser = (user: User): void => {
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
-  if (accessToken) {
-    persistTokens(accessToken, refreshToken);
-  } else {
-    localStorage.removeItem(TOKEN_STORAGE_KEY);
-    localStorage.removeItem(REFRESH_STORAGE_KEY);
-  }
 };
 
 export const getStoredUser = (): User | null => {
@@ -46,29 +29,20 @@ export const getStoredUser = (): User | null => {
   }
 };
 
-export const getStoredToken = (): string | null =>
-  localStorage.getItem(TOKEN_STORAGE_KEY);
-
-export const getStoredRefreshToken = (): string | null =>
-  localStorage.getItem(REFRESH_STORAGE_KEY);
-
 const loginWithApi = async (
   username: string,
   password: string
-): Promise<{ user: User; token: string | null; refreshToken: string | null } | null> => {
+): Promise<{ user: User } | null> => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ username, password }),
+      method:      'POST',
+      headers:     { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body:        JSON.stringify({ username, password }),
     });
     if (!response.ok) return null;
     const payload = (await response.json()) as AuthResponse;
-    return {
-      user:         toUser(payload),
-      token:        payload.token        ?? null,
-      refreshToken: payload.refreshToken ?? null,
-    };
+    return { user: toUser(payload) };
   } catch {
     return null;
   }
@@ -77,14 +51,14 @@ const loginWithApi = async (
 export const loginUser = async (
   username: string,
   password: string
-): Promise<{ user: User; token: string | null } | null> => {
+): Promise<{ user: User } | null> => {
   const apiLogin = await loginWithApi(username, password);
   if (apiLogin) {
-    persistAuth(apiLogin.user, apiLogin.token, apiLogin.refreshToken);
-    return { user: apiLogin.user, token: apiLogin.token };
+    persistUser(apiLogin.user);
+    return { user: apiLogin.user };
   }
 
-  // Local fallback (mock users — no refresh token)
+  // Local fallback (mock users — dev only)
   const foundUser = getUserByUsername(username);
   if (!foundUser || foundUser.password !== password) return null;
 
@@ -94,22 +68,16 @@ export const loginUser = async (
     role:     foundUser.role,
     email:    foundUser.email,
   };
-  persistAuth(fallbackUser, null, null);
-  return { user: fallbackUser, token: null };
+  persistUser(fallbackUser);
+  return { user: fallbackUser };
 };
 
-export const logoutUser = (rawRefreshToken?: string): void => {
-  // Revoke token on backend — fire and forget
-  if (rawRefreshToken) {
-    fetch(`${API_BASE_URL}/api/auth/logout`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ refreshToken: rawRefreshToken }),
-    }).catch(() => { /* ignore — we're logging out regardless */ });
-  }
+export const logoutUser = (): void => {
+  fetch(`${API_BASE_URL}/api/auth/logout`, {
+    method:      'POST',
+    credentials: 'include',
+  }).catch(() => { /* ignore — we're logging out regardless */ });
   localStorage.removeItem(AUTH_STORAGE_KEY);
-  localStorage.removeItem(TOKEN_STORAGE_KEY);
-  localStorage.removeItem(REFRESH_STORAGE_KEY);
 };
 
 export const userIsAdmin = (user: User | null): boolean =>

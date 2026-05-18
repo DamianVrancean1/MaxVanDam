@@ -24,13 +24,10 @@ export interface AuthResponse {
   role: string;
   email: string;
   createdAt: string;
-  token?: string;
-  refreshToken?: string;
 }
 
 export interface AuthContextType {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<User | null>;
   logout: () => void;

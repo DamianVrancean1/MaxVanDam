@@ -1,13 +1,10 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { User, AuthContextType } from '../types';
 import {
-  getStoredRefreshToken,
-  getStoredToken,
   getStoredUser,
   loginUser,
   logoutUser,
-  persistTokens,
   userIsAdmin,
 } from '../services/authService';
 import { configureApiClient } from '../services/apiClient';
@@ -15,52 +12,31 @@ import { configureApiClient } from '../services/apiClient';
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user,  setUser]  = useState<User | null>(() => getStoredUser());
-  const [token, setToken] = useState<string | null>(() => getStoredToken());
-
-  // Ref keeps the interceptor closure always pointing to the latest token
-  // without re-running configureApiClient on every token change
-  const tokenRef = useRef<string | null>(token);
-  tokenRef.current = token;
+  const [user, setUser] = useState<User | null>(() => getStoredUser());
 
   useEffect(() => {
-    configureApiClient(
-      () => tokenRef.current,
-
-      // Called by the interceptor after a successful silent refresh
-      (newAccessToken: string, newRefreshToken: string) => {
-        setToken(newAccessToken);
-        persistTokens(newAccessToken, newRefreshToken);
-      },
-
-      // Called when refresh fails — force full logout
-      () => {
-        setUser(null);
-        setToken(null);
-        logoutUser();
-      }
-    );
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    configureApiClient(() => {
+      setUser(null);
+      logoutUser();
+    });
+  }, []);
 
   const login = async (username: string, password: string): Promise<User | null> => {
     const authResult = await loginUser(username, password);
     if (!authResult) return null;
     setUser(authResult.user);
-    setToken(authResult.token);
     return authResult.user;
   };
 
   const logout = (): void => {
-    const refreshToken = getStoredRefreshToken();
     setUser(null);
-    setToken(null);
-    logoutUser(refreshToken ?? undefined);
+    logoutUser();
   };
 
   const isAdmin = (): boolean => userIsAdmin(user);
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, login, logout, isAdmin }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
