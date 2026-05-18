@@ -4,6 +4,7 @@ using MaxVanDam.BusinessLayer.Interfaces;
 using MaxVanDam.Domain.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MaxVanDam.API.Controllers;
 
@@ -28,6 +29,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [EnableRateLimiting(RateLimitPolicies.Login)]
     public IActionResult Login([FromBody] LoginDto dto)
     {
         var response = _authLogic.Login(dto);

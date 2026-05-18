@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MaxVanDam.BusinessLayer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9944898fc21e37be2b5a8f868ba0b17275164909")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41a793599f6deb0515b98cf967d2a0d8e0ce6e7f")]
 [assembly: System.Reflection.AssemblyProductAttribute("MaxVanDam.BusinessLayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MaxVanDam.BusinessLayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
