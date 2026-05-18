@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import type { Product } from '../../types';
 import { useAuth } from '../../context/AuthContext';
@@ -12,6 +12,7 @@ interface CardProps {
 }
 
 const Card = ({ product }: CardProps) => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { items, addToCart } = useCart();
   const isUserLoggedIn = user?.role === 'user';
@@ -37,7 +38,7 @@ const Card = ({ product }: CardProps) => {
   };
 
   return (
-    <div className="card">
+    <div className="card" onClick={() => navigate(`/product/${product.id}`)}>
       <img src={product.imageUrl} alt={product.name} className="card-image" />
       <div className="card-content">
         <h3 className="card-title">{product.name}</h3>
@@ -51,12 +52,16 @@ const Card = ({ product }: CardProps) => {
         </div>
 
         <div className="card-actions">
-          <Link to={`/product/${product.id}`} className="card-link">
+          <Link
+            to={`/product/${product.id}`}
+            className="card-link"
+            onClick={e => e.stopPropagation()}
+          >
             Vezi detalii
           </Link>
 
           {isUserLoggedIn ? (
-            <div ref={addBtnRef}>
+            <div ref={addBtnRef} onClick={e => e.stopPropagation()}>
               <QuantitySelector
                 key={maxAddable}
                 value={selectedQuantity}
