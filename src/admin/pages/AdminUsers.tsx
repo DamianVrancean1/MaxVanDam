@@ -5,9 +5,7 @@ import {
   Search, X, Check, AlertTriangle, UserPlus,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { getApiUrl } from '../../config/api';
-
-const API = getApiUrl();
+import { apiFetch } from '../../services/apiClient';
 
 /* ── types ── */
 type Role = 'admin' | 'user';
@@ -75,10 +73,9 @@ function ConfirmDialog({ msg, onConfirm, onCancel }: { msg: string; onConfirm: (
 }
 
 /* ── CreateUserDrawer ── */
-function CreateUserDrawer({ onClose, onCreated, authHeader }: {
+function CreateUserDrawer({ onClose, onCreated }: {
   onClose: () => void;
   onCreated: (u: User) => void;
-  authHeader: () => Record<string, string>;
 }) {
   const [form, setForm] = useState({ username: '', email: '', password: '', role: 'user' as Role });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -97,8 +94,8 @@ function CreateUserDrawer({ onClose, onCreated, authHeader }: {
     if (Object.keys(e).length) { setErrors(e); return; }
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/users/create`, {
-        method: 'POST', headers: authHeader(),
+      const res = await apiFetch('/api/users/create', {
+        method: 'POST',
         body: JSON.stringify(form),
       });
       if (!res.ok) { const msg = await res.text(); throw new Error(msg); }
@@ -179,7 +176,7 @@ const rowVariants = {
 
 /* ── main ── */
 export default function AdminUsers() {
-  const { user: me, token } = useAuth();
+  const { user: me } = useAuth();
   const [users, setUsers]     = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState<string | null>(null);
@@ -192,18 +189,13 @@ export default function AdminUsers() {
   const [toast, setToast]     = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
   const debRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const authHeader = useCallback((): Record<string, string> => ({
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  }), [token]);
-
   const showToast = (msg: string, type: 'success' | 'error' = 'success') =>
     setToast({ msg, type });
 
   const fetchUsers = useCallback(async () => {
     setLoading(true); setError(null);
     try {
-      const res = await fetch(`${API}/api/users/list`, { headers: authHeader() });
+      const res = await apiFetch('/api/users/list');
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setUsers(await res.json() as User[]);
     } catch (e) {
@@ -211,7 +203,7 @@ export default function AdminUsers() {
     } finally {
       setLoading(false);
     }
-  }, [authHeader]);
+  }, []);
 
   useEffect(() => { fetchUsers(); }, [fetchUsers]);
 
@@ -224,8 +216,8 @@ export default function AdminUsers() {
   const handleRoleChange = async (id: number, role: Role) => {
     setPatchingId(id);
     try {
-      const res = await fetch(`${API}/api/users/${id}/role`, {
-        method: 'PUT', headers: authHeader(), body: JSON.stringify({ role }),
+      const res = await apiFetch(`/api/users/${id}/role`, {
+        method: 'PUT', body: JSON.stringify({ role }),
       });
       if (!res.ok) throw new Error(await res.text());
       const updated = await res.json() as User;
@@ -238,8 +230,8 @@ export default function AdminUsers() {
   const handleStatusToggle = async (u: User) => {
     setPatchingId(u.id);
     try {
-      const res = await fetch(`${API}/api/users/${u.id}/status`, {
-        method: 'PATCH', headers: authHeader(), body: JSON.stringify({ isActive: !u.isActive }),
+      const res = await apiFetch(`/api/users/${u.id}/status`, {
+        method: 'PATCH', body: JSON.stringify({ isActive: !u.isActive }),
       });
       if (!res.ok) throw new Error(await res.text());
       const updated = await res.json() as User;
@@ -251,7 +243,7 @@ export default function AdminUsers() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`${API}/api/users/${id}`, { method: 'DELETE', headers: authHeader() });
+      const res = await apiFetch(`/api/users/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error(await res.text());
       setUsers(prev => prev.filter(u => u.id !== id));
       showToast('Utilizator șters');
@@ -461,7 +453,6 @@ export default function AdminUsers() {
         {showCreate && (
           <CreateUserDrawer
             key="create-drawer"
-            authHeader={authHeader}
             onClose={() => setShowCreate(false)}
             onCreated={u => { setUsers(prev => [...prev, u]); setShowCreate(false); showToast(`Utilizatorul "${u.username}" a fost creat`); }}
           />

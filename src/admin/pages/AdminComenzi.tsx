@@ -9,8 +9,8 @@ import {
   Search, Plus, X, Check, AlertTriangle,
   MapPin, Trash2, MoreHorizontal, ChevronLeft, ChevronRight,
 } from 'lucide-react';
-import { getApiUrl } from '../../config/api';
 import { useAuth } from '../../context/AuthContext';
+import { apiFetch } from '../../services/apiClient';
 
 /* ── types ── */
 type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
@@ -31,7 +31,6 @@ interface Order {
 }
 
 /* ── constants ── */
-const API = getApiUrl();
 const PAGE_SIZE = 10;
 
 const STATUS_LABEL: Record<OrderStatus, string> = {
@@ -346,7 +345,7 @@ function timeAgo(dateStr: string): string {
 
 /* ── main component ── */
 const AdminComenzi = () => {
-  const { token, isAdmin } = useAuth();
+  const { isAdmin } = useAuth();
   const admin = isAdmin();
 
   const [orders, setOrders]   = useState<Order[]>([]);
@@ -363,17 +362,12 @@ const AdminComenzi = () => {
   const [toast, setToast]               = useState<ToastData | null>(null);
   const [patchingId, setPatchingId]     = useState<number | null>(null);
 
-  const authHeader = useCallback(() => ({
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  }), [token]);
-
   /* ── fetch orders ── */
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${API}/api/orders/list`);
+      const res = await apiFetch('/api/orders/list');
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json() as Order[];
       setOrders(data);
@@ -467,9 +461,8 @@ const AdminComenzi = () => {
   const handleStatusChange = async (id: number, newStatus: string) => {
     setPatchingId(id);
     try {
-      const res = await fetch(`${API}/api/orders/${id}`, {
+      const res = await apiFetch(`/api/orders/${id}`, {
         method: 'PATCH',
-        headers: authHeader(),
         body: JSON.stringify({ status: newStatus }),
       });
       if (!res.ok) throw new Error('Eroare la actualizare');
@@ -486,9 +479,8 @@ const AdminComenzi = () => {
   /* ── create order ── */
   const handleCreate = async (form: OrderForm) => {
     try {
-      const res = await fetch(`${API}/api/orders/create`, {
+      const res = await apiFetch('/api/orders/create', {
         method: 'POST',
-        headers: authHeader(),
         body: JSON.stringify({
           supplierName:      form.supplierName,
           category:          form.category,
@@ -513,9 +505,8 @@ const AdminComenzi = () => {
   const handleDelete = async () => {
     if (!deleteTarget) return;
     try {
-      const res = await fetch(`${API}/api/orders/${deleteTarget.id}`, {
+      const res = await apiFetch(`/api/orders/${deleteTarget.id}`, {
         method: 'DELETE',
-        headers: authHeader(),
       });
       if (!res.ok) throw new Error('Eroare la ștergere');
       setOrders(prev => prev.filter(o => o.id !== deleteTarget.id));

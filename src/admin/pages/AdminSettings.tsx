@@ -1,13 +1,11 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Settings, User, Shield, Building2, Check,
   Eye, EyeOff, AlertTriangle, Lock, Mail, Edit2,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { getApiUrl } from '../../config/api';
-
-const API = getApiUrl();
+import { apiFetch } from '../../services/apiClient';
 
 type Tab = 'platforma' | 'securitate' | 'profil';
 
@@ -69,14 +67,14 @@ function timeAgo(iso: string): string {
 }
 
 /* ═══════════════════════════════════════════════ TAB: PLATFORMĂ */
-function PlatformTab({ authHeader }: { authHeader: () => Record<string, string> }) {
+function PlatformTab() {
   const [settings, setSettings] = useState<Record<string, string | number> | null>(null);
   const [editing, setEditing]   = useState<Record<string, string>>({});
   const [saving, setSaving]     = useState(false);
   const [toast, setToast]       = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
 
   useEffect(() => {
-    fetch(`${API}/api/settings`, { headers: authHeader() })
+    apiFetch('/api/settings')
       .then(r => r.json())
       .then(data => {
         setSettings(data);
@@ -85,7 +83,7 @@ function PlatformTab({ authHeader }: { authHeader: () => Record<string, string> 
         setEditing(e);
       })
       .catch(() => setToast({ msg: 'Nu s-au putut încărca setările', type: 'error' }));
-  }, [authHeader]);
+  }, []);
 
   const handleSave = async () => {
     setSaving(true);
@@ -94,8 +92,8 @@ function PlatformTab({ authHeader }: { authHeader: () => Record<string, string> 
       for (const [k, v] of Object.entries(editing)) {
         body[k] = isNaN(Number(v)) ? v : Number(v);
       }
-      const res = await fetch(`${API}/api/settings`, {
-        method: 'PATCH', headers: authHeader(), body: JSON.stringify(body),
+      const res = await apiFetch('/api/settings', {
+        method: 'PATCH', body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error();
       const updated = await res.json();
@@ -158,7 +156,7 @@ function PlatformTab({ authHeader }: { authHeader: () => Record<string, string> 
 /* ═══════════════════════════════════════════════ TAB: SECURITATE */
 interface AuditEntry { action: string; user: string; time: string; category: string; }
 
-function SecurityTab({ authHeader }: { authHeader: () => Record<string, string> }) {
+function SecurityTab() {
   const [log, setLog]       = useState<AuditEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -167,12 +165,12 @@ function SecurityTab({ authHeader }: { authHeader: () => Record<string, string> 
   const [twoFa, setTwoFa]             = useState(false);
 
   useEffect(() => {
-    fetch(`${API}/api/audit-log?limit=20`, { headers: authHeader() })
+    apiFetch('/api/audit-log?limit=20')
       .then(r => r.ok ? r.json() : [])
       .then(data => setLog(data as AuditEntry[]))
       .catch(() => setLog([]))
       .finally(() => setLoading(false));
-  }, [authHeader]);
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -226,8 +224,8 @@ function SecurityTab({ authHeader }: { authHeader: () => Record<string, string> 
 }
 
 /* ═══════════════════════════════════════════════ TAB: PROFIL ADMIN */
-function ProfileTab({ authHeader }: { authHeader: () => Record<string, string> }) {
-  const { user, token } = useAuth();
+function ProfileTab() {
+  const { user } = useAuth();
 
   const [profileForm, setProfileForm] = useState({ username: user?.username ?? '', email: user?.email ?? '' });
   const [pwForm, setPwForm]           = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
@@ -241,8 +239,8 @@ function ProfileTab({ authHeader }: { authHeader: () => Record<string, string> }
   const handleProfileSave = async () => {
     setProfileLoading(true);
     try {
-      const res = await fetch(`${API}/api/auth/profile`, {
-        method: 'PATCH', headers: authHeader(),
+      const res = await apiFetch('/api/auth/profile', {
+        method: 'PATCH',
         body: JSON.stringify(profileForm),
       });
       if (!res.ok) { const msg = await res.text(); throw new Error(msg); }
@@ -261,8 +259,8 @@ function ProfileTab({ authHeader }: { authHeader: () => Record<string, string> }
     }
     setPwLoading(true);
     try {
-      const res = await fetch(`${API}/api/auth/change-password`, {
-        method: 'POST', headers: authHeader(),
+      const res = await apiFetch('/api/auth/change-password', {
+        method: 'POST',
         body: JSON.stringify({ oldPassword: pwForm.oldPassword, newPassword: pwForm.newPassword }),
       });
       if (!res.ok) { const msg = await res.text(); throw new Error(msg); }
@@ -383,13 +381,7 @@ const CV = {
 };
 
 export default function AdminSettings() {
-  const { token } = useAuth();
   const [tab, setTab] = useState<Tab>('platforma');
-
-  const authHeader = useCallback((): Record<string, string> => ({
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  }), [token]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -425,9 +417,9 @@ export default function AdminSettings() {
         <div style={{ padding: '1.75rem' }}>
           <AnimatePresence mode="wait">
             <motion.div key={tab} variants={CV} initial="hidden" animate="visible" exit="exit">
-              {tab === 'platforma'  && <PlatformTab authHeader={authHeader} />}
-              {tab === 'securitate' && <SecurityTab authHeader={authHeader} />}
-              {tab === 'profil'     && <ProfileTab authHeader={authHeader} />}
+              {tab === 'platforma'  && <PlatformTab />}
+              {tab === 'securitate' && <SecurityTab />}
+              {tab === 'profil'     && <ProfileTab />}
             </motion.div>
           </AnimatePresence>
         </div>

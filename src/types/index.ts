@@ -25,6 +25,7 @@ export interface AuthResponse {
   email: string;
   createdAt: string;
   token?: string;
+  refreshToken?: string;
 }
 
 export interface AuthContextType {
