@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   getTestimonials,
   getTestimonialStats,
@@ -7,14 +7,20 @@ import {
 import StarRating from '../reviews/StarRating';
 import TestimonialCard from './TestimonialCard';
 
-const TestimonialsSection = () => {
-  const testimonials = useMemo(
-    () => sortTestimonials(getTestimonials(), 'featured'),
-    [],
-  );
-  const stats = useMemo(() => getTestimonialStats(), []);
+const INITIAL_VISIBLE = 6;
 
-  if (testimonials.length === 0) return null;
+const TestimonialsSection = () => {
+  const [showAll, setShowAll] = useState(false);
+
+  const all      = useMemo(() => sortTestimonials(getTestimonials(), 'featured'), []);
+  const stats    = useMemo(() => getTestimonialStats(), []);
+  const featured = useMemo(() => all.filter(t => t.featured), [all]);
+  const regular  = useMemo(() => all.filter(t => !t.featured), [all]);
+
+  const visibleRegular = showAll ? regular : regular.slice(0, INITIAL_VISIBLE);
+  const hiddenCount    = regular.length - INITIAL_VISIBLE;
+
+  if (all.length === 0) return null;
 
   return (
     <section className="about-section tst-section about-fade-in about-fade-delay-4">
@@ -45,11 +51,44 @@ const TestimonialsSection = () => {
         </div>
       )}
 
-      <div className="tst-grid">
-        {testimonials.map((t) => (
-          <TestimonialCard key={t.id} testimonial={t} />
-        ))}
-      </div>
+      {featured.length > 0 && (
+        <>
+          <div className="tst-row-label">
+            <span>Experiențe evidențiate</span>
+          </div>
+          <div className="tst-grid tst-grid--featured">
+            {featured.map((t, i) => (
+              <TestimonialCard key={t.id} testimonial={t} index={i} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {regular.length > 0 && (
+        <>
+          <div className="tst-row-label">
+            <span>Toate testimonialele</span>
+          </div>
+          <div className="tst-grid">
+            {visibleRegular.map((t, i) => (
+              <TestimonialCard key={t.id} testimonial={t} index={i} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {!showAll && hiddenCount > 0 && (
+        <div className="tst-show-more">
+          <button
+            type="button"
+            className="tst-show-more-btn"
+            onClick={() => setShowAll(true)}
+          >
+            Citește mai multe testimoniale
+            <span className="tst-show-more-count">+{hiddenCount}</span>
+          </button>
+        </div>
+      )}
     </section>
   );
 };
