@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import TestimonialsSection from '../components/testimonials/TestimonialsSection';
 import '../styles/About.css';
 
 const handleTagClick = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -253,6 +254,8 @@ const About = () => {
           loading="lazy"
         />
       </section>
+
+      <TestimonialsSection />
 
       <section className="about-cta about-fade-in about-fade-delay-5">
         <h2>Pregătit să renunți la Excel și să treci la un depozit inteligent și ușor de utilizat?</h2>
