@@ -14,7 +14,7 @@ const toUser = (payload: AuthResponse): User => ({
   email:    payload.email,
 });
 
-const persistUser = (user: User): void => {
+export const persistUser = (user: User): void => {
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
 };
 
