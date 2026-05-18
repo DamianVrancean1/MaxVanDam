@@ -4,6 +4,7 @@ using MaxVanDam.Domain.Entities.User;
 using MaxVanDam.Domain.Models.Auth;
 using MaxVanDam.Domain.Models.Service;
 using MaxVanDam.Domain.Models.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace MaxVanDam.BusinessLayer.Structure;
 
@@ -75,7 +76,21 @@ public class AuthActions
             if (!PasswordHasher.Verify(dto.Password, parts[0], pepper, 0, 0, parts[1]))
                 return new ServiceResponse { IsSuccess = false, Message = "Credențiale invalide." };
 
-            var token = JwtGenerator.Generate(user);
+            var accessToken    = JwtGenerator.GenerateAccessToken(user);
+            var rawRefresh     = JwtGenerator.GenerateRefreshToken();
+            var refreshHash    = JwtGenerator.HashRefreshToken(rawRefresh);
+            var refreshDays    = int.TryParse(
+                Environment.GetEnvironmentVariable("REFRESH_TOKEN_EXPIRY_DAYS"), out var d) ? d : 7;
+
+            db.RefreshTokens.Add(new RefreshTokenEntity
+            {
+                UserId    = user.Id,
+                TokenHash = refreshHash,
+                ExpiresAt = DateTime.UtcNow.AddDays(refreshDays),
+                Revoked   = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            });
 
             user.LastLoginAt = DateTime.UtcNow;
             db.SaveChanges();
@@ -85,12 +100,13 @@ public class AuthActions
                 IsSuccess = true,
                 Data = new AuthResponseDto
                 {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Role = user.Role,
-                    Email = user.Email,
-                    CreatedAt = user.CreatedAt,
-                    Token = token
+                    Id           = user.Id,
+                    Username     = user.Username,
+                    Role         = user.Role,
+                    Email        = user.Email,
+                    CreatedAt    = user.CreatedAt,
+                    Token        = accessToken,
+                    RefreshToken = rawRefresh
                 }
             };
         }

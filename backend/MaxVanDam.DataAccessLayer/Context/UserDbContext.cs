@@ -6,6 +6,7 @@ namespace MaxVanDam.DataAccessLayer.Context;
 public sealed class UserDbContext : DbContext
 {
     public DbSet<UserEntity> Users => Set<UserEntity>();
+    public DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(DbSession.ConnectionString);
@@ -23,6 +24,18 @@ public sealed class UserDbContext : DbContext
             entity.Property(u => u.PasswordHash).IsRequired();
             entity.Property(u => u.Role).IsRequired().HasMaxLength(50);
             entity.Property(u => u.Email).IsRequired().HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<RefreshTokenEntity>(entity =>
+        {
+            entity.HasKey(r => r.Id);
+            entity.HasIndex(r => r.TokenHash).IsUnique();
+            entity.HasIndex(r => r.UserId);
+            entity.Property(r => r.TokenHash).IsRequired();
+            entity.HasOne(r => r.User)
+                  .WithMany(u => u.RefreshTokens)
+                  .HasForeignKey(r => r.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

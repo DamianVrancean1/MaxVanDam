@@ -27,4 +27,6 @@ public class UserEntity
     public bool IsActive { get; set; } = true;
 
     public DateTime? LastLoginAt { get; set; }
+
+    public ICollection<RefreshTokenEntity> RefreshTokens { get; set; } = new List<RefreshTokenEntity>();
 }
