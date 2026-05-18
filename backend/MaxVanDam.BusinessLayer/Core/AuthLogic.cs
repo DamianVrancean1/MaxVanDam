@@ -9,6 +9,8 @@ public class AuthLogic : AuthActions, IAuthLogic
 {
     public ServiceResponse Register(RegisterDto dto) => RegisterAction(dto);
     public ServiceResponse Login(LoginDto dto) => LoginAction(dto);
+    public ServiceResponse Refresh(RefreshRequestDto dto) => RefreshAction(dto);
+    public ServiceResponse Logout(RefreshRequestDto dto) => LogoutAction(dto);
     public ServiceResponse ChangePassword(int userId, ChangePasswordDto dto) => ChangePasswordAction(userId, dto);
     public ServiceResponse UpdateProfile(int userId, UpdateProfileDto dto) => UpdateProfileAction(userId, dto);
 }

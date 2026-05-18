@@ -191,4 +191,116 @@ public class AuthActions
             return new ServiceResponse { IsSuccess = false, Message = e.Message };
         }
     }
+
+    protected ServiceResponse RefreshAction(RefreshRequestDto dto)
+    {
+        try
+        {
+            using var db = new UserDbContext();
+
+            var tokenHash = JwtGenerator.HashRefreshToken(dto.RefreshToken);
+
+            var stored = db.RefreshTokens
+                .Include(r => r.User)
+                .SingleOrDefault(r => r.TokenHash == tokenHash);
+
+            // Token reuse attack: token exists but is already revoked
+            // → revoke entire token family for this user (nuclear option)
+            if (stored is not null && stored.Revoked)
+            {
+                var allUserTokens = db.RefreshTokens
+                    .Where(r => r.UserId == stored.UserId && !r.Revoked);
+                foreach (var t in allUserTokens)
+                {
+                    t.Revoked   = true;
+                    t.UpdatedAt = DateTime.UtcNow;
+                }
+                db.SaveChanges();
+                return new ServiceResponse { IsSuccess = false, Message = "Token invalid." };
+            }
+
+            // Token not found or expired
+            if (stored is null || stored.ExpiresAt <= DateTime.UtcNow)
+                return new ServiceResponse { IsSuccess = false, Message = "Token invalid sau expirat." };
+
+            var user = stored.User!;
+
+            if (!user.IsActive)
+                return new ServiceResponse { IsSuccess = false, Message = "Cont dezactivat." };
+
+            // Revoke old token (rotation)
+            stored.Revoked   = true;
+            stored.UpdatedAt = DateTime.UtcNow;
+
+            // Generate rotated tokens
+            var newAccessToken  = JwtGenerator.GenerateAccessToken(user);
+            var newRawRefresh   = JwtGenerator.GenerateRefreshToken();
+            var newRefreshHash  = JwtGenerator.HashRefreshToken(newRawRefresh);
+            var refreshDays     = int.TryParse(
+                Environment.GetEnvironmentVariable("REFRESH_TOKEN_EXPIRY_DAYS"), out var d) ? d : 7;
+
+            db.RefreshTokens.Add(new RefreshTokenEntity
+            {
+                UserId    = user.Id,
+                TokenHash = newRefreshHash,
+                ExpiresAt = DateTime.UtcNow.AddDays(refreshDays),
+                Revoked   = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            });
+
+            // Cleanup: remove already-expired tokens for this user
+            var expired = db.RefreshTokens
+                .Where(r => r.UserId == user.Id && r.ExpiresAt <= DateTime.UtcNow);
+            db.RefreshTokens.RemoveRange(expired);
+
+            db.SaveChanges();
+
+            return new ServiceResponse
+            {
+                IsSuccess = true,
+                Data = new AuthResponseDto
+                {
+                    Id           = user.Id,
+                    Username     = user.Username,
+                    Role         = user.Role,
+                    Email        = user.Email,
+                    CreatedAt    = user.CreatedAt,
+                    Token        = newAccessToken,
+                    RefreshToken = newRawRefresh
+                }
+            };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
+
+    protected ServiceResponse LogoutAction(RefreshRequestDto dto)
+    {
+        try
+        {
+            using var db = new UserDbContext();
+
+            var tokenHash = JwtGenerator.HashRefreshToken(dto.RefreshToken);
+
+            var stored = db.RefreshTokens
+                .SingleOrDefault(r => r.TokenHash == tokenHash);
+
+            if (stored is not null && !stored.Revoked)
+            {
+                stored.Revoked   = true;
+                stored.UpdatedAt = DateTime.UtcNow;
+                db.SaveChanges();
+            }
+
+            // Always return 200 — don't reveal whether token existed
+            return new ServiceResponse { IsSuccess = true, Message = "Deconectat cu succes." };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
 }

@@ -35,6 +35,21 @@ public class AuthController : ControllerBase
         return Ok(response.Data);
     }
 
+    [HttpPost("refresh")]
+    public IActionResult Refresh([FromBody] RefreshRequestDto dto)
+    {
+        var response = _authLogic.Refresh(dto);
+        if (!response.IsSuccess) return Unauthorized(new { message = response.Message });
+        return Ok(response.Data);
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout([FromBody] RefreshRequestDto dto)
+    {
+        var response = _authLogic.Logout(dto);
+        return Ok(new { message = response.Message });
+    }
+
     [HttpPost("change-password")]
     [Authorize]
     public IActionResult ChangePassword([FromBody] ChangePasswordDto dto)

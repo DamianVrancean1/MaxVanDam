@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MaxVanDam.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ad335ba632ae2e5dc0e63080f63f754f77e0663")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d7aa80db396f686c4f90cac027634fff21d55d38")]
 [assembly: System.Reflection.AssemblyProductAttribute("MaxVanDam.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MaxVanDam.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -7,6 +7,8 @@ public interface IAuthLogic
 {
     ServiceResponse Register(RegisterDto dto);
     ServiceResponse Login(LoginDto dto);
+    ServiceResponse Refresh(RefreshRequestDto dto);
+    ServiceResponse Logout(RefreshRequestDto dto);
     ServiceResponse ChangePassword(int userId, ChangePasswordDto dto);
     ServiceResponse UpdateProfile(int userId, UpdateProfileDto dto);
 }
