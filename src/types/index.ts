@@ -82,6 +82,25 @@ export interface ReviewStats {
   recommendedPercent: number;
 }
 
+export interface Testimonial {
+  id: number;
+  authorName: string;
+  company: string;
+  role: string;
+  location?: string;
+  rating: number;    // 1–5
+  title: string;
+  body: string;
+  date: string;      // 'YYYY-MM-DD'
+  featured?: boolean;
+}
+
+export interface TestimonialStats {
+  average: number;
+  total: number;
+  recommendedPercent: number;
+}
+
 export interface CartItem {
   product: Product;
   quantity: number;

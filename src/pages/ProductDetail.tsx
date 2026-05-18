@@ -1,15 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getProductById } from '../services/productService';
-import { getReviewStats } from '../services/reviewService';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import QuantitySelector from '../components/common/QuantitySelector';
-import StarRating from '../components/reviews/StarRating';
-import ReviewsSection from '../components/reviews/ReviewsSection';
 import '../styles/ProductDetail.css';
-import '../styles/reviews.css';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +18,6 @@ const ProductDetail = () => {
   const parsedId = Number(id);
   const product = !id || Number.isNaN(parsedId) ? null : getProductById(parsedId) || null;
   const maxQuantity = product?.stock ?? 1;
-  const reviewStats = useMemo(() => (parsedId ? getReviewStats(parsedId) : null), [parsedId]);
 
   const canAdd = useMemo(() => Boolean(product && product.stock > 0), [product]);
 
@@ -83,14 +78,6 @@ const ProductDetail = () => {
             <span className="detail-category">{product.category}</span>
             <h1>{product.name}</h1>
 
-            {reviewStats && (
-              <div className="detail-rating-inline">
-                <StarRating rating={reviewStats.average} size="sm" />
-                <span className="detail-rating-value">{reviewStats.average.toFixed(1)}</span>
-                <span className="detail-rating-count">({reviewStats.total} recenzii)</span>
-              </div>
-            )}
-
             <div className="detail-price-stock">
               <span className="detail-price">{product.price} MDL</span>
               <span className={`detail-stock ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
@@ -129,8 +116,6 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-
-        <ReviewsSection productId={parsedId} />
       </div>
   );
 };
