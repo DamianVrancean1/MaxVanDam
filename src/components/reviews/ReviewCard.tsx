@@ -5,25 +5,29 @@ import StarRating from './StarRating';
 
 interface ReviewCardProps {
   review: Review;
+  featured?: boolean;
 }
 
 const BODY_LIMIT = 220;
 
-const ReviewCard = ({ review }: ReviewCardProps) => {
+const ReviewCard = ({ review, featured = false }: ReviewCardProps) => {
   const [expanded, setExpanded] = useState(false);
 
-  const isLong    = review.body.length > BODY_LIMIT;
-  const bodyText  = isLong && !expanded
+  const isLong   = review.body.length > BODY_LIMIT;
+  const bodyText = isLong && !expanded
     ? review.body.slice(0, BODY_LIMIT).trimEnd() + '…'
     : review.body;
 
   return (
-    <article className="rv-card">
+    <article className={`rv-card${featured ? ' rv-card--featured' : ''}`}>
       <header className="rv-card-header">
         <div className="rv-card-meta">
           <span className="rv-author">{review.authorName}</span>
           {review.verified && (
             <span className="rv-verified" title="Cumpărare verificată">✓ Verificat</span>
+          )}
+          {featured && (
+            <span className="rv-badge-helpful">👍 Cea mai utilă</span>
           )}
         </div>
         <time className="rv-date" dateTime={review.date}>
@@ -52,7 +56,9 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
 
       <footer className="rv-card-footer">
         <span className="rv-helpful">
-          {review.helpful > 0 ? `${review.helpful} persoane au găsit util` : 'Fii primul care votează'}
+          {review.helpful > 0
+            ? `${review.helpful} ${review.helpful === 1 ? 'persoană a găsit util' : 'persoane au găsit util'}`
+            : 'Fii primul care votează'}
         </span>
       </footer>
     </article>
