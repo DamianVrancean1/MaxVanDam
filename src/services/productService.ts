@@ -1,4 +1,7 @@
 import type { InventoryNotification, Product } from '../types';
+import { filtersToParams } from '../types/filters';
+import type { ProductFilters } from '../types/filters';
+import { apiFetch } from './apiClient';
 import { products as seedProducts } from '../data/mockData';
 
 const PRODUCTS_STORAGE_KEY = 'mockProducts';
@@ -175,4 +178,20 @@ export const markNotificationAsRead = (notificationId: number): void => {
       notification.id === notificationId ? { ...notification, read: true } : notification
   );
   persistNotifications(notifications);
+};
+
+// Calls the real backend with filter params; falls back to local mock on error.
+export const searchProducts = async (filters: ProductFilters): Promise<Product[]> => {
+  try {
+    const params = filtersToParams(filters);
+    const res = await apiFetch(`/api/products/search?${params.toString()}`);
+    if (!res.ok) throw new Error('api_error');
+    const data = await res.json() as Product[];
+    if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
+    return data.map(p => ({ ...p, image: p.imageUrl }));
+  } catch {
+    // API unavailable or empty DB — fall back to local mock with client-side filtering
+    const { applyFilters } = await import('../hooks/useProductFilters');
+    return applyFilters(getProducts(), filters);
+  }
 };

@@ -24,6 +24,43 @@ public class ProductController : ControllerBase
         return Ok(response.Data);
     }
 
+    [HttpGet("search")]
+    public IActionResult Search(
+        [FromQuery] string?  search          = null,
+        [FromQuery] string?  category        = null,
+        [FromQuery] decimal? minPrice        = null,
+        [FromQuery] decimal? maxPrice        = null,
+        [FromQuery] string?  brands          = null,
+        [FromQuery] bool     inStockOnly     = false,
+        [FromQuery] string?  compatibleBrand = null,
+        [FromQuery] string?  compatibleModel = null)
+    {
+        if (minPrice.HasValue && minPrice.Value < 0)
+            return BadRequest(new { message = "minPrice nu poate fi negativ." });
+
+        if (maxPrice.HasValue && maxPrice.Value < 0)
+            return BadRequest(new { message = "maxPrice nu poate fi negativ." });
+
+        if (minPrice.HasValue && maxPrice.HasValue && minPrice.Value > maxPrice.Value)
+            return BadRequest(new { message = "minPrice nu poate fi mai mare decât maxPrice." });
+
+        var query = new ProductQueryDto
+        {
+            Search          = search,
+            Category        = category,
+            MinPrice        = minPrice,
+            MaxPrice        = maxPrice,
+            Brands          = brands,
+            InStockOnly     = inStockOnly,
+            CompatibleBrand = compatibleBrand,
+            CompatibleModel = compatibleModel,
+        };
+
+        var response = _productLogic.GetFilteredProductList(query);
+        if (!response.IsSuccess) return BadRequest(new { message = response.Message });
+        return Ok(response.Data);
+    }
+
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {

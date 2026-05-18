@@ -87,6 +87,15 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface InventoryNotification {
+  id: number;
+  productId: number;
+  productName: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
+}
+
 export interface CartContextType {
   items: CartItem[];
   addToCart: (product: Product, quantity?: number) => void;

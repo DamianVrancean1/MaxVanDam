@@ -23,6 +23,73 @@ public class ProductActions
         }
     }
 
+    protected ServiceResponse GetFilteredProductListAction(ProductQueryDto query)
+    {
+        try
+        {
+            using var db = new MasterDbContext();
+
+            // Ownership of all filters starts here — never trust client for ownership data
+            var q = db.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.Search))
+            {
+                var term = query.Search.Trim().ToLower();
+                q = q.Where(p =>
+                    p.Name.ToLower().Contains(term) ||
+                    p.Brand.ToLower().Contains(term) ||
+                    p.ShortDescription.ToLower().Contains(term));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.Category))
+                q = q.Where(p => p.Category == query.Category.Trim());
+
+            if (query.MinPrice.HasValue && query.MinPrice.Value >= 0)
+                q = q.Where(p => p.Price >= query.MinPrice.Value);
+
+            if (query.MaxPrice.HasValue && query.MaxPrice.Value >= 0)
+                q = q.Where(p => p.Price <= query.MaxPrice.Value);
+
+            if (!string.IsNullOrWhiteSpace(query.Brands))
+            {
+                var brandList = query.Brands
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .ToList();
+                if (brandList.Count > 0)
+                    q = q.Where(p => brandList.Contains(p.Brand));
+            }
+
+            if (query.InStockOnly)
+                q = q.Where(p => p.Stock > 0);
+
+            // Compatibility filter — applied after main query (Compatibility is a JSON array column)
+            var products = q.ToList();
+
+            if (!string.IsNullOrWhiteSpace(query.CompatibleBrand) ||
+                !string.IsNullOrWhiteSpace(query.CompatibleModel))
+            {
+                var needle = string.Join(" ",
+                    new[] { query.CompatibleBrand, query.CompatibleModel }
+                    .Where(s => !string.IsNullOrWhiteSpace(s))
+                ).ToLower();
+
+                products = products
+                    .Where(p => p.Compatibility.Any(c => c.ToLower().Contains(needle)))
+                    .ToList();
+            }
+
+            return new ServiceResponse
+            {
+                IsSuccess = true,
+                Data = products.Select(p => MapToDto(p)).ToList()
+            };
+        }
+        catch (Exception e)
+        {
+            return new ServiceResponse { IsSuccess = false, Message = e.Message };
+        }
+    }
+
     protected ServiceResponse GetProductByIdAction(int id)
     {
         try

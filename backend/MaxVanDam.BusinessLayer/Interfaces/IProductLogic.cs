@@ -6,6 +6,7 @@ namespace MaxVanDam.BusinessLayer.Interfaces;
 public interface IProductLogic
 {
     ServiceResponse GetProductList();
+    ServiceResponse GetFilteredProductList(ProductQueryDto query);
     ServiceResponse GetProductById(int id);
     ServiceResponse CreateProduct(ProductCreateDto dto);
     ServiceResponse UpdateProduct(int id, ProductUpdateDto dto);
