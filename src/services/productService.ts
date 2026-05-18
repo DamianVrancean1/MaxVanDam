@@ -1,6 +1,7 @@
 import type { InventoryNotification, Product } from '../types';
 import { filtersToParams } from '../types/filters';
 import type { ProductFilters } from '../types/filters';
+import { applyFilters } from '../hooks/useProductFilters';
 import { apiFetch } from './apiClient';
 import { products as seedProducts } from '../data/mockData';
 
@@ -191,7 +192,6 @@ export const searchProducts = async (filters: ProductFilters): Promise<Product[]
     return data.map(p => ({ ...p, image: p.imageUrl }));
   } catch {
     // API unavailable or empty DB — fall back to local mock with client-side filtering
-    const { applyFilters } = await import('../hooks/useProductFilters');
     return applyFilters(getProducts(), filters);
   }
 };
