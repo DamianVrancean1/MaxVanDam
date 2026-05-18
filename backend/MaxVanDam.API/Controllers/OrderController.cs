@@ -19,14 +19,33 @@ public class OrderController : ControllerBase
         _orderLogic = bl.GetOrderLogic();
     }
 
+    private static readonly HashSet<string> ValidStatuses =
+        ["pending", "processing", "shipped", "delivered", "cancelled"];
+
     [HttpGet("my")]
     [Authorize]
-    public IActionResult GetMy()
+    public IActionResult GetMy(
+        [FromQuery] string?   status    = null,
+        [FromQuery] DateTime? startDate = null,
+        [FromQuery] DateTime? endDate   = null)
     {
         var userId = GetCurrentUserId();
         if (userId is null) return Unauthorized();
 
-        var response = _orderLogic.GetMyOrders(userId.Value);
+        if (status is not null && !ValidStatuses.Contains(status.ToLower()))
+            return BadRequest(new { message = $"Status invalid. Valori acceptate: {string.Join(", ", ValidStatuses)}." });
+
+        if (startDate.HasValue && endDate.HasValue && startDate.Value > endDate.Value)
+            return BadRequest(new { message = "startDate nu poate fi după endDate." });
+
+        var query = new OrderQueryDto
+        {
+            Status    = status?.ToLower(),
+            StartDate = startDate.HasValue ? DateTime.SpecifyKind(startDate.Value, DateTimeKind.Utc) : null,
+            EndDate   = endDate.HasValue   ? DateTime.SpecifyKind(endDate.Value,   DateTimeKind.Utc) : null,
+        };
+
+        var response = _orderLogic.GetMyOrders(userId.Value, query);
         if (!response.IsSuccess) return BadRequest(response.Message);
         return Ok(response.Data);
     }

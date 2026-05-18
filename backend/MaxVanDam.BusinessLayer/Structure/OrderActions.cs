@@ -24,16 +24,29 @@ public class OrderActions
         }
     }
 
-    protected ServiceResponse GetMyOrdersAction(int userId)
+    protected ServiceResponse GetMyOrdersAction(int userId, OrderQueryDto query)
     {
         try
         {
             using var db = new MasterDbContext();
-            var orders = db.Orders
-                .Where(o => o.UserId == userId)
+
+            var q = db.Orders.Where(o => o.UserId == userId);
+
+            if (!string.IsNullOrWhiteSpace(query.Status))
+                q = q.Where(o => o.Status == query.Status);
+
+            if (query.StartDate.HasValue)
+                q = q.Where(o => o.CreatedAt >= query.StartDate.Value);
+
+            if (query.EndDate.HasValue)
+                // include the full end day
+                q = q.Where(o => o.CreatedAt < query.EndDate.Value.Date.AddDays(1));
+
+            var orders = q
                 .OrderByDescending(o => o.CreatedAt)
                 .Select(o => MapToDto(o))
                 .ToList();
+
             return new ServiceResponse { IsSuccess = true, Data = orders };
         }
         catch (Exception e)
