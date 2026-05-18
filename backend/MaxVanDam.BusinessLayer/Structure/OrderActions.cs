@@ -71,13 +71,14 @@ public class OrderActions
         }
     }
 
-    protected ServiceResponse CreateOrderAction(OrderCreateDto dto)
+    protected ServiceResponse CreateOrderAction(OrderCreateDto dto, int? createdByUserId)
     {
         try
         {
             using var db = new MasterDbContext();
             var order = new OrderEntity
             {
+                UserId            = createdByUserId,
                 SupplierName      = dto.SupplierName,
                 ItemsJson         = dto.ItemsJson,
                 ItemsCount        = dto.ItemsCount,

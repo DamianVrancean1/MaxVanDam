@@ -8,7 +8,7 @@ public interface IOrderLogic
     ServiceResponse GetOrderList();
     ServiceResponse GetMyOrders(int userId, OrderQueryDto query);
     ServiceResponse GetOrderById(int id);
-    ServiceResponse CreateOrder(OrderCreateDto dto);
+    ServiceResponse CreateOrder(OrderCreateDto dto, int? createdByUserId = null);
     ServiceResponse UpdateOrder(int id, OrderUpdateDto dto);
     ServiceResponse DeleteOrder(int id);
 }
