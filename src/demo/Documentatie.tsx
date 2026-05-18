@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, Rocket, Code2, Play, Headphones,
   ChevronRight, ChevronDown, BookOpen, FileText,
-  Terminal, Copy, Check, LayoutDashboard, Package,
-  ShoppingCart, Bell, BarChart3, Shield, AlertTriangle,
+  Copy, Check, LayoutDashboard, Package,
+  ShoppingCart, Bell, BarChart3, AlertTriangle,
   Info, Sparkles, ExternalLink, Clock,
 } from "lucide-react";
 
@@ -174,19 +174,19 @@ const DocInvVizualizare = () => (
 const DocApiAuth = () => (
   <div>
     <H2>Autentificare API</H2>
-    <P>API-ul MaxVanDam folosește autentificare prin Bearer Token (JWT). Toate request-urile trebuie să includă token-ul în header-ul Authorization.</P>
+    <P>API-ul MaxVanDam folosește autentificare prin cookie-uri HttpOnly securizate (JWT). Token-ul este gestionat automat de browser — nu este necesar niciun header manual.</P>
 
     <H3>Base URL</H3>
     <CodeBlock language="text" code="https://api.maxvandam.md/v2" />
 
-    <H3>Obținerea token-ului</H3>
-    <CodeBlock language="bash" code={`curl -X POST https://api.maxvandam.md/v2/auth/login \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "email": "admin@maxvandam.md",\n    "password": "your_password"\n  }'`} />
+    <H3>Login</H3>
+    <CodeBlock language="bash" code={`curl -X POST https://api.maxvandam.md/v2/auth/login \\\n  -H "Content-Type: application/json" \\\n  -c cookies.txt \\\n  -d '{\n    "username": "admin",\n    "password": "your_password"\n  }'`} />
 
     <H3>Răspuns autentificare</H3>
-    <CodeBlock language="json" code={`{\n  "status": "success",\n  "data": {\n    "token": "eyJhbGciOiJIUzI1NiIsInR...",\n    "expires_in": 86400,\n    "user": {\n      "id": "usr_01H...",\n      "email": "admin@maxvandam.md",\n      "role": "administrator"\n    }\n  }\n}`} />
+    <CodeBlock language="json" code={`{\n  "id": 1,\n  "username": "admin",\n  "role": "admin",\n  "email": "admin@maxvandam.md",\n  "createdAt": "2024-01-01T00:00:00Z"\n}\n// Token-ul JWT este livrat prin Set-Cookie: access_token (HttpOnly)`} />
 
-    <H3>Utilizarea token-ului</H3>
-    <CodeBlock language="bash" code={`curl https://api.maxvandam.md/v2/products \\\n  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR..."\\\n  -H "Content-Type: application/json"`} />
+    <H3>Utilizarea sesiunii</H3>
+    <CodeBlock language="bash" code={`# Cookie-ul este trimis automat de browser\ncurl https://api.maxvandam.md/v2/products \\\n  -b cookies.txt \\\n  -H "Content-Type: application/json"`} />
 
     <H3>Coduri de eroare</H3>
     <div className="dm-table-wrap">
@@ -194,7 +194,7 @@ const DocApiAuth = () => (
         <thead><tr><th style={{ width: 80 }}>Cod</th><th>Descriere</th><th>Soluție</th></tr></thead>
         <tbody>
           {[
-            { code: "401", desc: "Token invalid sau expirat", fix: "Re-autentificare necesară" },
+            { code: "401", desc: "Sesiune expirată sau neautentificat", fix: "Re-autentificare sau refresh automat" },
             { code: "403", desc: "Permisiuni insuficiente", fix: "Verifică rolul utilizatorului" },
             { code: "429", desc: "Prea multe request-uri", fix: "Respectă limitele de rată (rate limiting)" },
           ].map((e, i) => (
@@ -208,7 +208,7 @@ const DocApiAuth = () => (
       </table>
     </div>
 
-    <Callout type="info">Token-urile expiră după 24h. Folosește endpoint-ul <code style={{ fontFamily: "monospace", background: "var(--s-surface-2)", padding: "0.1rem 0.35rem", borderRadius: 3 }}>/auth/refresh</code> pentru reînnoire automată fără re-autentificare.</Callout>
+    <Callout type="info">Access token-ul expiră după 15 minute. Refresh token-ul (7 zile) este reînnoit automat la fiecare refresh — fără intervenție din partea clientului.</Callout>
   </div>
 );
 
@@ -464,7 +464,7 @@ const Documentatie = () => {
 
         {/* Left nav tree */}
         <div className="dm-card" style={{ overflow: "hidden", position: "sticky", top: 0 }}>
-          {filteredGroups.map((group, gi) => (
+          {filteredGroups.map((group) => (
             <div key={group.label}>
               <button
                 onClick={() => toggleGroup(group.label)}
