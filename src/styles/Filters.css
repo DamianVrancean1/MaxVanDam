@@ -1,0 +1,380 @@
+/* ==========================================================================
+   ADVANCED FILTERS — Dark/Light theme, no Tailwind
+   ========================================================================== */
+
+/* ── Section label ─────────────────────────────────────────────────────────── */
+.flt-section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #475569;
+  margin: 0 0 0.6rem;
+}
+
+/* ── Price range ────────────────────────────────────────────────────────────── */
+.flt-price-range { width: 100%; }
+
+.flt-price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.flt-price-field { flex: 1; display: flex; flex-direction: column; gap: 0.25rem; }
+
+.flt-price-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  color: #475569;
+  letter-spacing: 0.04em;
+}
+
+.flt-price-sep {
+  color: #334155;
+  font-size: 0.8rem;
+  padding-bottom: 0.6rem;
+  flex-shrink: 0;
+}
+
+.flt-price-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.flt-price-currency {
+  position: absolute;
+  left: 0.55rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #475569;
+  pointer-events: none;
+  letter-spacing: 0.03em;
+}
+
+.flt-price-input {
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 2.4rem;
+  background: rgba(21, 28, 38, 0.8);
+  color: #E2E8F0;
+  border: 1px solid rgba(34, 44, 61, 0.8);
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -moz-appearance: textfield;
+}
+
+.flt-price-input::-webkit-outer-spin-button,
+.flt-price-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.flt-price-input::placeholder { color: #334155; }
+
+.flt-price-input:focus {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+/* ── Brand checkboxes ───────────────────────────────────────────────────────── */
+.flt-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.flt-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.flt-checkbox-row:hover { background: rgba(59, 130, 246, 0.06); }
+
+.flt-checkbox-row--checked {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.flt-checkbox-input { display: none; }
+
+.flt-checkbox-box {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1.5px solid rgba(34, 44, 61, 0.9);
+  background: rgba(21, 28, 38, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.flt-checkbox-box--checked {
+  background: #3B82F6;
+  border-color: #3B82F6;
+  color: #fff;
+}
+
+.flt-checkbox-box svg { width: 9px; height: 8px; }
+
+.flt-checkbox-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.825rem;
+  color: #94A3B8;
+  transition: color 0.15s;
+}
+
+.flt-checkbox-row--checked .flt-checkbox-label { color: #E2E8F0; }
+
+/* ── Stock toggle ───────────────────────────────────────────────────────────── */
+.flt-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  padding: 0.45rem 0;
+}
+
+.flt-toggle-input { display: none; }
+
+.flt-toggle-track {
+  position: relative;
+  width: 34px;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(34, 44, 61, 0.9);
+  border: 1px solid rgba(34, 44, 61, 0.9);
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.flt-toggle--on .flt-toggle-track {
+  background: #3B82F6;
+  border-color: #3B82F6;
+}
+
+.flt-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #475569;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.flt-toggle--on .flt-toggle-thumb {
+  transform: translateX(14px);
+  background: #fff;
+}
+
+.flt-toggle-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.825rem;
+  color: #94A3B8;
+  transition: color 0.15s;
+}
+
+.flt-toggle--on .flt-toggle-text { color: #E2E8F0; }
+
+/* ── Compatibility selects ─────────────────────────────────────────────────── */
+.flt-compat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.flt-select {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  background: rgba(21, 28, 38, 0.8);
+  color: #E2E8F0;
+  border: 1px solid rgba(34, 44, 61, 0.8);
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.825rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23475569' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.flt-select:focus {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+.flt-select:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.flt-select option { background: #0F1620; color: #E2E8F0; }
+
+/* ── Active filters bar ─────────────────────────────────────────────────────── */
+.flt-active-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.65rem 2rem;
+  background: rgba(59, 130, 246, 0.04);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.12);
+}
+
+.flt-active-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.flt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #60A5FA;
+  white-space: nowrap;
+}
+
+.flt-chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #60A5FA;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.flt-chip-remove:hover { background: rgba(59, 130, 246, 0.2); color: #fff; }
+
+.flt-active-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.flt-active-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+.flt-active-reset {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  background: none;
+  border: 1px solid rgba(34, 44, 61, 0.7);
+  border-radius: 5px;
+  padding: 0.2rem 0.65rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.flt-active-reset:hover { color: #E2E8F0; border-color: rgba(148, 163, 184, 0.3); }
+
+/* ── Light theme overrides ─────────────────────────────────────────────────── */
+[data-theme="light"] .flt-section-title { color: #64748B; }
+
+[data-theme="light"] .flt-price-input {
+  background: #fff;
+  color: #0F172A;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] .flt-price-input::placeholder { color: #94A3B8; }
+[data-theme="light"] .flt-price-currency { color: #94A3B8; }
+[data-theme="light"] .flt-price-sep { color: #94A3B8; }
+[data-theme="light"] .flt-price-label { color: #64748B; }
+
+[data-theme="light"] .flt-checkbox-box {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+[data-theme="light"] .flt-checkbox-box--checked {
+  background: #2563EB;
+  border-color: #2563EB;
+}
+[data-theme="light"] .flt-checkbox-row:hover { background: rgba(37, 99, 235, 0.05); }
+[data-theme="light"] .flt-checkbox-row--checked {
+  background: rgba(37, 99, 235, 0.07);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+[data-theme="light"] .flt-checkbox-label { color: #475569; }
+[data-theme="light"] .flt-checkbox-row--checked .flt-checkbox-label { color: #0F172A; }
+
+[data-theme="light"] .flt-toggle-track { background: #CBD5E1; border-color: #CBD5E1; }
+[data-theme="light"] .flt-toggle--on .flt-toggle-track { background: #2563EB; border-color: #2563EB; }
+[data-theme="light"] .flt-toggle-thumb { background: #fff; }
+[data-theme="light"] .flt-toggle--on .flt-toggle-thumb { background: #fff; }
+[data-theme="light"] .flt-toggle-text { color: #475569; }
+[data-theme="light"] .flt-toggle--on .flt-toggle-text { color: #0F172A; }
+
+[data-theme="light"] .flt-select {
+  background-color: #fff;
+  color: #0F172A;
+  border-color: rgba(0, 0, 0, 0.12);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394A3B8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+[data-theme="light"] .flt-select option { background: #fff; color: #0F172A; }
+
+[data-theme="light"] .flt-active-bar {
+  background: rgba(37, 99, 235, 0.03);
+  border-bottom-color: rgba(37, 99, 235, 0.1);
+}
+[data-theme="light"] .flt-chip {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.2);
+  color: #2563EB;
+}
+[data-theme="light"] .flt-chip-remove { color: #2563EB; }
+[data-theme="light"] .flt-chip-remove:hover { background: rgba(37, 99, 235, 0.15); color: #1D4ED8; }
+[data-theme="light"] .flt-active-reset { color: #64748B; border-color: rgba(0,0,0,0.1); }
+[data-theme="light"] .flt-active-reset:hover { color: #0F172A; border-color: rgba(0,0,0,0.2); }
+[data-theme="light"] .flt-active-count { color: #94A3B8; }
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .flt-active-bar { padding: 0.5rem 1.25rem; }
+}
+
+@media (max-width: 640px) {
+  .flt-active-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+  }
+  .flt-active-meta { width: 100%; justify-content: space-between; }
+}
