@@ -16,7 +16,6 @@ const RatingBreakdown = ({ stats }: RatingBreakdownProps) => {
 
   return (
     <div className="rv-breakdown">
-      {/* Left: big average */}
       <div className="rv-breakdown-summary">
         <span className="rv-avg-number">{stats.average.toFixed(1)}</span>
         <StarRating rating={stats.average} size="md" />
@@ -24,7 +23,6 @@ const RatingBreakdown = ({ stats }: RatingBreakdownProps) => {
         <span className="rv-recommend">{stats.recommendedPercent}% recomandă</span>
       </div>
 
-      {/* Right: per-star bars */}
       <div className="rv-breakdown-bars">
         {rows.map(({ star, count, pct }) => (
           <div key={star} className="rv-bar-row">

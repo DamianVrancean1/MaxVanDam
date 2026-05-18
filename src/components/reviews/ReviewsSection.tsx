@@ -56,7 +56,6 @@ const ReviewsSection = ({ productId }: ReviewsSectionProps) => {
   return (
     <section className="rv-section">
 
-      {/* Header — title + sort */}
       <div className="rv-section-header">
         <h3 className="rv-section-title">Recenzii clienți</h3>
 
@@ -74,10 +73,8 @@ const ReviewsSection = ({ productId }: ReviewsSectionProps) => {
         )}
       </div>
 
-      {/* Rating breakdown */}
       {stats && <RatingBreakdown stats={stats} />}
 
-      {/* Star filters */}
       {reviews.length > 2 && (
         <div className="rv-filters" role="group" aria-label="Filtrează după număr de stele">
           <button
@@ -106,14 +103,13 @@ const ReviewsSection = ({ productId }: ReviewsSectionProps) => {
         <p className="rv-filter-label">{filterLabel}</p>
       )}
 
-      {/* Most helpful — shown only when no star filter is active */}
+      {/* mostHelpful only renders when no star filter is active to avoid duplicate entries */}
       {!starFilter && mostHelpful && (
         <div className="rv-featured-wrap">
           <ReviewCard review={mostHelpful} featured />
         </div>
       )}
 
-      {/* Main list */}
       {mainList.length > 0 ? (
         <ul className="rv-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {mainList.map((review, i) => (
@@ -130,7 +126,6 @@ const ReviewsSection = ({ productId }: ReviewsSectionProps) => {
         )
       )}
 
-      {/* No results for the selected filter */}
       {starFilter && sorted.length === 0 && (
         <div className="rv-empty">
           Nu există recenzii cu {starFilter}★ pentru acest produs.

@@ -65,16 +65,14 @@ const ProductDetail = () => {
   }
 
   return (
-      <div className="product-detail ">
-        <div className="btn btn-pink product-back-btn">
-          <button
-              type="button"
-              className="nav-btn nav-btn-button"
-              onClick={() => navigate('/products')}
-          >
-            ← Înapoi la Produse
-          </button>
-        </div>
+      <div className="product-detail">
+        <button
+            type="button"
+            className="product-back-btn"
+            onClick={() => navigate('/products')}
+        >
+          ← Înapoi la Produse
+        </button>
 
         <div className="detail-container">
           <div className="detail-image">
@@ -138,5 +136,3 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-
-
