@@ -1,7 +1,9 @@
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.RateLimiting;
 using MaxVanDam.API;
+using MaxVanDam.API.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
@@ -16,60 +18,108 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // ── Forwarded Headers ────────────────────────────────────────────────────────
-// Extracts real client IP when running behind nginx, IIS, Cloudflare, etc.
-// KnownNetworks/KnownProxies cleared so any trusted proxy can forward headers;
-// tighten to specific proxy CIDRs in production.
+// Purpose  : make RemoteIpAddress reflect the real client IP when the app
+//            sits behind nginx, IIS ARR, Cloudflare, or any other reverse proxy.
+//
+// Security : X-Forwarded-For can be spoofed by any client.
+//            TrustAllProxies=true is safe ONLY when the app is unreachable
+//            except through a known, trusted proxy.
+//
+//            PRODUCTION HARDENING — set in appsettings.Production.json:
+//              "ForwardedHeaders": {
+//                "TrustAllProxies": false,
+//                "TrustedProxies": ["10.0.0.1", "192.168.1.0/24"]
+//              }
+var trustAll       = builder.Configuration.GetValue<bool>("ForwardedHeaders:TrustAllProxies", true);
+var trustedProxies = builder.Configuration
+    .GetSection("ForwardedHeaders:TrustedProxies")
+    .Get<string[]>() ?? [];
+
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-    options.KnownNetworks.Clear();
-    options.KnownProxies.Clear();
+
+    if (trustAll)
+    {
+        // Trust any proxy — acceptable for local dev and single-proxy deployments
+        options.KnownNetworks.Clear();
+        options.KnownProxies.Clear();
+    }
+    else
+    {
+        // Only trust explicitly listed proxy IPs (production best-practice)
+        foreach (var proxy in trustedProxies)
+        {
+            if (IPAddress.TryParse(proxy, out var ip))
+                options.KnownProxies.Add(ip);
+        }
+    }
 });
 
 // ── Rate Limiting ────────────────────────────────────────────────────────────
-var loginPermitLimit  = builder.Configuration.GetValue<int>("RateLimiting:Login:PermitLimit",  5);
-var loginWindowSecs   = builder.Configuration.GetValue<int>("RateLimiting:Login:WindowSeconds", 60);
+var loginPermitLimit = builder.Configuration.GetValue<int>("RateLimiting:Login:PermitLimit",  5);
+var loginWindowSecs  = builder.Configuration.GetValue<int>("RateLimiting:Login:WindowSeconds", 60);
 
 builder.Services.AddRateLimiter(options =>
 {
-    // Default rejection status code — individual policies can override
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-    // Standardized JSON rejection response with Retry-After header
+    // Called for every rejected request — logs security event, writes 429 response.
+    // SECURITY: never log request body (passwords), query strings, or JWT tokens.
     options.OnRejected = async (context, cancellationToken) =>
     {
+        var logger = context.HttpContext.RequestServices
+            .GetRequiredService<ILoggerFactory>()
+            .CreateLogger("MaxVanDam.Security");
+
+        var clientIp = NormalizeIp(context.HttpContext.Connection.RemoteIpAddress);
+        var path     = context.HttpContext.Request.Path.Value ?? "/";
+        var method   = context.HttpContext.Request.Method;
+        // User-Agent helps distinguish automated tools from browsers — safe to log
+        var ua       = context.HttpContext.Request.Headers.UserAgent.FirstOrDefault() ?? "—";
+
+        logger.LogWarning(
+            LogEvents.RateLimitExceeded,
+            "Rate limit exceeded. Method={Method} Path={Path} ClientIp={ClientIp} UserAgent={UserAgent}",
+            method, path, clientIp, ua
+        );
+
         var response = context.HttpContext.Response;
         response.StatusCode  = StatusCodes.Status429TooManyRequests;
         response.ContentType = "application/json";
 
+        // Prefer the exact retry window from the limiter; fall back to full window
         var retryAfterSeconds = loginWindowSecs;
         if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
             retryAfterSeconds = (int)Math.Ceiling(retryAfter.TotalSeconds);
 
+        // Retry-After header is part of RFC 6585 — well-supported by browsers and API clients
         response.Headers["Retry-After"] = retryAfterSeconds.ToString();
 
         var body = JsonSerializer.Serialize(new
         {
-            status  = 429,
-            message = "Prea multe încercări de autentificare. Încearcă din nou în " +
-                      $"{retryAfterSeconds} secunde.",
+            status            = 429,
+            message           = $"Prea multe încercări de autentificare. " +
+                                $"Încearcă din nou în {retryAfterSeconds} secunde.",
             retryAfterSeconds
         });
 
         await response.WriteAsync(body, cancellationToken);
     };
 
-    // "login" policy — fixed window, per-IP, only on /api/auth/login
+    // "login" policy — fixed window, per-IP, applied only via [EnableRateLimiting]
+    // on AuthController.Login. No other endpoint is affected.
     options.AddPolicy(RateLimitPolicies.Login, httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
-            // After UseForwardedHeaders, RemoteIpAddress reflects the real client IP
-            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            // NormalizeIp maps ::1 → 127.0.0.1 so IPv4/IPv6 loopback share one bucket
+            partitionKey: NormalizeIp(httpContext.Connection.RemoteIpAddress),
             factory: _ => new FixedWindowRateLimiterOptions
             {
                 PermitLimit          = loginPermitLimit,
                 Window               = TimeSpan.FromSeconds(loginWindowSecs),
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                // QueueLimit = 0 means requests over the limit are rejected immediately
+                // QueueLimit = 0 — over-limit requests are rejected immediately, not queued.
+                // Queuing would allow attackers to hold connections open.
                 QueueLimit           = 0
             }
         )
@@ -110,9 +160,16 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ── Middleware Pipeline ──────────────────────────────────────────────────────
-// ORDER MATTERS — do not reorder without understanding the dependencies.
+// ORDER IS CRITICAL. Each middleware runs in registration order.
+//
+//  1. UseForwardedHeaders  — must be first; populates RemoteIpAddress
+//  2. UseHttpsRedirection  — redirects HTTP → HTTPS before any processing
+//  3. UseCors              — CORS headers before authentication
+//  4. UseRateLimiter       — rejects brute-force before hitting auth logic
+//  5. UseAuthentication    — validates JWT on protected endpoints
+//  6. UseAuthorization     — checks role/policy claims
+//  7. MapControllers       — dispatches to controller actions
 
-// 1. Forwarded headers first — populates RemoteIpAddress before anything reads it
 app.UseForwardedHeaders();
 
 if (app.Environment.IsDevelopment())
@@ -121,18 +178,31 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// 2. HTTPS redirect
 app.UseHttpsRedirection();
-
-// 3. CORS — must be before auth and rate limiting
 app.UseCors("FrontendPolicy");
-
-// 4. Rate limiting — before auth so brute-force attempts never reach the auth stack
 app.UseRateLimiter();
-
-// 5. Authentication + Authorization
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 app.Run();
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+/// <summary>
+/// Returns a canonical string representation of a client IP address.
+/// Normalizes the IPv6 loopback (::1) to its IPv4 equivalent (127.0.0.1)
+/// so that localhost requests always share the same rate-limit bucket
+/// regardless of which network stack the OS used.
+/// Returns "unknown" when RemoteIpAddress is null (e.g. in unit tests).
+/// </summary>
+static string NormalizeIp(IPAddress? address)
+{
+    if (address is null) return "unknown";
+
+    // IPv6-mapped IPv4 addresses (::ffff:x.x.x.x) — unwrap to plain IPv4
+    if (address.IsIPv4MappedToIPv6)
+        address = address.MapToIPv4();
+
+    // Treat IPv6 loopback same as IPv4 loopback
+    return address.ToString() == "::1" ? "127.0.0.1" : address.ToString();
+}
