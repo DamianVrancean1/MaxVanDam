@@ -145,6 +145,38 @@ builder.Services
             ValidAudience            = jwtAudience,
             IssuerSigningKey         = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
         };
+
+        // ── Cookie extraction ────────────────────────────────────────────────
+        // Read JWT exclusively from the HttpOnly 'access_token' cookie.
+        // No fallback to Authorization: Bearer — cookie is the only accepted source.
+        //
+        // CSRF protection rationale:
+        //   SameSite=Strict on the cookie blocks all cross-site requests, so a
+        //   forged form/fetch from another origin will never carry the cookie.
+        //   No additional anti-forgery token is required.
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var token = context.Request.Cookies["access_token"];
+                if (!string.IsNullOrEmpty(token))
+                    context.Token = token;
+                return Task.CompletedTask;
+            },
+
+            // Return a clean JSON 401 instead of the default WWW-Authenticate: Bearer
+            // challenge header, which is meaningless for a cookie-based SPA and can
+            // trigger browser login dialogs in some environments.
+            OnChallenge = context =>
+            {
+                context.HandleResponse();
+                context.Response.StatusCode  = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+                return context.Response.WriteAsync(
+                    JsonSerializer.Serialize(new { message = "Sesiune expirată sau neautentificat." })
+                );
+            }
+        };
     });
 
 builder.Services.AddAuthorization();
