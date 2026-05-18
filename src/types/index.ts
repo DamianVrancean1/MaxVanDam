@@ -63,25 +63,6 @@ export interface FormErrors {
   [key: string]: string;
 }
 
-export interface Review {
-  id: number;
-  productId: number;
-  authorName: string;
-  rating: number;    // 1–5
-  title: string;
-  body: string;
-  date: string;      // 'YYYY-MM-DD'
-  verified: boolean;
-  helpful: number;
-}
-
-export interface ReviewStats {
-  average: number;
-  total: number;
-  distribution: { 1: number; 2: number; 3: number; 4: number; 5: number };
-  recommendedPercent: number;
-}
-
 export interface Testimonial {
   id: number;
   authorName: string;
